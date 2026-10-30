@@ -1,0 +1,1708 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Gitz Companion v1.0</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600;800&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Spline+Sans+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: header with the active list, sticky tab bar, then one view at a time. Phase view = timing-bar cards like Wahapedia abilities; warscroll view = Wahapedia-style scrolls. */
+:root{
+  --bg:#e9ebe2; --panel:#f7f8f2; --ink:#1d2019; --muted:#5d6455; --line:#c9cdbd;
+  --moon:#a98a12; --moon-soft:#efe3a6; --fungus:#3f6b3a; --head:#262a22; --head-ink:#f2f0dc;
+  --chip:#dfe3d3; --wheel:#30352b; --wheel-hi:#e8d35a;
+  --t-deploy:#566b34; --t-start:#2f6a73; --t-hero:#a8850f; --t-move:#5f656e; --t-shoot:#2c66a8;
+  --t-charge:#c0631a; --t-combat:#a2302b; --t-def:#2c7a4c; --t-eot:#664896; --t-pass:#2f322c;
+  --display:"Grenze Gotisch","Palatino Linotype",Georgia,serif;
+  --body:"Alegreya Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"Spline Sans Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121411; --panel:#1b1e19; --ink:#e7e9dc; --muted:#a0a792; --line:#33382e;
+  --moon:#e3cc4f; --moon-soft:#3b361a; --fungus:#7fb06f; --head:#0b0c0a; --head-ink:#efedd6;
+  --chip:#262a22; --t-pass:#4a4f45; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121411; --panel:#1b1e19; --ink:#e7e9dc; --muted:#a0a792; --line:#33382e;
+  --moon:#e3cc4f; --moon-soft:#3b361a; --fungus:#7fb06f; --head:#0b0c0a; --head-ink:#efedd6;
+  --chip:#262a22; --t-pass:#4a4f45; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--head)}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--head);color:var(--head-ink)}
+header.top .wrap{padding-block:18px 14px;display:flex;flex-wrap:wrap;gap:8px 24px;align-items:end;justify-content:space-between}
+h1{font:800 clamp(30px,6vw,46px)/1 var(--display);margin:0;letter-spacing:.5px;text-wrap:balance}
+h1 span{color:var(--moon)}
+.sub{font-size:14px;opacity:.8;margin-top:6px}
+.roster{font:500 12px/1.6 var(--mono);opacity:.85;text-align:right}
+/* sticky control bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line)}
+.bar .wrap{padding-block:10px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.views{display:flex;flex-wrap:wrap;gap:4px;background:var(--chip);padding:3px;border-radius:8px}
+.views button,.seg button{font:600 14px var(--body);border:0;background:transparent;color:var(--ink);padding:6px 12px;border-radius:6px;cursor:pointer}
+.views button[aria-pressed="true"]{background:var(--head);color:var(--head-ink)}
+.moonpick{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.moonpick label{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.face{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:4px 10px;font:600 13px var(--body);cursor:pointer}
+.face[aria-pressed="true"]{background:var(--moon);border-color:var(--moon);color:#1a1705}
+.res{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.ctr{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.ctr b{font:600 11px var(--mono);letter-spacing:.06em;padding:0 8px;color:var(--muted);text-transform:uppercase}
+.ctr output{font:600 15px var(--mono);min-width:26px;text-align:center;font-variant-numeric:tabular-nums}
+.ctr button{border:0;background:var(--chip);color:var(--ink);width:28px;height:30px;font:600 16px var(--mono);cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--moon);outline-offset:2px}
+main .wrap{padding-block:20px 60px}
+/* phase nav */
+.phases{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.ph{border:0;border-radius:6px;padding:7px 12px;color:#fff;font:700 14px var(--body);cursor:pointer;opacity:.55}
+.ph[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ph)}
+.ph .n{font:500 11px var(--mono);opacity:.85;margin-left:4px}
+.filters{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:16px}
+.seg{display:flex;gap:2px;background:var(--chip);padding:3px;border-radius:8px}
+.seg button[aria-pressed="true"]{background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.15)}
+input[type=search]{font:15px var(--body);padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);min-width:0;flex:1 1 200px;max-width:340px}
+.phase-intro{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--ph,var(--moon));border-radius:6px;padding:12px 16px;margin-bottom:18px;font-size:15px}
+.phase-intro h2{font:600 26px/1.1 var(--display);margin:0 0 6px}
+.phase-intro ol{margin:6px 0 0;padding-left:20px}
+.group-h{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px;display:flex;gap:10px;align-items:center}
+.group-h::after{content:"";flex:1;border-top:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;align-items:start}
+/* ability card, Wahapedia style */
+.ab{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden;min-width:0}
+.ab .tb{display:flex;align-items:center;gap:8px;background:var(--tc);color:#fff;padding:5px 10px;font:600 13px var(--body)}
+.ab .tb .ic{width:18px;height:18px;flex:none}
+.ab .tb .cost{margin-left:auto;font:600 12px var(--mono);background:rgba(0,0,0,.28);border-radius:4px;padding:1px 7px;white-space:nowrap}
+.ab .bd{padding:9px 12px 10px}
+.ab h3{font:700 15px/1.25 var(--body);text-transform:uppercase;letter-spacing:.03em;margin:0 0 4px}
+.ab .src{font:500 12px var(--mono);color:var(--muted);margin-bottom:6px;display:flex;flex-wrap:wrap;gap:4px 8px}
+.ab .src a{color:var(--fungus);text-decoration:none;border-bottom:1px dotted currentColor}
+.tag{font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;background:var(--chip);color:var(--muted)}
+.tag.pri{background:var(--moon);color:#1a1705}
+.tag.on{background:var(--t-def);color:#fff}
+.tag.off{background:transparent;border:1px solid var(--line)}
+.ab .fx{margin:4px 0;font-size:14.5px;line-height:1.45}.ab .fx ul{margin:6px 0 2px;padding-left:20px}.ab .fx li{margin:4px 0;padding-left:2px}.ab .fx li::marker{color:var(--tc)}
+.ab .tip{margin-top:8px;font-size:13.5px;background:var(--moon-soft);border-radius:4px;padding:6px 8px}
+.ab .kw{margin-top:6px;font:500 11px var(--mono);color:var(--muted);letter-spacing:.04em}
+.ab.dim{opacity:.5}
+.empty{color:var(--muted);font-style:italic}
+/* resources */
+.cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;min-width:0}
+.box h2{font:600 26px/1.1 var(--display);margin:0 0 8px}
+.box h4{margin:12px 0 4px;font-size:15px}
+.box ul{margin:4px 0;padding-left:20px}.box li{margin:2px 0}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+/* warscrolls */
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.toc a{font:600 13px var(--body);padding:4px 10px;border-radius:999px;background:var(--chip);color:var(--ink);text-decoration:none}
+.ws{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin-bottom:22px;overflow:hidden;scroll-margin-top:90px}
+.ws-head{background:var(--head);color:var(--head-ink);display:flex;gap:16px;align-items:center;padding:12px 16px;flex-wrap:wrap}
+.ws-kicker{font:600 10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--moon)}
+.ws-head h2{font:800 30px/1 var(--display);margin:2px 0 0}
+.ws-head .meta{font:500 12px var(--mono);opacity:.8;margin-top:4px}
+.stat{width:136px;height:136px;flex:none}
+.stat svg{width:136px;height:136px;display:block}
+.stat .rim{fill:var(--wheel);stroke:var(--wheel-hi);stroke-width:2.5}
+.stat .ring{fill:none;stroke:var(--head-ink);stroke-opacity:.18;stroke-width:1}
+.stat .spoke{stroke:var(--wheel-hi);stroke-opacity:.55;stroke-width:1.5}
+.stat .hub{fill:var(--head);stroke:var(--wheel-hi);stroke-width:1.5}
+.stat .crest{fill:var(--wheel-hi)}
+.stat .sv{fill:var(--head-ink);font:600 18px var(--mono);text-anchor:middle;dominant-baseline:middle}
+.stat .sv.long{font-size:14px}
+.stat .sl{fill:var(--head-ink);fill-opacity:.62;font:600 7px var(--mono);letter-spacing:.12em;text-anchor:middle}
+.stat .mod{fill:var(--wheel-hi)}
+.stat .sl.mod{fill-opacity:1}
+.moonfx{display:flex;flex-wrap:wrap;gap:8px}
+.mfx{flex:1 1 240px;min-width:0;border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:14px;background:var(--bg)}
+.mfx.on{border-color:var(--moon);background:var(--moon-soft)}
+.mfx.off{opacity:.55}
+.mfx b{display:block;font:700 13px var(--body);text-transform:uppercase;letter-spacing:.04em}
+.mfx .st{font:600 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mfx.on .st{color:var(--ink)}
+.face.all[aria-pressed="true"]{background:var(--head);border-color:var(--moon);color:var(--moon)}
+.status{border:1px solid var(--line);border-radius:6px;padding:10px 12px;display:grid;gap:8px;background:var(--bg)}
+.srow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.slab{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:118px}
+.srow.cast{border-top:1px dashed var(--line);padding-top:8px}
+.once{font:500 11px var(--mono);color:var(--muted);flex-basis:100%;margin:-4px 0 0 0}
+.tg{font:600 13px var(--body);border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:4px 11px;cursor:pointer}
+.tg[aria-pressed="true"]{background:var(--fungus);border-color:var(--fungus);color:var(--bg)}
+.tg.clr{background:var(--head);color:var(--head-ink);border-color:var(--head);border-radius:6px}
+.status select{font:600 13px var(--body);padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);max-width:100%}
+.active{display:flex;flex-wrap:wrap;gap:6px}
+.buff{font-size:13px;background:var(--moon-soft);border-radius:4px;padding:3px 8px}
+.active .none{font-size:13px;color:var(--muted);font-style:italic}
+.wt td.up,.wt .wa.up{color:var(--moon);font-weight:700}
+.wt td.num.up{background:var(--moon-soft)}
+.why{display:block;font:600 10.5px var(--mono);color:var(--moon)}
+.allnote{font-size:13.5px;background:var(--moon-soft);border-radius:6px;padding:8px 12px;margin-bottom:14px}
+.ward{font:600 12px var(--mono);background:var(--moon);color:#1a1705;border-radius:4px;padding:2px 8px}
+.wardb{position:relative;width:88px;height:100px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:10px}
+.wardb svg{position:absolute;inset:0;width:100%;height:100%}
+.wardb path{fill:var(--wheel-hi);stroke:var(--head-ink);stroke-opacity:.35;stroke-width:2}
+.wardb .wv{position:relative;font:700 28px/1 var(--mono);color:#1a1705}
+.wardb .wl{position:relative;font:700 9px var(--mono);letter-spacing:.16em;color:#1a1705;margin-top:3px}
+.wardb .ws2{position:relative;font:600 8.5px var(--mono);color:#1a1705;opacity:.75;margin-top:2px;text-align:center;max-width:60px;line-height:1.1}
+.wardb.off path{fill:none;stroke:var(--wheel-hi);stroke-opacity:.6;stroke-dasharray:4 4}
+.wardb.off .wv,.wardb.off .wl{color:var(--head-ink);opacity:.6}
+.statgrp{display:flex;align-items:center;gap:6px;flex:none}
+.wardwrap{display:flex;align-items:center;gap:10px}
+.wnote{font:500 11px var(--mono);color:var(--head-ink);opacity:.7;max-width:130px;align-self:center}
+.ws-body{padding:12px 16px 16px;display:grid;gap:12px}
+.wt{overflow-x:auto}
+.wt table th:first-child{width:46%}
+.wt td.n{font-weight:700}
+.wt td .wa{display:block;font:500 11px var(--mono);color:var(--t-charge)}
+.wt td.num{font:600 14px var(--mono);text-align:center;font-variant-numeric:tabular-nums}
+.wt th.num{text-align:center}
+.ws .grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.kwbar{font:600 11px var(--mono);letter-spacing:.05em;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.kwbar b{color:var(--ink)}
+.enh{font-size:14px;background:var(--moon-soft);border-radius:4px;padding:6px 10px}
+.foot{font-size:13px;color:var(--muted);margin-top:26px}
+.foot a{color:var(--fungus)}
+/* game & turn flow */
+.turnbox{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:2px 2px 2px 10px}
+.turnbox .tlab{font:600 13.5px var(--body);white-space:nowrap}
+.turnbox .vp{font:600 12px var(--mono);color:var(--muted);white-space:nowrap}
+.turnbox button{border:0;border-radius:6px;padding:5px 10px;font:700 13px var(--body);cursor:pointer;background:var(--head);color:var(--head-ink);white-space:nowrap}
+.turnbox button.ghost{background:var(--chip);color:var(--ink)}
+.turnbox button.warn{background:var(--moon);color:#1a1705}
+.box.wide{grid-column:1/-1}
+.army{display:grid;gap:14px}
+.armyt{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.armyh h2{font:800 38px/1 var(--display);margin:2px 0 4px}
+.ptsbig b{font:800 40px/1 var(--display)}.ptsbig span{font:600 13px var(--mono);color:var(--muted);margin-left:4px}
+.ptsbar{height:8px;background:var(--chip);border-radius:4px;overflow:hidden;margin:10px 0 12px}.ptsbar i{display:block;height:100%;background:var(--moon)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:0 0 10px}
+.facts.wide2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.facts div{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 10px;min-width:0}
+.facts dt{font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:2px 0 0;font:600 15px var(--body)}
+.facts a{color:var(--fungus)}
+.regs{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;align-items:start}
+.reg{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.regh{background:var(--head);color:var(--head-ink);display:flex;justify-content:space-between;align-items:center;padding:8px 14px}
+.regh h3{margin:0;font:600 22px/1.1 var(--display)}
+.regpts{font:600 13px var(--mono);color:var(--moon)}
+.urow{display:flex;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}
+.urow:first-of-type{border-top:0}
+.un{flex:1;min-width:0}
+.un>a{font:700 16px var(--body);color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--muted);margin-right:6px}
+.un .tag{margin-right:4px}
+.ust{display:flex;flex-wrap:wrap;gap:4px 10px;font:500 12px var(--mono);color:var(--muted);margin-top:4px}
+.ust .uw{color:#1a1705;background:var(--moon);border-radius:3px;padding:0 5px}
+.upg{margin:6px 0 0;padding-left:18px;font-size:14px}.upg li{margin:2px 0}
+.upts{font:700 16px var(--mono);white-space:nowrap}
+.exp summary{cursor:pointer;font:700 15px var(--body)}
+.exp pre{font:500 12.5px/1.5 var(--mono);white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;margin:10px 0}
+.rvh{display:flex;align-items:center;gap:8px}
+.rvh h2{margin:0;flex:1;text-align:center}
+.rvnav{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:7px 12px;font:700 14px var(--body);cursor:pointer;white-space:nowrap}
+.rvnav:disabled{opacity:.35;cursor:default}
+.rvback{text-align:center;margin-top:8px}
+.rvmeta{font:500 13px var(--mono);color:var(--muted);margin:10px 0;text-align:center}
+.rvcols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rvc{border:1px solid var(--line);border-top:4px solid var(--fungus);border-radius:6px;padding:10px 12px;background:var(--bg);min-width:0;display:flex;flex-direction:column}
+.rvc.opp{border-top-color:var(--t-combat)}
+.rvc.live{box-shadow:0 0 0 2px var(--moon-soft);border-color:var(--moon)}
+.rvc.fut{opacity:.55}
+.rvc h3{margin:0;font:700 16px var(--body);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rvc ul{list-style:none;padding:0;margin:8px 0;flex:1}
+.rvc li{display:flex;gap:8px;align-items:flex-start;font-size:14.5px;margin:6px 0}
+.rvc li .pts{font:700 12px var(--mono);background:var(--fungus);color:var(--bg);border-radius:4px;padding:2px 6px;flex:none}
+.rvc.opp li .pts{background:var(--t-combat);color:#fff}
+.rvc p.muted{flex:1}
+.rvc .tot{font:700 14px var(--mono);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.rvsum{text-align:center;margin-top:12px;font:600 15px var(--mono)}
+@media (max-width:640px){.rvcols{grid-template-columns:1fr}.rvnav{padding:7px 9px;font-size:13px}}
+.tl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.tlr{display:flex;flex-direction:column;gap:6px;min-width:0}
+.tlh{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tc{display:flex;flex-direction:column;align-items:flex-start;gap:1px;border:1px solid var(--line);border-left-width:4px;background:var(--bg);color:var(--ink);border-radius:6px;padding:6px 9px;font:14px var(--body);text-align:left;cursor:pointer;min-height:50px;min-width:0}
+.tc span{font:600 12px var(--mono);color:var(--muted)}
+.tc.me{border-left-color:var(--fungus)}
+.tc.opp{border-left-color:var(--t-combat)}
+.tc.now{background:var(--moon-soft);border-color:var(--moon)}
+.tc[aria-current="true"]{box-shadow:0 0 0 2px var(--moon)}
+.tc.fut{opacity:.45;cursor:default;justify-content:center}
+.editban{background:var(--moon-soft);border:1px solid var(--moon);border-radius:6px;padding:8px 10px;margin-bottom:10px;font-size:14px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.editban .btn{margin:0}
+@media (max-width:640px){.tl{grid-template-columns:1fr}.tlr{display:grid;grid-template-columns:64px 1fr 1fr;align-items:center}}
+#note .nt{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--moon);border-radius:6px;padding:10px 14px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start}
+#note h3{margin:0 0 4px;font:600 22px/1.1 var(--display)}
+#note ul{margin:0 0 4px;padding-left:18px;font-size:14.5px}
+#note .x{margin-left:auto;border:0;background:var(--chip);color:var(--ink);border-radius:6px;width:30px;height:30px;font:600 18px var(--body);cursor:pointer;flex:none}
+.muted{color:var(--muted);font-size:13.5px}
+.score-big{display:flex;gap:18px;align-items:flex-end;margin:4px 0 8px}
+.score-big .lbl{display:block;font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.score-big .n{font:800 56px/1 var(--display);font-variant-numeric:tabular-nums}
+.score-big .vs{font:600 32px/1.4 var(--display);color:var(--muted)}
+.scorebox h2{margin-bottom:2px}
+.scorebox.inphase{margin-bottom:6px;border-left:4px solid var(--t-eot)}
+.sc{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:8px 10px;cursor:pointer;font:15px/1.35 var(--body);margin:6px 0}
+.sc .pts{font:700 13px var(--mono);background:var(--chip);border-radius:4px;padding:2px 0;flex:none;width:40px;text-align:center}
+.sc small{display:block;color:var(--muted);font-size:13px}
+.sc[aria-pressed="true"]{border-color:var(--fungus);background:color-mix(in srgb,var(--fungus) 14%,var(--panel))}
+.sc[aria-pressed="true"] .pts{background:var(--fungus);color:var(--bg)}
+.sc:disabled{opacity:.5;cursor:not-allowed}
+.turnsum{font:700 15px var(--mono);margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+.rt th,.rt td{text-align:center;vertical-align:middle}
+.rt button{font:600 14px var(--mono);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:3px 10px;cursor:pointer;min-width:52px}
+.rt button small{font-size:11px;color:var(--muted)}
+.rt button[aria-current="true"]{border-color:var(--moon);box-shadow:0 0 0 2px var(--moon-soft)}
+.rt .first{font:600 10px var(--mono);color:var(--muted)}
+.rt tr.sum td{font:700 16px var(--mono)}
+.steps{list-style:none;padding:0;margin:6px 0 10px}
+.steps li{border-left:3px solid var(--line);padding:4px 10px;margin:6px 0;font-size:14.5px}
+.steps li.isdone{border-color:var(--fungus)}
+.steps li.next{border-color:var(--moon);background:var(--moon-soft)}
+.done{font:600 11px var(--mono);color:var(--fungus)}
+.setup label{display:block;font:600 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 4px}
+.setup select{display:block;width:100%;font:15px var(--body);padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);margin-bottom:6px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:6px;padding:8px 14px;font:700 14px var(--body);cursor:pointer;background:var(--head);color:var(--head-ink)}
+.btn.ghost{background:var(--chip);color:var(--ink)}
+.btn.sm{padding:5px 10px;font-size:13px;margin:4px 0}
+@media (max-width:640px){.res{margin-left:0}.roster{text-align:left}.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ---- additions over the original companion: list import, warnings, saved lists ---- */
+:root{--bad:#a2302b;--bad-soft:#f4dcd8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bad:#e07a6f;--bad-soft:#3a1d1a}}
+:root[data-theme="dark"]{--bad:#e07a6f;--bad-soft:#3a1d1a}
+h1 small{font:600 13px var(--mono);letter-spacing:.08em;color:var(--moon);vertical-align:middle;margin-left:6px}
+.uname{font:700 16px var(--body);margin-right:6px}
+.uwc{color:var(--muted);border:1px dashed var(--muted);border-radius:3px;padding:0 5px}
+.pdiff{font:500 11px var(--mono);color:var(--muted);text-align:right}
+.ptsbig.over b,.overmsg{color:var(--bad)}.ptsbar.over i{background:var(--bad)}
+.overmsg{font-weight:700;margin:-4px 0 10px}
+.dat{margin:6px 0 0}
+.warn{background:var(--panel);border:1px solid var(--moon);border-left:4px solid var(--moon);border-radius:6px;padding:10px 14px;min-width:0}
+.warn.bad{border-color:var(--bad);background:var(--bad-soft)}
+.warn h3{margin:0 0 4px;font:600 22px/1.1 var(--display)}
+.warn ul{margin:6px 0 0;padding-left:18px}.warn li{margin:4px 0}
+.warn code{font:500 13px var(--mono);background:var(--chip);border-radius:3px;padding:1px 5px;overflow-wrap:anywhere}
+.ln{font:600 11px var(--mono);color:var(--muted);margin-right:6px}
+.note-soft{font-size:14px;background:var(--moon-soft);border-radius:6px;padding:8px 12px}
+.lists h2,.soon h2,.empty-state h2{margin-bottom:6px}
+.lrows{list-style:none;padding:0;margin:0 0 6px}
+.lrow{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line)}
+.lrow:first-child{border-top:0}
+.lrow.active .lmain b{color:var(--fungus)}
+.lrow.confirm{background:var(--moon-soft);border-radius:6px;padding:10px 12px;border-top:0;margin:4px 0}
+.lmain{min-width:0;flex:1 1 220px}
+.lbtns{display:flex;flex-wrap:wrap;gap:6px}
+.lbtns .btn,.rnf .btn{margin:0}
+.btn.danger{background:var(--bad);color:#fff}
+.rnf{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%}
+.rnf input{flex:1 1 200px;min-width:0;font:15px var(--body);padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.paste{border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+.paste label{display:block;font:600 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.paste p{margin:4px 0 8px}
+.paste textarea{display:block;width:100%;font:500 13px/1.5 var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);resize:vertical}
+textarea:focus-visible,.rnf input:focus-visible,select:focus-visible{outline:2px solid var(--moon);outline-offset:2px}
+.paste .btnrow{align-items:center;margin-top:8px}
+.imsg{font-size:14px;color:var(--fungus);font-weight:600}.imsg.bad{color:var(--bad)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.soon p{max-width:62ch;margin:0}
+.roster span{opacity:.8}
+/* turn strip: its own band under the bar; on phones only this band stays pinned */
+.turnrow{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--barh,0px));z-index:4;background:var(--panel);border-bottom:1px solid var(--line);box-shadow:0 3px 8px -6px rgba(0,0,0,.35)}
+.turnrow .wrap{padding-block:8px 10px;display:grid;gap:8px}
+.ts-top{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;min-width:0}
+.ts-lab{display:flex;align-items:baseline;gap:4px 10px;flex-wrap:wrap;min-width:0}
+.ts-lab b{font:600 22px/1 var(--display)}
+.ts-lab .who{font:700 15px var(--body)}
+.ts-vp{font:600 13px var(--mono);color:var(--muted);white-space:nowrap}
+.ts-btn{min-height:40px;border:0;border-radius:8px;padding:8px 14px;font:700 14.5px var(--body);cursor:pointer;background:var(--head);color:var(--head-ink);white-space:nowrap}
+.ts-btn.ghost{background:var(--chip);color:var(--ink)}
+.ts-btn.warn{background:var(--moon);color:#1a1705}
+.ts-btn.sm{min-height:34px;padding:6px 10px;font-size:13.5px}
+.ts-btn:disabled{opacity:.35;cursor:default}
+.ts-end{margin-left:auto}
+.ts-hint{font-size:13.5px;color:var(--muted)}
+.track{display:grid;grid-template-columns:repeat(7,minmax(0,1fr)) 52px;gap:4px}
+.trk{position:relative;min-height:44px;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:4px 2px 7px;font:600 13px var(--body);cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--pc)}
+.trk.done{color:var(--muted)}
+.trk.done::after{opacity:.45}
+.trk.next{border:2px dashed var(--pc)}
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.split .col{min-width:0}
+.split .grid{grid-template-columns:1fr}
+.colh{margin:4px 0 0;padding:8px 12px;border-radius:6px;color:#fff;font:600 22px/1.1 var(--display);display:flex;justify-content:space-between;align-items:center}
+.colh span{font:600 12px var(--mono);opacity:.85}
+.atk .colh{background:var(--t-combat)}.dfn .colh{background:var(--t-def)}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.ts-ctr{display:none}
+.confirmbox{border:2px solid var(--bad);background:var(--bad-soft)}
+.confirmbox p{margin:4px 0 0;max-width:62ch}
+.newbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;border-left:4px solid var(--moon)}
+.newbar b{font:600 20px/1.2 var(--display)}
+.btn.newgame{min-height:44px;padding:10px 18px;font-size:15.5px;background:var(--moon);color:#1a1705}
+.btn.newgame span{font-size:18px;margin-right:4px}
+.confirmbox ul{margin:4px 0 8px;padding-left:20px}
+.rchoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:10px}
+.rchoice{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rchoice h3{margin:0;font:600 20px/1.1 var(--display)}
+.rchoice p{margin:0;flex:1}
+.rchoice .btn{align-self:flex-start;margin:4px 0 0}
+@media (max-width:640px){.rchoices{grid-template-columns:1fr}}
+.confirmbox{scroll-margin-top:calc(var(--barh,0px) + 130px)}
+@media (max-width:700px){.confirmbox{scroll-margin-top:170px}}
+.newbar .btn{margin:0}
+.linkbtn{border:0;background:none;padding:0;font:inherit;color:var(--bad);text-decoration:underline;cursor:pointer}
+.wipe .lrow.confirm{margin-top:8px}
+.linkbtn.plain{color:var(--fungus)}
+.resetok{margin:0 0 6px;font-weight:700;color:var(--fungus)}
+.armybar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-left:4px solid var(--fungus)}
+.armybar .lab{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.armybar .btn{margin:0;min-height:40px}
+.armybar .confirm{flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;background:var(--bad-soft);border:1px solid var(--bad);border-radius:6px;padding:10px 12px}
+.btn.ghost.warnt{color:var(--bad)}
+.armyline{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin:4px 0 10px}
+.armyline .btn{margin:0}
+.aboutbtn{border:1px solid var(--moon);background:var(--moon);color:#1a1705;border-radius:999px;padding:6px 14px;font:700 13.5px var(--body);cursor:pointer;margin-left:auto;min-height:34px}
+.aboutbtn:hover{filter:brightness(1.06)}
+.aboutbtn[aria-pressed="true"]{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--moon)}
+.res{margin-left:auto}
+.res+.aboutbtn{margin-left:0}
+.about{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;align-items:start}
+.about .box p,.about .box li{max-width:68ch}
+.about .lead{grid-column:1/-1;border-left:4px solid var(--moon)}
+.about .lead h2{font-size:32px}
+.about ol,.about ul{padding-left:20px;margin:6px 0}.about li{margin:4px 0}
+.about .no li::marker{content:"✕  ";color:var(--bad)}
+.about .yes li::marker{content:"✓  ";color:var(--fungus)}
+.about dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:6px 0}
+.about dt{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.about dd{margin:0}
+
+.turnrow.asking{background:var(--moon-soft);border-bottom:2px solid var(--moon)}
+.ts-pick{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.pick-q{display:flex;gap:10px;align-items:center;min-width:0}
+.pick-q b{display:block;font:600 22px/1.15 var(--display)}
+.pick-hint{display:block;font-size:13.5px;color:var(--muted)}
+.pick-btns{display:flex;gap:8px;flex-wrap:wrap}
+.ts-btn.pick,.btn.pick{min-height:48px;padding:10px 18px;font-size:16px;background:var(--moon);color:#1a1705;box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.ts-btn.pick:hover,.btn.pick:hover{filter:brightness(1.06)}
+.pickcard{border:2px solid var(--moon);background:var(--moon-soft)}
+.pickcard p{margin:4px 0 0;max-width:62ch}
+@media (prefers-reduced-motion:no-preference){.turnrow.asking .ts-btn.pick{animation:pickpulse 1.6s ease-in-out 3}}
+@keyframes pickpulse{50%{box-shadow:0 0 0 4px var(--moon-soft),0 0 0 6px var(--moon)}}
+@media (max-width:700px){.pick-btns{width:100%}.pick-btns .pick{flex:1 1 0}.pick-q b{font-size:19px}}
+.trk[aria-current="step"]{background:var(--pc);border-color:var(--pc);color:#fff;box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--pc)}
+.trk-next{min-height:44px;border:0;border-radius:6px;background:var(--head);color:var(--head-ink);font:700 20px/1 var(--body);cursor:pointer}
+.trk-next:disabled{opacity:.3;cursor:default}
+@media (max-width:380px){.trk{font-size:10.5px!important;letter-spacing:-.2px}}
+.trk:focus-visible,.trk-next:focus-visible,.ts-btn:focus-visible{outline:2px solid var(--moon);outline-offset:2px}
+@media (max-width:700px){
+  .bar{position:static}
+  .turnrow{top:env(safe-area-inset-top,0px)}
+  .trk{font-size:11.5px;padding-inline:0;text-overflow:clip}
+  .track{grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+  .trk-next{display:none}
+  .ts-lab b{font-size:20px}
+  .ts-lab{gap:2px 8px}
+  .lg-only{display:none}
+  .ts-top{flex-wrap:nowrap;gap:8px}
+  .ts-lab{flex:1 1 auto}
+  .ts-lab b{font-size:18px}
+  .ts-lab .who{font-size:13.5px}
+  .ts-vp{font-size:12px}
+  .ts-end{padding-inline:10px;font-size:14px;flex:none}
+  .res{display:none}
+  .res+.aboutbtn{margin-left:auto}
+  .ts-ctr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .ts-ctr .ctr{justify-content:space-between;min-width:0}
+  .ts-ctr .ctr b{padding:0 6px}
+  .ts-ctr .ctr button{width:34px;height:34px;font-size:18px}
+}
+.slab small{font:500 10px var(--mono);letter-spacing:0;text-transform:none}
+.tg.rem{border-style:dashed}
+.r1{flex-basis:100%;font-size:13px;color:var(--bad);font-weight:700}
+.moont tr.hl td{background:var(--moon-soft)}
+.un>a{font:700 16px var(--body);color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--muted);margin-right:6px}
+</style>
+
+<header class="top"><div class="wrap">
+  <div>
+    <h1>Gitz <span>Companion</span><small>v1.0</small></h1>
+    <div class="sub" id="hdr-sub">Loading rules data…</div>
+  </div>
+  <div class="roster" id="hdr-list"></div>
+</div></header>
+
+<div class="bar"><div class="wrap">
+  <div class="views" role="group" aria-label="View">
+    <button data-view="army" aria-pressed="true">Army</button>
+    <button data-view="game" aria-pressed="false">Game</button>
+    <button data-view="phases" aria-pressed="false">Phases</button>
+    <button data-view="ws" aria-pressed="false">Warscrolls</button>
+    <button data-view="res" aria-pressed="false">CP &amp; Rage</button>
+  </div>
+  <div class="moonpick" role="group" aria-label="Face of the Bad Moon">
+    <label>Bad Moon</label>
+    <button class="face" data-face="G">Grinnin'</button>
+    <button class="face" data-face="Sc">Scowlin'</button>
+    <button class="face" data-face="Su">Sulkin'</button>
+    <button class="face" data-face="C">Cacklin'</button>
+    <button class="face all" data-face="All" title="The Malevolent Moon is on the battlefield: units marked wholly within 12&quot; of it get all four faces" hidden>All · Malevolent Moon</button>
+  </div>
+  <div class="res">
+    <div class="ctr"><b>CP</b><button data-k="cp" data-d="-1" aria-label="Spend command point">−</button><output id="o-cp">4</output><button data-k="cp" data-d="1" aria-label="Add command point">+</button></div>
+    <div class="ctr"><b>Fury</b><button data-k="fury" data-d="-1" aria-label="Fury down">−</button><output id="o-fury">1</output><button data-k="fury" data-d="1" aria-label="Fury up">+</button></div>
+    <div class="ctr"><b>Rage</b><button data-k="rage" data-d="-1" aria-label="Spend rage dice">−</button><output id="o-rage">0</output><button data-k="rage" data-d="1" aria-label="Add rage dice">+</button></div>
+  </div>
+  <button class="aboutbtn" data-view="about" aria-pressed="false" aria-label="About this companion"><span aria-hidden="true">ⓘ</span> About</button>
+</div></div>
+
+<div class="turnrow" id="turnrow"><div class="wrap" id="turnbox"></div></div>
+
+<main><div class="wrap">
+  <div id="note"></div>
+  <section id="view-game" hidden><div class="cards2" id="gameout"></div></section>
+  <section id="view-army"><div id="armyout"><p class="muted">Loading…</p></div></section>
+  <section id="view-phases" hidden>
+    <div class="phases" id="phasenav"></div>
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Whose turn">
+        <button data-turn="all" aria-pressed="true">Both turns</button>
+        <button data-turn="your" aria-pressed="false">My turn</button>
+        <button data-turn="enemy" aria-pressed="false">Enemy turn</button>
+      </div>
+      <input type="search" id="q" placeholder="Search all abilities (e.g. rend, heal, Trugg)">
+    </div>
+    <div id="phaseout"></div>
+  </section>
+  <section id="view-res" hidden><div class="cards2" id="resout"></div></section>
+  <section id="view-about" hidden><div id="aboutout"></div></section>
+  <section id="view-ws" hidden>
+    <nav class="toc" id="toc" aria-label="Warscrolls"></nav>
+    <div id="wsout"></div>
+  </section>
+  <p class="foot">Rules paraphrased from <a href="https://wahapedia.ru/aos4/factions/gloomspite-gitz" target="_blank" rel="noopener">Wahapedia: Gloomspite Gitz</a>, <a href="https://wahapedia.ru/aos4/the-rules/the-core-rules/" target="_blank" rel="noopener">Core Rules</a> and <a href="https://wahapedia.ru/aos4/the-rules/general-s-handbook-2026-27/" target="_blank" rel="noopener">General's Handbook 2026-27</a>; data checked <span id="foot-date">–</span>. Unofficial fan tool, not affiliated with Games Workshop. Lists and games are saved in this browser only.</p>
+</div></main>
+
+<script id="core-game">
+/* battleplans and battle tactics: GHB 2026-27 (carried over from v1) */
+const TAC={
+ blazing:{n:"Blazing Onslaught",set:["pick hideout","Your opponent picks one non-faction terrain feature in their territory as their <b>hideout</b>. It can never be removed."],settip:"Plan which unit can grab that terrain on turn 2-3: the Strike and Domination steps both need you to control it.",
+  s:[["Master of Arms","The same enemy unit had damage allocated to it in 3 different phases this turn."],["Break their Defences","You control the enemy hideout."],["No Survivors","2+ enemy units were destroyed this turn and you control the enemy hideout."]],
+  tip:"Affray: Spore Maws or Fangz (hero) → boulders or Mushroom (shooting) → Boing! Smash! (charge) or melee (combat)."},
+ siege:{n:"Siege of Ashes",s:[["Form a Wall","2+ friendly units are wholly outside friendly territory, wholly within 6\" of it, and within 3\" of each other."],["Outpost Resupply","You control an objective in enemy territory contested by a friendly unit that did not MOVE this turn and another friendly unit that charged this turn."],["Repel the Attackers","3+ friendly units not in combat are within 3\" of the centre of the battlefield."]]},
+ flank:{n:"Flanking Firestorm",s:[["Ambuscade","You control 2+ objectives or non-faction terrain features, each contested by a different friendly unit that is more than 6\" from friendly territory and was not set up this turn."],["Surround the Enemy","2+ friendly units not set up this turn are each within 9\" of a different battlefield corner and wholly outside friendly territory."],["Claim What's Yours","More friendly units than enemy units are in enemy territory, and at least 1 friendly HERO is wholly within enemy territory."]]},
+ smoke:{n:"Smokescreen",s:[["Keep the Enemy Close","You control an objective that is contested by at least 1 enemy unit."],["Feign Weakness","More friendly units than enemy units were destroyed this turn."],["Execute the Plan","You control every objective in enemy territory."]]},
+ burning:{n:"Burning for Vengeance",set:["pick fugitive","Pick an enemy HERO on the battlefield or in reserve to be the <b>fugitive</b> for the rest of the battle."],settip:"Pick a hero your fast squigs can surround. Killing it also satisfies the Strike step.",
+  s:[["Search Every Inch","A different friendly unit is wholly within each large quarter, all more than 9\" from the centre, and no more than 1 of them was set up this turn."],["Quick Pursuit","3+ friendly units not in combat are within 12\" of the fugitive, or the fugitive is no longer on the battlefield."],["Bring Them In","3+ friendly units are in combat with the fugitive, or the fugitive is gone and 3+ friendly units contest the same objective wholly outside friendly territory."]],
+  tip:"Your fast squigs and Hand of Gork make the quarters step easy."},
+ parch:{n:"Legend of the Parch",s:[["Daring Rescue","An enemy unit that was in combat at the start of the turn was destroyed this turn by a combat attack from a friendly unit that charged this turn."],["Command from the Front","2+ friendly HEROES are on the battlefield, all within 9\" of a visible enemy unit, and none were slain this turn."],["Hero of Legend","You control an objective wholly outside friendly territory that you did not control at the start of the turn, and a friendly HERO is contesting it."]]}
+};
+const STEP=["Affray","Strike","Domination"];
+const O1={v:3,t:"Control at least 1 objective"},O2={v:3,t:"Control 2 or more objectives"},OM={v:4,t:"Control more objectives than your opponent"};
+const BP=[
+ {n:"Into the Fire",sc:[O1,O2,OM],tw:"<b>Secure the Gateway</b> (both players): while you control the Place of Power in your territory, your melee weapons gain Anti-charge (+1 Rend) for units contesting an objective you control. <b>Determined Defenders</b> (underdog): your units wholly outside enemy territory add 3 to their control scores."},
+ {n:"Bloodstained Coasts",sc:[O1,O2,{v:4,t:"Control more objectives than your opponent",r:[1,1]},{v:4,t:"Control an objective your opponent controlled at the start of the turn",r:[2,5]}],tw:"<b>Emberstone Cache</b> (once per turn, your hero phase): a unit contesting an objective you control gains an emberstone sliver. From round 2, <b>Emberstone-Augmented Weapons</b>: a unit that charged can spend its sliver for +1 to hit or wound."},
+ {n:"Avalanche of Ash",sc:[O1,O2,OM,{v:3,t:"At most 1 objective left and you control a non-faction terrain feature in enemy territory"},{v:7,t:"No objectives left and you control more non-faction terrain features than your opponent"}],tw:"<b>Collapsing Pass</b> (underdog must use, start of round): roll for each objective, +1 per unit contesting it, ±3 on the focus objective; on 8+ the objective is removed."},
+ {n:"Caverns of Slaughter",sc:[O1,O2,{v:4,t:"Control any pair of objectives"}],tw:"<b>Shifting Passages</b> (underdog, start of round): put hidden passage tokens on 2 non-faction terrain features. <b>Navigate the Tunnels</b> (once per turn, your movement phase): move a unit between tokened features, more than 9\" from enemies."},
+ {n:"What's Yours Is Ours",sc:[O1,{v:3,t:"Control the coveted pair",cov:1},OM],tw:"Coveted pair: <b>Golden Lions</b> in odd rounds, <b>Sun Seekers</b> in even rounds. <b>All the Rage</b> (underdog, start of round): pick which pair is coveted this round."},
+ {n:"Hidden Under Ash-Clouds",sc:[O1,O2,OM],tw:"The underdog decides each round whether the ash-clouds are <b>low-lying</b> (always during deployment, and when there is no underdog). While low-lying: nothing is set up in neutral territory, units can't end a move there unless they started wholly within it, and models more than 3\" away are not visible through neutral territory."},
+ {n:"Warped Ruins",sc:[O1,{v:3,t:"Control any pair of objectives"},OM],tw:"<b>Spreading Warpfire</b> (underdog must use, start of round): a non-faction terrain feature becomes <b>flaming</b>; D3 mortal damage to units within 6\" of flaming terrain."},
+ {n:"Curse of the Gnaw",sc:[{v:3,t:"Control the Golden Lions objective"},{v:3,t:"Control the Sun Seekers objective"},OM],tw:"Instability starts at 1 and rises by 1 (max 6) each time either player uses Activate Place of Power. <b>Echoes of Blight City</b> (underdog, start of round): mortal damage equal to the instability level on each unit contesting a chosen objective, then instability resets to 1."},
+ {n:"Seize the Embers",sc:[O1,{v:3,t:"Control 2 or more objectives",r:[1,1]},{v:3,t:"You used Back to Base Camp this turn",r:[2,5]},OM],tw:"<b>Search the Ruin</b> (end of your turn): a unit contesting a Sun Seekers objective gains an emberstone nugget. <b>Back to Base Camp</b> (once per turn): remove the nugget from a unit contesting a Golden Lions objective."},
+ {n:"Treacherous Ground",sc:[{v:3,t:"Control at least 1 stable objective"},{v:3,t:"Control 2 or more stable objectives"},{v:4,t:"Control more stable objectives than your opponent"}],tw:"All objectives start stable. <b>Tread Carefully</b> (both players must, start of round 1): an objective in your territory stops being stable. <b>Violent Tremor</b> (underdog, from round 2): swap the stable status within a pair."},
+ {n:"Escape from the Coast",sc:[O1,O2,OM],tw:"<b>To the Ships!</b> (underdog, start of round): remove the Heldenhain or a Sun Seekers objective from the battlefield."},
+ {n:"Power of the Realms",sc:[{v:3,t:"Control the primary objective"},{v:3,t:"Control 2 or more secondary objectives"},OM],tw:"Sun Seekers starts as the primary objective. <b>Arcane Charge</b> (underdog, start of round): draw a line from the primary to a Place of Power you control; the first secondary objective it crosses becomes primary."}
+];
+
+</script>
+<script id="core-rules">
+/* ================= CORE (in the page, not faction data) ================= */
+/* core rules the engine applies to every faction. Commands are cast by the army ("army" caster) on one unit. */
+const CORE_AB=[
+  {id:"core-charge-weapon",name:"Charge (+1 Damage)",source:"core",timing:{phase:"combat",turn:"any",label:"Passive (weapon ability)"},
+   text:"If this unit charged this turn, add 1 to the Damage of weapons with this ability.",
+   effects:[{target:{kind:"army"},when:[{cond:"marker",marker:"charged",label:"Charged this turn"}],
+     mods:[{path:"weapon.damage",weapons:{ability:"Charge (+1 Damage)"},op:"add",value:1}],duration:"while"}]},
+  {id:"cmd-all-out-attack",name:"All-out Attack",source:"core",command:true,cost:"1 CP",timing:{phase:"combat",turn:"any",label:"Reaction: you declared an ATTACK ability"},
+   text:"+1 to hit rolls for that attack (Companion weapons included). For the rest of the turn, −1 to that unit's save rolls.",
+   effects:[
+     {target:{kind:"pick",side:"friendly"},mods:[{path:"roll.hit",weapons:{includeCompanion:true},op:"add",value:1}],duration:"phase",label:"+1 to hit"},
+     {target:{kind:"pick",side:"friendly"},mods:[{path:"roll.save",op:"add",value:-1}],duration:"turn",label:"−1 to save"}]},
+  {id:"cmd-all-out-defence",name:"All-out Defence",source:"core",command:true,cost:"1 CP",timing:{phase:"def",turn:"any",label:"Reaction: opponent declared an ATTACK ability"},
+   text:"+1 to save rolls for the targeted unit until that attack is resolved.",
+   effects:[{target:{kind:"pick",side:"friendly"},mods:[{path:"roll.save",op:"add",value:1}],duration:"phase"}]}
+];
+/* how long a toggle marker lasts before the turn flow clears it */
+const MARKER_TTL={charged:"turn"};
+const TAC_LIST=()=>Object.keys(TAC).map(id=>({id,n:TAC[id].n}));
+/* core, command and season cards for the Phases view (paraphrased; carried over from v1 without list-specific tips) */
+const CORE_CARDS=[
+ {n:"Deploy Faction Terrain",ph:"deploy",turn:"your",timing:"Deployment Phase",src:"core",x:"Set up your faction terrain wholly within friendly territory, more than 3\" from all objectives and other terrain. Done before any units deploy.",kw:"DEPLOY TERRAIN",needs:"terrain"},
+ {n:"Deploy Regiment",ph:"deploy",turn:"your",timing:"Deployment Phase",src:"core",x:"Keep using DEPLOY abilities without alternating until every unit in that regiment is set up. Each regiment is one drop.",kw:"DEPLOY"},
+ {n:"Deploy Unit",ph:"deploy",turn:"your",timing:"Deployment Phase",src:"core",x:"Set up one unit wholly within friendly territory and more than 9\" from enemy territory.",kw:"DEPLOY"},
+ {n:"Raising the Heat",ph:"deploy",turn:"your",timing:"Once Per Battle (Army), Deployment Phase",src:"season",x:"Set your <b>fury level</b> to 1 if you are the attacker, or 2 if you are the defender."},
+ {n:"Simmering Rage",ph:"start",turn:"any",timing:"Once Per Turn (Army), Start of Battle Round",src:"season",x:"Must be used. Gain rage dice equal to your fury level. Unspent rage dice are lost at the end of the battle round."},
+ {n:"Earn command points",ph:"start",turn:"any",timing:"Start of Battle Round",src:"core",x:"<ul><li>Each player gains <b>4 CP</b>.</li><li>The underdog (fewer victory points) gains <b>1 extra</b>.</li><li>Unspent CP do not carry over.</li></ul>Each command can be used once per phase by your army, and each unit can be affected by only one command per phase."},
+ {n:"Rally",ph:"hero",turn:"any",timing:"Any Hero Phase",src:"cmd",cost:"1 CP",x:"Pick a friendly unit not in combat. Roll 6 dice; each 4+ is a rally point. Spend them in any mix:<ul><li><b>1 point:</b> Heal (1).</li><li><b>Points equal to the unit's Health:</b> return 1 slain model.</li></ul>"},
+ {n:"Magical Intervention",ph:"hero",turn:"enemy",timing:"Enemy Hero Phase",src:"cmd",cost:"1 CP",x:"Pick a friendly WIZARD to cast one spell as if it were your hero phase, subtracting 1 from the casting roll.",needs:"wizard"},
+ {n:"Unbind",ph:"hero",turn:"enemy",timing:"Enemy Hero Phase (reaction to a spell)",src:"core",x:"A friendly WIZARD within 30\" of the caster rolls 2D6. If it beats the casting roll, the spell is unbound. Each unbind uses one of that wizard's power-level uses for the phase.",needs:"wizard"},
+ {n:"Banish Manifestation",ph:"hero",turn:"your",timing:"Your Hero Phase",src:"core",x:"A WIZARD rolls 2D6 against an enemy manifestation's banishment value to remove it. Uses one power-level use.",needs:"wizard"},
+ {n:"Normal Move",ph:"move",turn:"your",timing:"Your Movement Phase",src:"core",x:"A unit not in combat moves up to its Move. Cannot move into combat (FLY units may pass over combat ranges).",kw:"CORE, MOVE"},
+ {n:"Run",ph:"move",turn:"your",timing:"Your Movement Phase",src:"core",x:"Move up to Move + D6. Cannot move into combat. A unit that ran cannot shoot or charge this turn.",kw:"CORE, MOVE, RUN"},
+ {n:"Retreat",ph:"move",turn:"your",timing:"Your Movement Phase",src:"core",x:"A unit in combat takes D3 mortal damage, then moves up to its Move, passing through but not ending in combat ranges. Cannot shoot or charge afterwards.",kw:"CORE, MOVE, RETREAT"},
+ {n:"At the Double",ph:"move",turn:"your",timing:"Reaction: you declared a RUN ability",src:"cmd",cost:"1 CP",x:"Don't roll the run roll: it counts as 6."},
+ {n:"Redeploy",ph:"move",turn:"enemy",timing:"Enemy Movement Phase",src:"cmd",cost:"1 CP",x:"A friendly unit not in combat moves up to D6\". Cannot pass through or end in an enemy combat range.",kw:"MOVE, RUN"},
+ {n:"Shoot",ph:"shoot",turn:"your",timing:"Your Shooting Phase",src:"core",x:"Units that did not run or retreat shoot with their ranged weapons. Weapons with Shoot in Combat can shoot while in combat.",kw:"CORE, ATTACK, SHOOT"},
+ {n:"Covering Fire",ph:"shoot",turn:"enemy",timing:"Enemy Shooting Phase",src:"cmd",cost:"1 CP",x:"A friendly unit not in combat shoots the closest visible enemy unit, subtracting 1 from hit rolls."},
+ {n:"Charge",ph:"charge",turn:"your",timing:"Your Charge Phase",src:"core",x:"A unit not in combat that didn't run or retreat rolls 2D6 and must end within ½\" of a visible enemy unit. Mark it as charged on its warscroll.",kw:"CORE, MOVE, CHARGE"},
+ {n:"Forward to Victory",ph:"charge",turn:"your",timing:"Reaction: you declared a CHARGE ability",src:"cmd",cost:"1 CP",x:"Re-roll the charge roll."},
+ {n:"Counter-charge",ph:"charge",turn:"enemy",timing:"Enemy Charge Phase",src:"cmd",cost:"2 CP",x:"A friendly unit not in combat can charge as if it were your charge phase."},
+ {n:"Fight",ph:"combat",turn:"any",timing:"Any Combat Phase",src:"core",x:"A unit in combat or that charged piles in 3\" then attacks enemy units in combat with it. Units in combat must fight.",kw:"CORE, ATTACK, FIGHT"},
+ {n:"All-out Attack",ph:"combat",turn:"any",timing:"Reaction: you declared an ATTACK ability",src:"cmd",cost:"1 CP",fx:"cmd-all-out-attack",x:"+1 to hit rolls for that attack (Companion weapons included). For the rest of the turn, −1 to that unit's save rolls.",tip:"Companion weapons normally ignore friendly hit buffs, but this command names them. Mark it on the unit's warscroll."},
+ {n:"All-out Defence",ph:"def",turn:"any",timing:"Reaction: opponent declared an ATTACK ability",src:"cmd",cost:"1 CP",fx:"cmd-all-out-defence",x:"+1 to save rolls for a targeted unit until that attack is resolved."},
+ {n:"Fight Through the Pain",ph:"def",turn:"any",timing:"Passive",src:"season",cost:"X rage",x:"Before allocating damage to a friendly unit, spend any number of rage dice at once. For each, reduce your fury level by 1 (min 0) and roll a dice: on 3+ remove 1 damage point."},
+ {n:"Guarded Hero",ph:"def",turn:"any",timing:"Passive",src:"core",x:"While a non-MONSTER hero is within the combat range of a friendly non-HERO unit:<ul><li>Subtract 1 from hit rolls for attacks that target it.</li><li>If it is INFANTRY, it cannot be targeted by shooting attacks from more than 12\" away.</li></ul>",tip:"Stacks with other −1 to hit effects only up to the −1 cap.",needs:"guarded"},
+ {n:"Eruption of Fury",ph:"eot",turn:"any",timing:"Once Per Turn (Army), End of Any Turn",src:"season",cost:"1-3 rage",x:"Pick a friendly unit, an enemy unit in combat with it, and one of its melee weapons. Spend up to 3 rage dice and make that many attacks with the weapon. They cannot score critical hits.<ul><li><b>Each unmodified 6 to hit:</b> D3 mortal damage to every enemy unit in combat with your unit, and your opponent's fury level +1 (max 7).</li><li><b>Each unmodified 1 to hit:</b> D3 mortal damage on your own unit, no ward allowed.</li></ul>",kw:"ATTACK, FIGHT",tip:"Pick the weapon with the best Hit, Wound and Damage: each die is one attack."},
+ {n:"Power Through",ph:"eot",turn:"any",timing:"End of Any Turn",src:"cmd",cost:"1 CP",x:"A unit that charged this turn picks an enemy unit in combat with it that has a lower Health. Inflict D3 mortal damage on the target, then move up to the unit's Move; it may leave combat."},
+ {n:"Score the battleplan",ph:"eot",turn:"your",timing:"End of Your Turn",src:"core",x:"Check objective control (models within 3\" of the objective × Control) and score. Then complete up to 1 tactic on each card."}
+];
+
+</script>
+<script id="engine">
+/* ================= RULES ENGINE =================
+   computeUnit(iid, ctx) → every characteristic and weapon profile with its modified value and the reasons.
+   ctx = {roster, state:{round, face, markers:{iid:{key:true}}, casts:[{id,ab,opt,caster,target}]}}
+   Data flows one way; this module never writes game state except via expire(). */
+const ENG=(()=>{
+  let D=null,IDX=null,CORE=[];
+  const norm=s=>String(s||"").toLowerCase().replace(/[’‘`´]/g,"'").replace(/[“”]/g,'"').replace(/\s+/g," ").trim();
+  function load(data,core){
+    D=data;CORE=core||[];
+    IDX={unit:{},ab:{},enh:{},form:{},lore:{},byName:{}};
+    [...data.units,...data.terrain].forEach(u=>{IDX.unit[u.id]=u;IDX.byName[norm(u.name)]=u.id});
+    data.abilities.forEach(a=>IDX.ab[a.id]=a);CORE.forEach(a=>IDX.ab[a.id]=a);
+    data.enhancements.forEach(e=>IDX.enh[e.id]=e);
+    data.formations.forEach(f=>IDX.form[f.id]=f);
+    data.lores.forEach(l=>IDX.lore[l.id]=l);
+    return IDX;
+  }
+  /* ---- dice-aware arithmetic (v1's addN, generalised) ---- */
+  function addN(v,n){
+    if(!n)return String(v);
+    let s=String(v),q="";
+    if(s.endsWith('"')){q='"';s=s.slice(0,-1)}
+    if(s==="-"||s===""||s==="null")return n>0?n+q:"-";
+    if(/^-?\d+$/.test(s)){const r=+s+n;return(r<=0&&!q?"-":String(r))+q}
+    const m=s.match(/^(.*?D\d+)([+-]\d+)?$/i);
+    if(m){const k=(m[2]?+m[2]:0)+n;return m[1]+(k>0?"+"+k:k<0?String(k):"")+q}
+    return s+(n>0?"+":"")+n+q;
+  }
+  /* replace the dice in a Move value with a fixed number: D6+8" with 4 → 12" */
+  function fixDice(v,dice){
+    let s=String(v),q="";if(s.endsWith('"')){q='"';s=s.slice(0,-1)}
+    if(!/D\d/i.test(s))return null;
+    const t=s.replace(/(\d*)D\d+/gi,(m,k)=>String((+k||1)*dice));
+    try{if(!/^[\d+\-]+$/.test(t))return null;return t.split(/(?=[+-])/).reduce((a,x)=>a+ +x,0)+q}catch(e){return null}
+  }
+  const unitOf=inst=>IDX.unit[inst.uid];
+  function keywordsOf(inst){
+    const u=unitOf(inst);const k=new Set([...(u.keywords||[]),...(u.factionKeywords||[])]);
+    (inst.enh||[]).forEach(e=>(IDX.enh[e]&&IDX.enh[e].grants||[]).forEach(x=>k.add(x)));
+    return k;
+  }
+  function matchFilter(inst,f){
+    if(!f)return true;const k=keywordsOf(inst);
+    if(f.keywords&&!f.keywords.every(x=>k.has(x)))return false;
+    if(f.notKeywords&&f.notKeywords.some(x=>k.has(x)))return false;
+    if(f.ids&&!f.ids.includes(inst.uid))return false;
+    return true;
+  }
+  const allInst=roster=>Object.values(roster.inst);
+  /* ---- who is active ---- */
+  const activatable=eff=>eff.duration&&eff.duration!=="while";
+  function abilitiesOfInst(inst,R){
+    const u=unitOf(inst),ids=[...(u.abilities||[])];
+    (inst.enh||[]).forEach(e=>{const en=IDX.enh[e];if(en&&en.ability)ids.push(en.ability)});
+    /* a wizard can cast the army's spell lore: its spells' effects come from that wizard */
+    if(R&&R.spellLore&&IDX.lore[R.spellLore]&&isWizard(inst))IDX.lore[R.spellLore].spells.forEach(id=>{if(!ids.includes(id))ids.push(id)});
+    return ids.map(id=>IDX.ab[id]).filter(Boolean);
+  }
+  function isWizard(inst){const u=unitOf(inst);return u.kind==="unit"&&((u.powerLevel||0)>0||(inst.enh||[]).some(e=>(IDX.enh[e]&&IDX.enh[e].grants||[]).includes("WIZARD")))}
+  function armyAbilities(roster){
+    const out=[];
+    (D.armyRules||[]).forEach(id=>IDX.ab[id]&&out.push(IDX.ab[id]));
+    if(roster.formation&&IDX.form[roster.formation])IDX.form[roster.formation].abilities.forEach(id=>IDX.ab[id]&&out.push(IDX.ab[id]));
+    CORE.forEach(a=>out.push(a));
+    return out;
+  }
+  /* every effect in play right now, as {eff, ab, opt, src (instance|null), cast} */
+  function effectsInPlay(ctx){
+    const R=ctx.roster,out=[];
+    allInst(R).forEach(S=>abilitiesOfInst(S,R).forEach(ab=>(ab.effects||[]).forEach(eff=>{if(!activatable(eff))out.push({eff,ab,src:S})})));
+    armyAbilities(R).forEach(ab=>(ab.effects||[]).forEach(eff=>{if(!activatable(eff))out.push({eff,ab,src:null})}));
+    (ctx.state.casts||[]).forEach(c=>{
+      const ab=IDX.ab[c.ab],army=c.caster==="army",S=army?null:R.inst[c.caster];if(!ab||(!army&&!S))return;
+      if(ab.choose==="one"){const o=(ab.options||[]).find(x=>x.key===c.opt);if(o)out.push({eff:o,ab,opt:o,src:S,cast:c})}
+      else (ab.effects||[]).forEach((eff,i)=>{if(activatable(eff)&&!(c.gone||[]).includes(i))out.push({eff,ab,src:S,cast:c})});
+    });
+    return out;
+  }
+  /* every effect that COULD reach a unit (passive, activatable and options), for generating toggles */
+  function effectsPossible(ctx){
+    const R=ctx.roster,out=[];
+    const push=(ab,src)=>{(ab.effects||[]).forEach(eff=>out.push({eff,ab,src}));(ab.options||[]).forEach(o=>out.push({eff:o,ab,opt:o,src}))};
+    allInst(R).forEach(S=>abilitiesOfInst(S,R).forEach(ab=>push(ab,S)));
+    armyAbilities(R).forEach(ab=>push(ab,null));
+    return out;
+  }
+  function targets(c,T,ctx,possible){
+    const t=c.eff.target||{kind:"self"};
+    if(t.kind==="enemy"||c.eff.reminder)return false;
+    if(t.kind==="self")return !!c.src&&c.src.iid===T.iid;
+    if(t.kind==="pick")return possible?matchFilter(T,t.filter):(!!c.cast&&c.cast.target===T.iid&&matchFilter(T,t.filter));
+    if(t.kind==="aura"){
+      if(!matchFilter(T,t.filter))return false;
+      if(t.excludeSelf&&c.src&&c.src.iid===T.iid)return false;
+      if(t.near){if(!c.src)return false;if(c.src.iid===T.iid)return true;return possible?true:!!mk(ctx,T.iid)["near:"+c.src.iid]}
+      return true;
+    }
+    if(t.kind==="army")return matchFilter(T,t.filter);
+    return false;
+  }
+  const mk=(ctx,iid)=>(ctx.state.markers||{})[iid]||{};
+  const moonInList=ctx=>allInst(ctx.roster).some(i=>i.uid===(D.moonFaces||{}).moonUnit);
+  function nearSources(ctx,cond,T){
+    return allInst(ctx.roster).filter(S=>S.iid!==T.iid&&((cond.unit&&S.uid===cond.unit)||(cond.keywords&&matchFilter(S,{keywords:cond.keywords}))));
+  }
+  function condTrue(cond,T,ctx){
+    const st=ctx.state,m=mk(ctx,T.iid);
+    switch(cond.cond){
+      case "marker":return !!m[cond.marker];
+      case "near":return nearSources(ctx,cond,T).some(S=>m["near:"+S.iid]);
+      case "moon":return cond.faces.includes(st.face)||(!!st.moonOut&&!!m.inMoon&&moonInList(ctx));
+      case "round":{const r=Math.max(1,st.round||1);return r>=(cond.min||1)&&r<=(cond.max||99)}
+      case "phase":return [].concat(cond.phase).includes(st.phase);
+      case "turn":return st.turn===cond.turn;
+      case "general":return !!T.general;
+      case "hasEnhancement":return (T.enh||[]).includes(cond.id);
+      default:return false;
+    }
+  }
+  /* ---- weapons ---- */
+  const isComp=w=>(w.abilities||[]).includes("Companion");
+  function selects(sel,w){
+    if(!sel)return true;
+    if(sel.type&&w.type!==sel.type)return false;
+    if(sel.name&&!norm(w.name).includes(norm(sel.name)))return false;
+    if(sel.exclude&&sel.exclude.some(a=>(w.abilities||[]).includes(a)))return false;
+    if(sel.ability&&!(w.abilities||[]).includes(sel.ability))return false;
+    return true;
+  }
+  /* Companion: not affected by friendly modifiers to hit, wound or weapon characteristics, except negative ones, unless the rule names the weapon */
+  function companionBlocks(mod,w){
+    if(!isComp(w))return false;
+    const sel=mod.weapons||{};
+    if(sel.includeCompanion||sel.name)return false;
+    if(mod.op==="add"&&typeof mod.value==="number"&&mod.value<0)return false;
+    return true;
+  }
+  function modReaches(mod,T){
+    if(!/^weapon\.|^roll\.(hit|wound)$/.test(mod.path))return true;
+    return (unitOf(T).weapons||[]).some(w=>selects(mod.weapons,w)&&!companionBlocks(mod,w));
+  }
+  const label=c=>c.opt?c.opt.label:(c.eff.label&&c.ab.effects&&c.ab.effects.length>1?c.ab.name+" ("+c.eff.label+")":c.ab.name);
+  const durOf=(c)=>{const ab=IDX.ab[c.ab];if(!ab)return["turn"];if(ab.choose==="one"){const o=(ab.options||[]).find(x=>x.key===c.opt);return[o&&o.duration||"turn"]}
+    return (ab.effects||[]).map(e=>activatable(e)?e.duration:null)};
+  const fromName=c=>c.src?nameOf(c.src):(c.ab.source==="formation"?((Object.values(IDX.form).find(f=>f.abilities.includes(c.ab.id))||{}).name||"Battle formation"):c.ab.source==="core"?"Core rules":"Army rule");
+  function nameOf(inst){return inst.label||unitOf(inst).name}
+  const F=v=>({base:v,val:v,changed:false,reasons:[]});
+  const clamp=(n,lo,hi)=>Math.max(lo,Math.min(hi,n));
+
+  function computeUnit(iid,ctx){
+    const T=ctx.roster.inst[iid];if(!T)return null;
+    const u=unitOf(T),st=u.stats||{};
+    const res={iid,uid:u.id,name:nameOf(T),unit:u,models:T.models,keywords:[...keywordsOf(T)],
+      stats:{move:F(st.move),health:F(st.health),save:F(st.save),control:F(st.control)},
+      moveAlt:null,ward:{val:u.ward||null,base:u.ward||null,reasons:[],conditional:[]},
+      controlScore:{val:0,reasons:[]},powerLevel:F(u.powerLevel||0),
+      rolls:{run:0,charge:0,hit:0,wound:0,save:0,cast:0},rollReasons:{run:[],charge:[],hit:[],wound:[],save:[],cast:[]},
+      defence:{hitAgainst:{val:0,reasons:[],notes:[]},rendAgainst:{val:0,reasons:[],notes:[],moon:false}},
+      weapons:(u.weapons||[]).map(w=>({w,id:w.id,name:w.name,type:w.type,range:w.range||"",
+        f:{attacks:F(w.attacks),hit:F(w.hit),wound:F(w.wound),rend:F(w.rend),damage:F(w.damage)},
+        abilities:[...(w.abilities||[])],added:[],roll:{hit:0,wound:0},reasons:[]})),
+      notes:[],active:[],moonActive:[]};
+    const live=effectsInPlay(ctx).filter(c=>targets(c,T,ctx,false)&&(c.eff.when||[]).every(k=>condTrue(k,T,ctx)));
+    const pairs=[];live.forEach(c=>(c.eff.mods||[]).forEach(m=>pairs.push({c,m})));
+    const seen=new Set();
+    live.forEach(c=>{const key=c.ab.id+"|"+(c.opt?c.opt.key:"")+"|"+(c.src?c.src.iid:"");if(seen.has(key))return;seen.add(key);
+      const real=(c.eff.mods||[]).some(m=>modReaches(m,T));if(!real)return;
+      res.active.push({abId:c.ab.id,name:label(c),from:fromName(c),srcIid:c.src?c.src.iid:null,cast:!!c.cast,cond:(c.eff.when||[]).length>0,
+        moon:(c.eff.when||[]).some(k=>k.cond==="moon"),text:c.ab.text});
+      if((c.eff.when||[]).some(k=>k.cond==="moon"))res.moonActive.push(c.ab.id)});
+    const bump=(fld,fn,why)=>{const before=fld.val;fld.val=fn(fld.val);if(fld.val!==before||true){fld.changed=fld.changed||fld.val!==fld.base;fld.reasons.push(why)}};
+    const applyStat=(m,c,phase)=>{
+      const why=label(c);
+      const p=m.path;
+      if(["move","health","save","control"].includes(p)){
+        const fld=res.stats[p];
+        if(m.op==="set"&&phase==="set")bump(fld,()=>m.value,why);
+        if(m.op==="add"&&phase==="add")bump(fld,v=>addN(v,m.value),why);
+        if(m.op==="alt"&&phase==="alt"&&p==="move"){const a=fixDice(res.stats.move.base,m.value.dice);if(a)res.moveAlt={val:a,base:a,reasons:[why]}}
+        if(m.op==="note"&&phase==="add")res.notes.push({text:String(m.value),from:why});
+        return;
+      }
+      if(p==="ward"&&phase==="set"&&m.op==="set"){res.ward.reasons.push({val:m.value,why});return}
+      if(p==="controlScore"&&phase==="add"){res.controlScore.val+=m.value;res.controlScore.reasons.push(why);return}
+      if(p==="powerLevel"){
+        if(m.op==="set"&&phase==="set")bump(res.powerLevel,()=>m.value,why);
+        else if(m.op==="add"&&phase==="add")bump(res.powerLevel,v=>v+m.value,why);
+        else if(m.op==="note"&&phase==="add")res.notes.push({text:String(m.value),from:why});
+        return;
+      }
+      if(p==="note"&&phase==="add"){res.notes.push({text:String(m.value),from:why});return}
+      if(p.startsWith("defence.")&&phase==="add"){const d=res.defence[p.slice(8)];if(!d)return;
+        if(m.op==="note"){d.notes.push(String(m.value));return}
+        if(m.attack){d.notes.push((m.value>0?"+":"")+m.value+" vs "+m.attack+" attacks ("+why+")");if(p==="defence.rendAgainst"&&(c.eff.when||[]).some(k=>k.cond==="moon"))d.moon=true;d.reasons.push(why);d.scoped=(d.scoped||0)+m.value;return}
+        d.val+=m.value;d.reasons.push(why);if((c.eff.when||[]).some(k=>k.cond==="moon"))d.moon=true;return}
+      if(p.startsWith("roll.")&&phase==="add"){const k=p.slice(5);
+        if(k==="hit"||k==="wound"){res.weapons.forEach(W=>{if(selects(m.weapons,W.w)&&!companionBlocks(m,W.w)){W.roll[k]+=m.value;W.reasons.push(why)}})}
+        if(k in res.rolls){res.rolls[k]+=m.value;res.rollReasons[k].push(why)}return}
+      if(p.startsWith("weapon.")){const k=p.slice(7);
+        res.weapons.forEach(W=>{
+          if(!selects(m.weapons,W.w)||companionBlocks(m,W.w))return;
+          if(k==="addAbility"){if(phase==="add"&&!W.abilities.includes(m.value)){W.abilities.push(m.value);W.added.push(m.value);W.reasons.push(why)}return}
+          const fld=W.f[k];if(!fld)return;
+          if(m.op==="set"&&phase==="set"){bump(fld,()=>String(m.value),why);W.reasons.push(why)}
+          if(m.op==="add"&&phase==="add"){bump(fld,v=>addN(v,m.value),why);W.reasons.push(why)}
+        });
+      }
+    };
+    /* sets first, then adds (Squig Rage 6 + Bouncing Fury 1 = 7), then the Lunar alternative on top of adds */
+    pairs.forEach(({c,m})=>applyStat(m,c,"set"));
+    pairs.forEach(({c,m})=>applyStat(m,c,"add"));
+    pairs.forEach(({c,m})=>applyStat(m,c,"alt"));
+    if(res.moveAlt){const adds=pairs.filter(({m})=>m.path==="move"&&m.op==="add");
+      adds.forEach(({c,m})=>{res.moveAlt.val=addN(res.moveAlt.val,m.value);res.moveAlt.reasons.push(label(c))})}
+    /* caps: hit and wound net to ±1 (Core 17.1); save at most +1; characteristics uncapped */
+    res.weapons.forEach(W=>{W.roll.hit=clamp(W.roll.hit,-1,1);W.roll.wound=clamp(W.roll.wound,-1,1);W.reasons=[...new Set(W.reasons)]});
+    res.rolls.hit=clamp(res.rolls.hit,-1,1);res.rolls.wound=clamp(res.rolls.wound,-1,1);res.rolls.save=Math.min(1,res.rolls.save);
+    res.defence.hitAgainst.val=clamp(res.defence.hitAgainst.val,-1,1);
+    /* ward: only the best one applies */
+    const wv=x=>x?parseInt(x,10):99;
+    let best=u.ward||null,why=u.ward?"Warscroll":"";
+    res.ward.reasons.forEach(r=>{if(wv(r.val)<wv(best)){best=r.val;why=r.why}});
+    res.ward={val:best,base:u.ward||null,why,changed:best!==(u.ward||null),conditional:[]};
+    /* wards this unit could have but doesn't right now (dashed shield) */
+    effectsPossible(ctx).forEach(c=>{
+      if(!targets(c,T,ctx,true))return;
+      (c.eff.mods||[]).forEach(m=>{if(m.path!=="ward"||m.op!=="set")return;
+        const lab=label(c);if(live.some(l=>l.eff===c.eff))return;
+        if(!res.ward.conditional.some(x=>x.label===lab))res.ward.conditional.push({val:m.value,label:lab,ability:c.ab.name,from:fromName(c)})})});
+    return res;
+  }
+  /* ---- generated controls ---- */
+  function markersFor(iid,ctx){
+    const T=ctx.roster.inst[iid];if(!T)return[];
+    const out=[],has=k=>out.some(x=>x.key===k);
+    effectsPossible(ctx).forEach(c=>{
+      if(!targets(c,T,ctx,true))return;
+      if(!(c.eff.mods||[]).some(m=>modReaches(m,T)))return;
+      if(c.ab.source==="lore"&&!(ctx.state.casts||[]).some(x=>x.ab===c.ab.id&&c.src&&x.caster===c.src.iid))return;
+      const t=c.eff.target||{};
+      const usedNow=(ctx.state.casts||[]).some(x=>x.ab===c.ab.id&&c.src&&x.caster===c.src.iid);
+      if(t.kind==="aura"&&t.near&&c.src&&c.src.iid!==T.iid&&((c.opt||activatable(c.eff))?usedNow:true)){const k="near:"+c.src.iid;if(!has(k))out.push({key:k,label:`${cap(t.near.range||"near")} of ${shortName(c.src)}`,kind:"near"})}
+      (c.eff.when||[]).forEach(w=>{
+        if(w.cond==="marker"&&!has(w.marker))out.push({key:w.marker,label:w.label||w.marker,kind:"marker"});
+        if(w.cond==="near")nearSources(ctx,w,T).forEach(S=>{const k="near:"+S.iid;if(!has(k))out.push({key:k,label:`${cap(w.range||"near")} of ${shortName(S)}`,kind:"near"})});
+        if(w.cond==="moon"&&ctx.state.moonOut&&moonInList(ctx)&&T.uid!==D.moonFaces.moonUnit&&!has("inMoon"))out.push({key:"inMoon",label:'Wholly within 12" of the Malevolent Moon',kind:"moon"});
+      });
+    });
+    const rank={marker:0,near:1,moon:2};
+    return out.sort((a,b)=>rank[a.kind]-rank[b.kind]);
+  }
+  const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+  const shortName=inst=>nameOf(inst).replace(/,.*$/,"").replace(/ with .*$/,"");
+  /* abilities this instance can actively use on others or itself (caster panels) */
+  function castables(iid,ctx){
+    const S=ctx.roster.inst[iid];if(!S)return[];
+    return abilitiesOfInst(S,ctx.roster).filter(ab=>ab.choose==="one"||(ab.effects||[]).some(activatable)).map(ab=>{
+      const opts=ab.choose==="one"?ab.options:[{key:"",label:ab.name,target:(ab.effects.find(activatable)||{}).target,duration:(ab.effects.find(activatable)||{}).duration}];
+      return{ab,opts:opts.map(o=>{const t=o.target||{kind:"self"};
+        const tg=t.kind==="pick"?allInst(ctx.roster).filter(i=>i.kind==="unit"&&matchFilter(i,t.filter)).map(i=>i.iid):[];
+        return{key:o.key,label:o.label,kind:t.kind,targets:tg,range:t.range||"",reminder:!!o.reminder,duration:o.duration}})};
+    });
+  }
+  /* expiry hooked into turn flow: event = "phase" | "turnEnd" | "yourTurnStart" | "reset" */
+  function expire(state,event,markerTTL){
+    const gone=[],markersGone=[];
+    const kill={phase:["phase"],turnEnd:["phase","turn"],yourTurnStart:["phase","turn","untilYourNextTurn"],reset:["phase","turn","untilYourNextTurn","battle"]}[event]||[];
+    state.casts=(state.casts||[]).filter(c=>{const ds=durOf(c);
+      const live=ds.map((d,i)=>d&&!(c.gone||[]).includes(i)?i:-1).filter(i=>i>=0);
+      const dead=live.filter(i=>kill.includes(ds[i]));
+      if(!dead.length)return true;
+      if(dead.length===live.length){gone.push(c);return false}
+      c.gone=[...(c.gone||[]),...dead];return true});
+    Object.entries(state.markers||{}).forEach(([iid,m])=>Object.keys(m).forEach(k=>{const ttl=(markerTTL||{})[k];if(ttl&&kill.includes(ttl)&&m[k]){delete m[k];markersGone.push(k)}}));
+    return{casts:gone,markers:markersGone};
+  }
+  /* Rules of One: commands affecting one unit in the same phase stamp */
+  function commandsOn(iid,state){return (state.casts||[]).filter(c=>c.caster==="army"&&c.target===iid&&IDX.ab[c.ab]&&IDX.ab[c.ab].command)}
+  function castName(c){const ab=IDX.ab[c.ab];if(!ab)return c.ab;if(ab.choose==="one"){const o=(ab.options||[]).find(x=>x.key===c.opt);return ab.name+(o?": "+o.label:"")}return ab.name}
+  return{load,armyAbilities,isWizard,commandsOn,castName,abilitiesOfInst,computeUnit,markersFor,castables,expire,addN,fixDice,norm,keywordsOf,matchFilter,unitOf,nameOf,idx:()=>IDX,data:()=>D};
+})();
+
+</script>
+<script id="parser">
+/* ================= LIST PARSER =================
+   parseList(text, data, tacticNames) → roster. Nothing unrecognised is dropped silently: it lands in warnings[]. */
+const PARSE=(()=>{
+  const norm=s=>String(s||"").toLowerCase().replace(/[’‘`´]/g,"'").replace(/[“”]/g,'"').replace(/[.,]/g,"").replace(/\s+/g," ").trim();
+  function makeFinder(list,aliases){
+    const m={};list.forEach(x=>m[norm(x.name)]=x.id);
+    Object.entries(aliases||{}).forEach(([k,v])=>{if(!m[norm(k)])m[norm(k)]=v});
+    return name=>m[norm(name)]||null;
+  }
+  function parseList(text,D,tactics){
+    const R={name:"",used:null,limit:null,alliance:"",faction:"",formation:null,formationName:"",battlepack:"",drops:null,
+      spellLore:null,manifLore:null,loreNames:{},tactics:[],tacticNames:[],regiments:[],inst:{},order:[],terrain:[],
+      app:"",dataVer:"",warnings:[],errors:[],unsupported:[],ok:true};
+    const lines=String(text||"").replace(/\r/g,"").split("\n").map((t,i)=>({t:t.trim(),n:i+1}));
+    const warn=(l,msg)=>R.warnings.push({line:l?l.t:"",lineNo:l?l.n:0,msg});
+    /* split into blocks on ----- (5+ dashes); regiments inside a block on --- */
+    const blocks=[[]];
+    lines.forEach(l=>{if(/^-{5,}$/.test(l.t))blocks.push([]);else blocks[blocks.length-1].push(l)});
+    const B=blocks.map(b=>b.filter(l=>l.t!==""));
+    if(!B[0].length){R.ok=false;R.errors.push("This doesn't look like an AoS app export: the first line should be the list name and points.");return R}
+    const title=B[0][0],tm=title.t.match(/^(.*?)\s+(\d+)\s*\/\s*(\d+)\s*pts?$/i);
+    if(tm){R.name=tm[1].trim();R.used=+tm[2];R.limit=+tm[3]}else{R.name=title.t;warn(title,"Couldn't read the points on the first line (expected “Name 1990/2000 pts”).")}
+    B[0].slice(1).forEach(l=>warn(l,"Unexpected line before the header block."));
+    const D_U=[...D.units,...D.terrain];
+    const findUnit=makeFinder(D_U,D.aliases),findEnh=makeFinder(D.enhancements,D.aliases),findForm=makeFinder(D.formations,D.aliases),findLore=makeFinder(D.lores,D.aliases);
+    const findTac=makeFinder(tactics.map(t=>({id:t.id,name:t.n})),{});
+    let headerDone=false;
+    const counts={};
+    const addInst=(uid,extra)=>{counts[uid]=(counts[uid]||0)+1;const iid=uid+"#"+counts[uid];R.inst[iid]=Object.assign({iid,uid,enh:[],reinforced:false,general:false},extra);R.order.push(iid);return iid};
+    const isHeader=b=>b.some(l=>/\|/.test(l.t)||/^(Drops|Spell Lore|Manifestation Lore|Prayer Lore|Battle Tactics?)/i.test(l.t));
+    for(let bi=1;bi<B.length;bi++){
+      const b=B[bi];if(!b.length)continue;
+      const first=b[0].t;
+      if(!headerDone&&isHeader(b)){headerDone=true;parseHeader(b);continue}
+      if(/^Created with/i.test(first)){b.forEach(l=>{const m=l.t.match(/App:\s*([^|]+)\|\s*Data:\s*(.+)$/i);if(m){R.app=m[1].trim();R.dataVer=m[2].trim()}});continue}
+      if(/^Faction Terrain$/i.test(first)){b.slice(1).forEach(l=>{const nm=l.t.replace(/\s*\(\d+\)$/,"");const id=findUnit(nm);
+        if(id&&D.terrain.some(t=>t.id===id)){R.terrain.push(addInst(id,{kind:"terrain",regiment:null}))}else warn(l,"Faction terrain not recognised: “"+nm+"”.")});continue}
+      if(/Regiments? of Renown|Auxiliar/i.test(first)){
+        const what=/Renown/i.test(first)?"Regiment of Renown":"Auxiliary unit";
+        b.slice(1).forEach(l=>{if(/^[•·*]/.test(l.t))return;R.unsupported.push({line:l.t,lineNo:l.n,what});warn(l,what+"s are not supported, so this unit is left out.")});continue}
+      /* regiments block */
+      let reg=null;
+      const regChunks=[[]];b.forEach(l=>{if(/^-{3,4}$/.test(l.t))regChunks.push([]);else regChunks[regChunks.length-1].push(l)});
+      regChunks.forEach(ch=>{
+        if(!ch.length)return;
+        let i=0;reg={name:"Regiment",units:[]};
+        if(!/\(\d+\)$/.test(ch[0].t)&&!/^[•·*]/.test(ch[0].t)){reg.name=ch[0].t;i=1}
+        if(/Renown/i.test(reg.name)){ch.slice(i).forEach(l=>{if(!/^[•·*]/.test(l.t)){R.unsupported.push({line:l.t,lineNo:l.n,what:"Regiment of Renown"});warn(l,"Regiments of Renown are not supported, so this unit is left out.")}});return}
+        R.regiments.push(reg);
+        let cur=null;
+        for(;i<ch.length;i++){const l=ch[i],t=l.t;
+          const bm=t.match(/^[•·*]\s*(.+)$/);
+          if(bm){
+            let x=bm[1].replace(/\s*\(\d+\)$/,"").trim();
+            if(!cur){warn(l,"Upgrade line with no unit above it.");continue}
+            if(/^General$/i.test(x)){R.inst[cur].general=true;continue}
+            if(/^Reinforced$/i.test(x)){R.inst[cur].reinforced=true;continue}
+            x=x.replace(/^(Heroic Trait|Artefact|Artefact of Power|Enhancement|[A-Za-z' ]+?)\s*:\s*/i,"");
+            const e=findEnh(x);
+            if(e){R.inst[cur].enh.push(e)}else warn(l,"Enhancement or upgrade not recognised: “"+x+"”.");
+            continue;
+          }
+          const um=t.match(/^(.+?)\s*\((\d+)\)$/);
+          if(um){const id=findUnit(um[1]);
+            if(id&&D.units.some(u=>u.id===id&&u.kind==="unit")){cur=addInst(id,{kind:"unit",pts:+um[2],regiment:R.regiments.length-1,leader:reg.units.length===0,line:l.n});reg.units.push(cur)}
+            else{cur=null;const lg=(D.legends||[]).some(n=>norm(n)===norm(um[1]));warn(l,lg?"“"+um[1]+"” is a Legends warscroll. Legends aren't supported, so this unit is left out.":"Unit not recognised: “"+um[1]+"”. Check the spelling, or it may be from another faction.")}
+            continue;
+          }
+          warn(l,"Line not understood.");
+        }
+      });
+    }
+    if(!headerDone){R.errors.push("No header block found (the lines with the faction, formation and lores).");R.ok=false}
+    function parseHeader(b){
+      b.forEach(l=>{const t=l.t;let m;
+        if(/\|/.test(t)){const p=t.split("|").map(s=>s.trim());R.alliance=(p[0]||"").replace(/^Grand Alliance\s*/i,"");R.faction=p[1]||"";R.formationName=p[2]||"";
+          if(R.formationName){R.formation=findForm(R.formationName);if(!R.formation){const aor=(D.armiesOfRenown||[]).some(n=>norm(n)===norm(R.formationName));warn(l,aor?"“"+R.formationName+"” is an Army of Renown. Armies of Renown aren't supported yet, so its special rules are left out; everything else is shown.":"Battle formation not recognised: “"+R.formationName+"”.")}}}
+        else if((m=t.match(/^Drops:\s*(\d+)/i)))R.drops=+m[1];
+        else if((m=t.match(/^Spell Lore\s*[-–:]\s*(.+)$/i))){R.loreNames.spell=m[1];R.spellLore=findLore(m[1]);if(!R.spellLore)warn(l,"Spell lore not recognised: “"+m[1]+"”.")}
+        else if((m=t.match(/^Manifestation Lore\s*[-–:]\s*(.+)$/i))){R.loreNames.manif=m[1];R.manifLore=findLore(m[1]);if(!R.manifLore)warn(l,"Manifestation lore not recognised: “"+m[1]+"”.")}
+        else if((m=t.match(/^Battle Tactics?(?: Cards?)?\s*:\s*(.+)$/i))){m[1].split(/\s+and\s+|\s*,\s*|\s*&\s*/).filter(Boolean).forEach(n=>{R.tacticNames.push(n);const id=findTac(n);if(id)R.tactics.push(id);else warn(l,"Battle tactic card not recognised: “"+n+"”.")})}
+        else if(/Handbook|Battlepack|Pitched Battle|Matched Play|Spearhead/i.test(t))R.battlepack=t;
+      });
+    }
+    if(R.faction&&norm(R.faction)!==norm(D.faction)){R.ok=false;R.errors.push("This list is "+R.faction+". Only Gloomspite Gitz is supported.")}
+    /* manifestations from the chosen lore */
+    if(R.manifLore){const L=D.lores.find(x=>x.id===R.manifLore);(L.manifestations||[]).forEach(id=>addInst(id,{kind:"manifestation",regiment:null}))}
+    /* points check: trust the export, compare with the data */
+    const U=id=>D_U.find(u=>u.id===id);
+    R.order.forEach(iid=>{const I=R.inst[iid],u=U(I.uid);
+      I.models=u.models*(I.reinforced?2:1);
+      if(I.kind!=="unit")return;
+      if(I.reinforced&&!u.canReinforce)warn({t:u.name,n:I.line},u.name+" can't normally be Reinforced.");
+      const enhPts=I.enh.reduce((t,e)=>t+((D.enhancements.find(x=>x.id===e)||{}).points||0),0);
+      I.dataPts=u.points*(I.reinforced?2:1)+enhPts;I.enhPts=enhPts;
+      I.ptsDiffer=I.pts!==I.dataPts;
+      I.enh.forEach(e=>{const en=D.enhancements.find(x=>x.id===e);if(en&&en.restriction&&en.restriction.keywords&&!en.restriction.keywords.every(k=>[...u.keywords,...u.factionKeywords].includes(k)))warn({t:u.name,n:I.line},en.name+" normally needs "+en.restriction.keywords.join(", ")+".")});
+    });
+    R.sumPts=R.order.reduce((t,iid)=>t+(R.inst[iid].pts||0),0);
+    const gens=R.order.filter(i=>R.inst[i].general);
+    if(R.ok&&!gens.length)warn(null,"No unit is marked • General.");
+    return R;
+  }
+  return{parseList,norm};
+})();
+
+</script>
+<script id="app">
+/* ================= APP: state, lists, turn flow, views ================= */
+const KEY="gitz-companion-v2";
+
+
+/* ---------- phases (v1) and the turn's step order for the stepper ---------- */
+const PH=[
+ {k:"deploy",l:"Deployment",c:"--t-deploy",ic:"spec"},
+ {k:"start",l:"Start of round / turn",s:"Start",c:"--t-start",ic:"spec"},
+ {k:"hero",l:"Hero",c:"--t-hero",ic:"spec"},
+ {k:"move",l:"Movement",c:"--t-move",ic:"move"},
+ {k:"shoot",l:"Shooting",c:"--t-shoot",ic:"shoot"},
+ {k:"charge",l:"Charge",c:"--t-charge",ic:"move"},
+ {k:"combat",l:"Combat",s:"Combat",c:"--t-combat",ic:"off"},
+ {k:"def",l:"Defence",c:"--t-def",ic:"def"},
+ {k:"eot",l:"End of turn",s:"End of turn",c:"--t-eot",ic:"rally"}
+];
+const STEPS=["start","hero","move","shoot","charge","combat","eot"];
+const ICON={
+ spec:'<svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="#fff" stroke-width="2"/><circle cx="10" cy="10" r="2" fill="#fff"/></svg>',
+ move:'<svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h11M10 5l5 5-5 5" fill="none" stroke="#fff" stroke-width="2.2"/></svg>',
+ shoot:'<svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M10 1v6M10 13v6M1 10h6M13 10h6" stroke="#fff" stroke-width="1.8"/></svg>',
+ off:'<svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16 15 5M12 4h4v4M5 12l3 3" fill="none" stroke="#fff" stroke-width="2"/></svg>',
+ def:'<svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 17 5v5c0 4-3 7-7 8-4-1-7-4-7-8V5z" fill="none" stroke="#fff" stroke-width="2"/></svg>',
+ rally:'<svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 18V3M5 3h10l-3 3.5L15 10H5" fill="none" stroke="#fff" stroke-width="2"/></svg>'
+};
+const phaseOf=k=>PH.find(p=>p.k===k);
+const pName=k=>{const p=phaseOf(k);return p?(p.s||p.l):k};
+
+/* ---------- state ---------- */
+const S={view:"army",phase:"hero",turn:"all",q:"",face:"Sc",mf:"Sc",cp:4,fury:1,rage:0,lists:[],active:null,markers:{},casts:[],cur:"start"};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&typeof s==="object")Object.assign(S,s)}catch(e){}
+S.q="";S.ui={paste:"",rename:null,del:null,switchTo:null,msg:null,resetAsk:false,wipe:false};
+S.markers=S.markers||{};S.casts=Array.isArray(S.casts)?S.casts:[];S.lists=Array.isArray(S.lists)?S.lists:[];
+S.g=Object.assign({started:false,over:false,role:"att",bp:0,cards:["blazing","burning"],first:{},sc:{},tac:{},otac:{},seize:{},entreaty:0,log:{},cardsFrom:null},S.g||{});
+S.r=S.r||0;S.side=S.side||"me";S.pending=!!S.pending;S.edit=S.edit||null;S.note=S.note||null;S.hist=Array.isArray(S.hist)?S.hist:[];S.rv=S.rv||null;
+S.mf=S.mf||(S.face==="All"?"Sc":S.face);S.cur=S.cur||"start";
+const LOCAL=["lists","active","view","hist","q","ui","phase","turn"];
+const save=()=>{try{const c={};Object.keys(S).forEach(k=>{if(k!=="ui")c[k]=S[k]});localStorage.setItem(KEY,JSON.stringify(c))}catch(e){}};
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const strip=h=>String(h||"").replace(/<li>/g," · ").replace(/<[^>]+>/g,"").replace(/\s+/g," ").replace(/:\s*·\s*/g,": ").trim();
+let DATA=null,LOADERR="";
+const uid=()=>"l"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const activeList=()=>S.lists.find(l=>l.id===S.active)||null;
+const R=()=>{const l=activeList();return l&&l.parsed&&l.parsed.ok!==false?l.parsed:(l&&l.parsed)||null};
+const UNIT=id=>ENG.idx().unit[id];
+const AB=id=>ENG.idx().ab[id];
+const FACES={G:"Grinnin'",Sc:"Scowlin'",Su:"Sulkin'",C:"Cacklin'",All:"all four faces (Malevolent Moon)"};
+const SHORT={G:"Grinnin'",Sc:"Scowlin'",Su:"Sulkin'",C:"Cacklin'"};
+const NEXTF={G:"Sc",Sc:"Su",Su:"C",C:"G"};
+const realFace=()=>S.face==="All"?S.mf:S.face;
+const ctx=()=>({roster:R(),state:{round:Math.max(1,S.r||1),face:realFace(),moonOut:S.face==="All",markers:S.markers,casts:S.casts,phase:S.cur}});
+const has=uidd=>{const r=R();return !!r&&r.order.some(i=>r.inst[i].uid===uidd)};
+const wsId=iid=>"ws-"+iid.replace(/#/g,"-");
+const instName=iid=>{const r=R();return r&&r.inst[iid]?ENG.nameOf(r.inst[iid]):iid};
+function parse(text){const p=PARSE.parseList(text,DATA,TAC_LIST());label(p);return p}
+/* two of the same warscroll get told apart by model count: Boingrot Bounderz (10) / (5) */
+function label(p){const by={};p.order.forEach(i=>{const u=p.inst[i].uid;(by[u]=by[u]||[]).push(i)});
+  Object.values(by).forEach(l=>{if(l.length<2)return;const ms=l.map(i=>p.inst[i].models),uniq=new Set(ms).size===ms.length;
+    l.forEach((i,n)=>{const I=p.inst[i],nm=(DATA.units.find(u=>u.id===I.uid)||{}).name;I.label=`${nm} (${uniq?I.models:"#"+(n+1)})`})})}
+function prefillTac(){
+  const r=R();if(S.g.started||!r||S.g.cardsFrom===S.active)return;
+  const t=r.tactics.filter(id=>TAC[id]);
+  if(t.length>=2)S.g.cards=[t[0],t[1]];else if(t.length===1)S.g.cards=[t[0],S.g.cards.find(c=>c!==t[0])||Object.keys(TAC).find(k=>k!==t[0])];
+  S.g.cardsFrom=S.active;
+}
+function importList(text){
+  const p=parse(text);
+  if(!p.ok){S.ui.msg={bad:true,t:p.errors.join(" ")+" The list wasn't saved."};return}
+  const l={id:uid(),name:p.name||"Untitled list",rawText:text,parsed:p,importedAt:new Date().toISOString()};
+  S.lists.unshift(l);S.ui.paste="";
+  if(S.g.started){S.ui.msg={bad:false,t:`Imported “${l.name}”. A game is running, so it isn't active yet: use Set active below.`};return}
+  setActive(l.id);
+  S.ui.msg={bad:false,t:`Imported “${l.name}”${p.warnings.length?` with ${p.warnings.length} line${p.warnings.length>1?"s":""} to check`:""}.`};
+}
+function setActive(id){S.active=id;S.markers={};S.casts=[];S.ui.switchTo=null;prefillTac()}
+
+/* ---------- game: battleplans, battle tactics, turn flow (v1, unchanged rules) ---------- */
+const other=s=>s==="me"?"opp":"me";
+const who=s=>s==="me"?"You":"Your opponent";
+const K=(r,s)=>r+"-"+s;
+const ord=k=>{const [r,s]=k.split("-");return +r*2+(S.g.first[r]===s?0:1)};
+const condsFor=r=>BP[S.g.bp].sc.map((c,i)=>Object.assign({i},c)).filter(c=>!c.r||(r>=c.r[0]&&r<=c.r[1]));
+const condLabel=(c,r)=>c.cov?`Control the coveted pair (${r%2?"Golden Lions":"Sun Seekers"}, unless All the Rage changed it)`:c.t;
+function turns(){const a=[];for(let r=1;r<=S.r;r++){const f=S.g.first[r];if(!f)continue;a.push(K(r,f));if(r<S.r||S.side!==f||S.g.over)a.push(K(r,other(f)))}return a}
+function condVP(k){const r=+k.split("-")[0],c=S.g.sc[k]||{};return condsFor(r).reduce((t,x)=>t+(c[x.i]?x.v:0),0)}
+const tacN=(side,k)=>side==="me"?S.g.cards.filter(c=>(S.g.tac[c]||[]).includes(k)).length:(S.g.otac[k]||0);
+const turnVP=k=>condVP(k)+5*tacN(k.split("-")[1],k);
+const total=side=>turns().filter(k=>k.endsWith(side)).reduce((t,k)=>t+turnVP(k),0);
+const tacTotal=side=>turns().filter(k=>k.endsWith(side)).reduce((t,k)=>t+tacN(side,k),0);
+function underdog(){for(let r=S.r;r>=1;r--)if(S.g.seize[r])return{s:other(S.g.seize[r]),why:(S.g.seize[r]==="me"?"you":"your opponent")+" seized the initiative in round "+r};
+  const a=total("me"),b=total("opp");return a<b?{s:"me",why:"fewer victory points"}:b<a?{s:"opp",why:"fewer victory points"}:{s:"",why:"scores are tied"}}
+const doneList=id=>(S.g.tac[id]||[]).slice().sort((a,b)=>ord(a)-ord(b));
+const nextStep=(id,k)=>(S.g.tac[id]||[]).filter(x=>ord(x)<ord(k)).length;
+function result(){const a=total("me"),b=total("opp"),d=a-b;if(d>=5)return"Major victory";if(d<=-5)return"Major loss";if(d>0)return"Minor victory";if(d<0)return"Minor loss";
+  const ta=tacTotal("me"),tb=tacTotal("opp");return ta>tb?"Minor victory (more battle tactics)":ta<tb?"Minor loss (fewer battle tactics)":"Draw"}
+function curKey(){if(!S.g.started||!S.r)return"";if(S.edit&&turns().includes(S.edit))return S.edit;if(S.pending||S.g.over)return K(S.r,other(S.g.first[S.r]));return K(S.r,S.side)}
+function snap(){const c={};Object.keys(S).forEach(k=>{if(!LOCAL.includes(k))c[k]=S[k]});S.hist.push(JSON.stringify(c));if(S.hist.length>30)S.hist.shift()}
+function liveKey(){if(!S.g.started||!S.r)return"";return S.pending||S.g.over?K(S.r,other(S.g.first[S.r])):K(S.r,S.side)}
+function posLabel(){if(!S.g.started)return"setup, before the battle";if(!S.r)return"the start of the battle";if(S.g.over)return"the end of the battle";if(S.pending)return`the end of round ${S.r}`;return`round ${S.r} · ${S.side==="me"?"your":"opponent's"} turn`}
+const shortK=k=>{const [r,s]=k.split("-");return`R${r} · ${s==="me"?"your turn":"opponent's turn"}`};
+const rvR=()=>Math.min(S.rv||S.r||1,Math.max(S.r,1));
+const upTo=(side,R)=>turns().filter(k=>k.endsWith(side)&&+k.split("-")[0]<=R).reduce((t,k)=>t+turnVP(k),0);
+/* expiry: one engine call per turn-flow event; returns the human list of what ended */
+function expireNote(event){
+  const g=ENG.expire(S,event,MARKER_TTL),out=[];
+  if(g.markers.includes("charged"))out.push("charged markers");
+  g.casts.forEach(c=>out.push(ENG.castName(c)+(c.target&&c.caster!=="army"&&c.target!==c.caster?" on "+instName(c.target):c.caster==="army"?" on "+instName(c.target):"")));
+  return[...new Set(out)];
+}
+function setTurnView(){S.turn=S.side==="me"?"your":"enemy";S.phase="start";S.cur="start";S.edit=null;S.rv=null}
+function nextTurn(){
+  snap();const r=S.r,f=S.g.first[r],l=[],ended=K(r,S.side);
+  if(S.side==="me"&&!turnVP(ended))l.push("No victory points were recorded for your turn. Tap it under Game → Round by round if that's wrong.");
+  const cl=expireNote("turnEnd");if(cl.length)l.push("Expired at end of turn: "+cl.join(", ")+".");
+  if(S.side===f){S.side=other(f);if(S.side==="me"){const c2=expireNote("yourTurnStart");if(c2.length)l.push("Expired at the start of your turn: "+c2.join(", ")+".")}
+    setTurnView();S.note={h:`Round ${r} · ${S.side==="me"?"your":"opponent's"} turn`,l}}
+  else if(r>=5){S.g.over=true;S.rage=0;S.edit=null;S.note={h:"Battle over: "+result(),l:[...l,`Final score ${total("me")} – ${total("opp")}.`]};S.view="game"}
+  else{S.pending=true;S.rage=0;l.push("Unspent rage dice are lost.");S.note={h:`Round ${r} is over`,l:[...l,`Roll priority, then pick who takes the first turn of round ${r+1} in the bar.`]}}
+  render();
+}
+function pickFirst(ch){
+  snap();const Rn=S.r+1,l=[];
+  if(Rn>1&&ch===other(S.g.first[Rn-1])){const lead=total(other(ch))-total(ch);
+    if(lead>=11)l.push(`${who(ch)} took the first turn, but the other side leads by ${lead} VP, so it does not count as seizing the initiative.`);
+    else{S.g.seize[Rn]=ch;l.push(`${who(ch)} seized the initiative.${ch==="me"?" You cannot complete battle tactics this turn.":""}`)}}
+  S.r=Rn;S.g.first[Rn]=ch;S.side=ch;S.pending=false;S.rv=null;
+  const ud=underdog();S.cp=4+(ud.s==="me"?1:0);S.rage=S.fury;
+  l.push(`Command points: ${S.cp}${ud.s==="me"?" (4 + 1 as underdog)":""}. Underdog: ${ud.s?(ud.s==="me"?"you":"your opponent"):"none"} (${ud.why}).`);
+  l.push(`Simmering Rage: ${S.rage} rage dice (fury level ${S.fury}).`);
+  let moon=null;
+  if(Rn>1){const from=S.mf;S.mf=NEXTF[from];if(S.face!=="All")S.face=S.mf;moon={from,to:S.mf};l.push(`Faces of the Bad Moon: ${SHORT[from]} → ${SHORT[S.mf]}.`)}
+  else l.push(`The Bad Moon starts at ${SHORT[S.mf]}.`);
+  if(ch==="me"){const c2=expireNote("yourTurnStart");if(c2.length)l.push("Expired at the start of your turn: "+c2.join(", ")+".")}
+  S.g.log=S.g.log||{};S.g.log[Rn]={face:S.mf,cp:S.cp,ud:ud.s};setTurnView();S.note={h:`Round ${Rn} · ${ch==="me"?"your":"opponent's"} turn`,l,moon};render();
+}
+function ctrRow(){
+  const c=(k,lab,dn,up)=>`<div class="ctr"><b>${lab}</b><button data-k="${k}" data-d="-1" aria-label="${dn}">−</button><output>${S[k]}</output><button data-k="${k}" data-d="1" aria-label="${up}">+</button></div>`;
+  return`<div class="ts-ctr">${c("cp","CP","Spend command point","Add command point")}${c("fury","Fury","Fury down","Fury up")}${c("rage","Rage","Spend rage dice","Add rage dice")}</div>`;
+}
+function syncBarH(){const b=document.querySelector(".bar");if(!b)return;const h=getComputedStyle(b).position==="sticky"?b.offsetHeight:0;document.documentElement.style.setProperty("--barh",h+"px")}
+try{new ResizeObserver(syncBarH).observe(document.querySelector(".bar"))}catch(e){addEventListener("resize",syncBarH)}
+function stepPhase(d){
+  const i=STEPS.indexOf(S.cur),j=Math.max(0,Math.min(STEPS.length-1,(i<0?0:i)+d));if(j===i)return;
+  if(d>0){const gone=expireNote("phase");if(gone.length)S.note={h:`${pName(S.cur)} phase over`,l:["Expired: "+gone.join(", ")+"."]}}
+  S.cur=STEPS[j];S.phase=S.cur;render();
+}
+function act(a,w){
+  if(a==="next")nextTurn();
+  else if(a==="first")pickFirst(w);
+  else if(a==="step")stepPhase(+w);
+  else if(a==="goto"){const d=STEPS.indexOf(w)-STEPS.indexOf(S.cur);if(d)stepPhase(d)}
+  else if(a==="undo"&&S.hist.length){const keep={};LOCAL.forEach(k=>keep[k]=S[k]);const u=JSON.parse(S.hist.pop());
+    Object.keys(S).forEach(k=>{if(!LOCAL.includes(k))delete S[k]});Object.assign(S,u,keep);S.q="";S.edit=null;
+    S.note={h:"Stepped back to "+posLabel(),l:["CP, rage, fury, unit buffs and the Bad Moon are back to how they were at that point. Scores you entered after it were removed too.",S.hist.length?`You can step back ${S.hist.length} more time${S.hist.length>1?"s":""}.`:"This is as far back as the history goes."]};render()}
+  else if(a==="now"){S.edit=null;S.rv=null;render()}
+  else if(a==="start"){snap();Object.assign(S.g,{started:true,over:false,first:{},sc:{},tac:{},otac:{},seize:{},entreaty:0,log:{}});S.fury=S.g.role==="att"?1:2;if(S.face!=="All")S.mf=S.face;S.r=0;S.side="me";S.pending=true;S.rage=0;S.cur="start";
+    S.note={h:"Battle started",l:[`Raising the Heat: your fury level is ${S.fury} (${S.g.role==="att"?"attacker":"defender"}).`,`Starting face of the Bad Moon: ${SHORT[S.mf]}. Change it in the bar before round 1 if needed.`,"After deployment, choose who takes the first turn."]};render()}
+  else if(a==="reset-ask"){S.ui.resetAsk=true;S.view="game";render();const bx=document.querySelector(".confirmbox");if(bx)bx.scrollIntoView({block:"start"});const n=document.querySelector('[data-act="reset-no"]');if(n)n.focus({preventScroll:true})}
+  else if(a==="reset-no"){S.ui.resetAsk=false;render()}
+  else if(a==="reset-game"){S.ui.resetAsk=false;snap();S.casts=[];S.rv=null;S.fury=1;Object.assign(S.g,{started:false,over:false,first:{},sc:{},tac:{},otac:{},seize:{},entreaty:0,log:{}});S.r=0;S.side="me";S.pending=false;S.edit=null;ENG.expire(S,"reset",MARKER_TTL);S.markers={};S.cp=4;S.rage=0;S.cur="start";S.view="game";
+    S.note={h:"Game restarted",l:["Scores, rounds, battle tactics, CP, rage, fury and every buff marker are cleared. Your army list is kept.","Pick your role, battleplan and tactic cards below, then press Start battle."]};render();window.scrollTo(0,0)}
+  else if(a==="reset"){wipeAll("Everything was reset. Paste your new army list below to start.");render();window.scrollTo(0,0);const t=document.getElementById("paste");if(t)t.focus({preventScroll:true})}
+  else if(a==="setup"){S.view="game";render();window.scrollTo(0,0)}
+  else if(a==="entreaty"&&S.note&&S.note.moon&&!S.g.entreaty&&has("skragrott")){const m=S.note.moon;S.mf=m.from;if(S.face!=="All")S.face=m.from;S.g.entreaty=S.r;S.note.moon=null;if(S.g.log&&S.g.log[S.r])S.g.log[S.r].face=m.from;S.note.l.push(`The Loonking's Entreaty: the Bad Moon stays at ${SHORT[m.from]}. Used for this battle.`);render()}
+  else if(a==="dismiss"){S.note=null;render()}
+}
+function turnCard(Rn,s){
+  const kk=K(Rn,s),nm=s==="me"?"You":"Opponent",T=turns(),f=S.g.first[Rn];
+  const tags=(f===s?'<span class="tag">1st</span>':'<span class="tag">2nd</span>')+(S.g.seize[Rn]===s?' <span class="tag">seized</span>':"");
+  if(!T.includes(kk))return`<div class="rvc ${s} fut"><h3><span>${nm} ${tags}</span></h3><p class="muted">Not played yet.</p></div>`;
+  const live=kk===liveKey()&&!S.pending&&!S.g.over,c=S.g.sc[kk]||{},items=[];
+  condsFor(Rn).forEach(x=>{if(c[x.i])items.push([x.v,esc(condLabel(x,Rn))])});
+  if(s==="me")S.g.cards.forEach(id=>{const i=doneList(id).indexOf(kk);if(i>=0)items.push([5,`<b>${STEP[i]} · ${esc(TAC[id].s[i][0])}</b> <span class="muted">${esc(TAC[id].n)}</span>`])});
+  else if(S.g.otac[kk])items.push([5*S.g.otac[kk],`${S.g.otac[kk]} battle tactic${S.g.otac[kk]>1?"s":""}`]);
+  return`<div class="rvc ${s}${live?" live":""}"><h3><span>${nm} ${tags}</span>${live?'<span class="tag pri">in progress</span>':""}</h3>
+   ${items.length?`<ul>${items.map(([v,t])=>`<li><span class="pts">+${v}</span><span>${t}</span></li>`).join("")}</ul>`:`<p class="muted">${live?"Nothing scored yet. You score at the end of the turn.":"No points scored."}</p>`}
+   <div class="tot"><span>Turn total: ${turnVP(kk)} VP</span><button class="btn ghost sm" data-edit="${kk===liveKey()?"":kk}">${live?"Score this turn":"Edit score"}</button></div></div>`;
+}
+function roundView(){
+  if(!S.r)return"";
+  const Rn=rvR(),cur=S.r,f=S.g.first[Rn],L=(S.g.log||{})[Rn];
+  let h=`<div class="box wide rv"><div class="rvh">
+    <button class="rvnav" data-rv="${Rn-1}"${Rn<=1?" disabled":""} aria-label="Previous round">◂ ${Rn>1?"Round "+(Rn-1):"Previous"}</button>
+    <h2>Round ${Rn}${Rn===cur?' <span class="tag pri">current</span>':""}</h2>
+    <button class="rvnav" data-rv="${Rn+1}"${Rn>=cur?" disabled":""} aria-label="Next round">${Rn<cur?"Round "+(Rn+1):"Next"} ▸</button></div>`;
+  if(Rn!==cur)h+=`<div class="rvback"><button class="btn sm" data-rv="">Back to the current round (${cur})</button></div>`;
+  if(!f)return h+`<p class="muted">Not started yet.</p></div>`;
+  const meta=[`${who(f)} went first`];
+  if(L){meta.push(`Bad Moon: ${SHORT[L.face]}`);meta.push(`Your CP: ${L.cp}`);meta.push(`Underdog: ${L.ud?(L.ud==="me"?"you":"opponent"):"none"}`)}
+  h+=`<div class="rvmeta">${meta.join(" · ")}</div><div class="rvcols">${[f,other(f)].map(s=>turnCard(Rn,s)).join("")}</div>
+    <div class="rvsum">Score after round ${Rn}: <b>${upTo("me",Rn)} – ${upTo("opp",Rn)}</b></div></div>`;
+  return h;
+}
+function scorePanel(k){
+  const [rs,side]=k.split("-"),Rn=+rs,c=S.g.sc[k]||{},editing=k!==liveKey();
+  let h=(editing?`<div class="editban"><span><b>Fixing a finished turn.</b> The game is still at ${posLabel()}; this only changes the score.</span><button class="btn sm" data-act="now">Return to current turn</button></div>`:"")+`<h2>${side==="me"?"Your":"Opponent's"} score · round ${Rn}</h2><p class="muted">${esc(BP[S.g.bp].n)}: scored at the end of ${side==="me"?"your":"their"} turn.</p>`;
+  h+=condsFor(Rn).map(x=>`<button class="sc" data-sc="${k}|${x.i}" aria-pressed="${!!c[x.i]}"><span class="pts">+${x.v}</span><span>${esc(condLabel(x,Rn))}</span></button>`).join("");
+  if(side==="me"){
+    const blocked=S.g.seize[Rn]==="me";
+    h+=`<h4>Battle tactics${blocked?" · blocked, you seized the initiative":""}</h4>`;
+    h+=S.g.cards.map(id=>{const t=TAC[id],l=S.g.tac[id]||[],here=l.includes(k),n=here?doneList(id).indexOf(k):nextStep(id,k);
+      if(n>=3)return`<button class="sc" disabled><span class="pts">✓</span><span>${esc(t.n)}: all three steps done</span></button>`;
+      return`<button class="sc" data-tac="${k}|${id}" aria-pressed="${here}"${blocked&&!here?" disabled":""}><span class="pts">+5</span><span><b>${STEP[n]} · ${esc(t.s[n][0])}</b><small>${esc(t.n)}</small><small>${esc(t.s[n][1])}</small></span></button>`}).join("");
+    h+=`<p class="muted">One step per card per turn, in order. If you meet a step's conditions, you must complete it.</p>`;
+  }else{
+    const n=S.g.otac[k]||0;
+    h+=`<h4>Battle tactics they completed</h4><div class="seg">${[0,1,2].map(i=>`<button data-otac="${k}|${i}" aria-pressed="${n===i}">${i}${i?` (+${i*5})`:""}</button>`).join("")}</div>`;
+  }
+  return h+`<div class="turnsum">This turn: ${turnVP(k)} VP</div>`;
+}
+function renderGame(){
+  const g=S.g,me=total("me"),op=total("opp"),ud=underdog(),k=curKey(),b=BP[g.bp],T=turns(),dis=g.started?" disabled":"",r=R();
+  const armyLine=!g.started&&r?`<div class="armyline"><span>Army: <b>${esc(activeList().name)}</b> · ${r.sumPts} pts · ${esc(r.formationName||"no formation")}</span><button class="btn ghost sm" data-view="army">Change army</button></div>`:"";
+  const fromList=r&&r.tactics.length?`<p class="muted">Cards prefilled from ${esc(activeList().name)}; change them before you start if needed.</p>`:"";
+  const setup=`<div class="box setup"><h2>Game setup</h2>${armyLine}
+    <label for="g-role">Your role</label><select id="g-role" data-g="role"${dis}><option value="att"${g.role==="att"?" selected":""}>Attacker · fury starts at 1</option><option value="def"${g.role==="def"?" selected":""}>Defender · fury starts at 2</option></select>
+    <label for="g-bp">Battleplan</label><select id="g-bp" data-g="bp"${dis}>${BP.map((x,i)=>`<option value="${i}"${i===g.bp?" selected":""}>${i+1}. ${esc(x.n)}</option>`).join("")}</select>
+    <label for="g-c0">Battle tactic cards</label>${[0,1].map(j=>`<select id="g-c${j}" data-g="card${j}"${dis} aria-label="Battle tactic card ${j+1}">${Object.keys(TAC).map(id=>`<option value="${id}"${g.cards[j]===id?" selected":""}>${esc(TAC[id].n)}</option>`).join("")}</select>`).join("")}
+    ${fromList}<p class="muted">Pick the starting face of the Bad Moon in the bar before you start. Battleplan and cards lock once the battle starts.</p>
+    <div class="btnrow">${g.started?`<button class="btn ghost" data-act="reset-ask">New game (clears everything)…</button>`:`<button class="btn" data-act="start">Start battle</button>`}</div></div>`;
+  const score=`<div class="box"><h2>Score</h2><div class="score-big"><div><span class="lbl">You</span><span class="n">${me}</span></div><span class="vs">–</span><div><span class="lbl">Opponent</span><span class="n">${op}</span></div></div>
+    <ul><li>${g.over?"Result":"If the battle ended now"}: <b>${result()}</b></li><li>Battle tactics completed: you ${tacTotal("me")}, opponent ${tacTotal("opp")} (the tiebreak)</li><li>Underdog: <b>${ud.s?(ud.s==="me"?"you":"opponent"):"none"}</b> (${ud.why})</li><li>Round ${S.r||"–"} of 5${g.entreaty?` · Loonking's Entreaty used in round ${g.entreaty}`:""}</li></ul></div>`;
+  const table=`<div class="box"><h2>Round by round</h2><div class="tbl-wrap"><table class="rt"><thead><tr><th>Round</th><th>You</th><th>Opponent</th></tr></thead><tbody>${[1,2,3,4,5].map(rr=>`<tr><th>${rr}${g.seize[rr]?` <span class="tag" title="${g.seize[rr]==="me"?"You":"Opponent"} seized the initiative">seized</span>`:""}</th>${["me","opp"].map(s=>{const kk=K(rr,s);if(!T.includes(kk))return`<td>–</td>`;const t=tacN(s,kk);return`<td><button data-rv="${rr}" data-top="1" aria-current="${rr===rvR()}" title="Open round ${rr} in the round viewer">${turnVP(kk)}${t?`<small> · ${t} BT</small>`:""}</button>${g.first[rr]===s?' <span class="first">1st</span>':""}</td>`}).join("")}</tr>`).join("")}<tr class="sum"><th>Total</th><td>${me}</td><td>${op}</td></tr></tbody></table></div><p class="muted">Tap a cell to open that round in the viewer above. BT = battle tactics.</p></div>`;
+  const tacs=`<div class="box"><h2>Battle tactics</h2>${g.cards.map(id=>{const t=TAC[id],l=doneList(id);return`<h4>${esc(t.n)} <span class="muted">${l.length}/3</span></h4>${t.set?`<p class="muted" style="margin:0">At the start of the battle, ${t.set[0]}: ${t.set[1]}</p>`:""}<ol class="steps">${t.s.map((s,i)=>`<li class="${l[i]?"isdone":i===l.length&&g.started?"next":""}"><b>${STEP[i]} · ${esc(s[0])}</b>${l[i]?` <span class="done">✓ round ${l[i].split("-")[0]}</span>`:""}<br>${esc(s[1])}</li>`).join("")}</ol>`}).join("")}<p class="muted">5 VP per step, up to one step per card at the end of each of your turns, none in a turn where you seized the initiative.</p></div>`;
+  const plan=`<div class="box"><h2>${esc(b.n)}</h2><h4>Scoring, end of each player's turn</h4><ul>${b.sc.map(x=>`<li><b>${x.v} VP:</b> ${esc(x.t)}${x.r?` <span class="muted">(${x.r[0]===x.r[1]?"round "+x.r[0]+" only":"from round "+x.r[0]})</span>`:""}</li>`).join("")}</ul><h4>Twist</h4><p style="margin:4px 0">${b.tw}</p><p class="muted">5 battle rounds. Win by 5+ VP for a major victory; any smaller lead is a minor victory. Tied scores go to whoever completed more battle tactics.</p></div>`;
+  const cur=k?`<div class="box scorebox">${scorePanel(k)}</div>`:"";
+  const ask=S.ui.resetAsk&&g.started?`<div class="box wide confirmbox" role="alertdialog" aria-labelledby="rs-h"><h2 id="rs-h">Start a new game?</h2><p>The current game (${me} – ${op}) will be cleared. This can't be undone. Choose how much to reset:</p>
+    <div class="rchoices">
+      <div class="rchoice"><h3>Restart the game</h3><p>Keeps your army list${activeList()?` (${esc(activeList().name)})`:""}. Clears the score, rounds, battle tactics, CP, rage, fury and buff markers, then opens Game setup so you can pick a new battleplan.</p><button class="btn" data-act="reset-game">Restart game, keep army</button></div>
+      <div class="rchoice"><h3>Reset everything</h3><p>Clears the game <b>and removes your saved army list${S.lists.length>1?"s ("+S.lists.length+")":""}</b>. You'll paste a new list from the AoS app.</p><button class="btn danger" data-act="reset">Reset everything, new army list</button></div>
+    </div>
+    <div class="btnrow"><button class="btn ghost" data-act="reset-no">Cancel, keep playing</button></div></div>`:"";
+  const pickCard=g.started&&S.pending&&!g.over?`<div class="box wide pickcard"><h2>Round ${S.r+1}: who takes the first turn?</h2><p>${S.r?"Roll off for priority. The winner decides who goes first; the other player is then the underdog if they're behind.":"Finish deployment first. Then tap who takes the first turn of the battle; round 1 starts and your CP and rage dice are set."}</p><div class="btnrow"><button class="btn pick" data-act="first" data-who="me">I go first</button><button class="btn pick" data-act="first" data-who="opp">Opponent goes first</button>${S.hist.length?`<button class="btn ghost" data-act="undo" title="Rewind the game to before the last turn change">◂ Back</button>`:""}</div></div>`:"";
+  const top=g.started&&!S.ui.resetAsk?`<div class="box wide newbar"><div><b>${g.over?"Battle over · "+esc(result()):S.r?"Battle in progress · round "+S.r+" of 5":"Battle started · deployment"}</b><div class="muted">You ${me} – ${op} opponent · ${esc(b.n)}</div></div><button class="btn newgame" data-act="reset-ask"><span aria-hidden="true">↺</span> New game</button></div>`:"";
+  document.getElementById("gameout").innerHTML=ask+pickCard+top+(g.started?"":"")+(g.started?roundView()+score+table+cur+tacs+plan+setup:setup+plan+tacs+score);
+}
+
+/* ---------- ability cards (Phases + warscrolls) built from the roster ---------- */
+const SRC={core:"Core rule",cmd:"Command",fac:"Faction rule",season:"GHB 26-27 season",tac:"Battle tactic",enh:"Enhancement"};
+function moonFaces(ab){const f=new Set();(ab.effects||[]).forEach(e=>(e.when||[]).forEach(w=>{if(w.cond==="moon")w.faces.forEach(x=>f.add(x))}));return f.size?[...f]:null}
+const faceOn=f=>f.includes(realFace())||S.face==="All";
+function cardOf(ab,u){
+  const r=R(),srcKey={warscroll:"unit",faction:"fac",formation:"form",enhancement:"enh",lore:"lore",manifestation:"mlore",core:"core"}[ab.source]||"unit";
+  const lab=srcKey==="form"?(r.formationName||"Battle formation"):srcKey==="lore"?(DATA.lores.find(l=>l.id===r.spellLore)||{}).name:srcKey==="mlore"?(DATA.lores.find(l=>l.id===r.manifLore)||{}).name:SRC[srcKey];
+  const tags=[];if(ab.oncePer)tags.push({"turn-army":"once per turn","round-army":"once per round","battle-army":"once per battle"}[ab.oncePer]);
+  return{id:ab.id,n:ab.name,ph:ab.timing.phase,turn:ab.timing.turn,timing:ab.timing.label,src:srcKey,srcLabel:lab,cost:ab.cost,x:ab.text,tip:ab.tip,kw:(ab.keywords||[]).join(", "),u:u||[],moon:moonFaces(ab)};
+}
+function buildCards(){
+  const r=R(),out=[],byId={};
+  if(!r)return out;
+  const add=(ab,iid)=>{if(!ab||!ab.timing)return;if(!byId[ab.id]){byId[ab.id]=cardOf(ab,[]);out.push(byId[ab.id])}if(iid&&!byId[ab.id].u.includes(iid))byId[ab.id].u.push(iid)};
+  r.order.forEach(iid=>ENG.abilitiesOfInst(r.inst[iid]).forEach(ab=>{if(ab.source!=="manifestation")add(ab,iid)}));
+  [r.spellLore,r.manifLore].forEach(id=>{const L=DATA.lores.find(x=>x.id===id);if(!L)return;
+    L.spells.forEach((sid,i)=>{add(AB(sid));if(L.kind==="manifestation"&&L.manifestations[i]){const m=r.order.find(x=>r.inst[x].uid===L.manifestations[i]);if(m)byId[sid].u.push(m)}})});
+  const insts=r.order.map(i=>r.inst[i]);
+  const reaches=ab=>!(ab.effects||[]).length||(ab.effects||[]).some(e=>!e.target||e.target.kind!=="aura"||insts.some(I=>ENG.matchFilter(I,e.target.filter)));
+  (DATA.armyRules||[]).map(AB).forEach(ab=>{if(ab&&reaches(ab)){add(ab);const c=byId[ab.id];(ab.effects||[]).forEach(e=>{if(e.target&&e.target.kind==="aura")insts.forEach(I=>{if(I.kind==="unit"&&ENG.matchFilter(I,e.target.filter)&&!c.u.includes(I.iid))c.u.push(I.iid)})})}});
+  if(r.formation)(DATA.formations.find(f=>f.id===r.formation)||{abilities:[]}).abilities.map(AB).forEach(ab=>{add(ab);const c=byId[ab.id];(ab.effects||[]).forEach(e=>{if(e.target&&e.target.kind==="aura")insts.forEach(I=>{if(I.kind==="unit"&&ENG.matchFilter(I,e.target.filter)&&!c.u.includes(I.iid))c.u.push(I.iid)})})});
+  const comp=r.order.filter(i=>r.inst[i].kind==="unit").map(i=>ENG.computeUnit(i,ctx()));
+  const need={terrain:r.terrain.length>0,wizard:comp.some(c=>c.powerLevel.val>0),guarded:comp.some(c=>c.keywords.includes("HERO")&&!c.keywords.includes("MONSTER"))};
+  CORE_CARDS.forEach(c=>{if(!c.needs||need[c.needs])out.push(Object.assign({u:[]},c,c.needs==="terrain"?{u:r.terrain.slice()}:{}))});
+  /* wards card, generated */
+  const w=r.order.map(i=>{const c=ENG.computeUnit(i,ctx());if(c.ward.val)return`<li><b>${esc(c.name)}:</b> ${esc(c.ward.val)}${c.ward.why&&c.ward.why!=="Warscroll"?` (${esc(c.ward.why)})`:""}${c.ward.conditional.length?`; ${c.ward.conditional.map(x=>esc(x.val)+" "+esc(x.label)).join(", ")}`:""}</li>`;
+    if(c.ward.conditional.length)return`<li><b>${esc(c.name)}:</b> ${c.ward.conditional.map(x=>esc(x.val)+" with "+esc(x.ability)+" ("+esc(x.label)+")").join(", ")}</li>`;return""}).filter(Boolean);
+  if(w.length)out.push({n:"Wards in your list",ph:"def",turn:"any",timing:"Passive",src:"core",u:[],x:"Only the best ward applies. Right now:<ul>"+w.join("")+"</ul>"});
+  /* battle tactic cards follow the picked cards */
+  S.g.cards.forEach(id=>{const c=TAC[id],dl=doneList(id);
+    if(c.set)out.push({n:c.n+": "+c.set[0],ph:"deploy",turn:"any",timing:"Start of battle, after deployment abilities",src:"tac",u:[],x:c.set[1]});
+    out.push({n:c.n,ph:"eot",turn:"your",timing:"Battle tactic card · 5 VP each step",src:"tac",u:[],x:"Complete in order, one step per turn:<ul>"+c.s.map((s,i)=>`<li><b>${STEP[i]} · ${s[0]}:</b> ${s[1]}${dl[i]?` <span class="done">✓ round ${dl[i].split("-")[0]}</span>`:""}</li>`).join("")+"</ul>"})});
+  return out;
+}
+function card(a){
+  const p=phaseOf(a.ph)||PH[1];
+  const src=a.src==="unit"?"":`<span class="tag">${esc(a.srcLabel||SRC[a.src]||"")}</span>`;
+  const units=(a.u||[]).map(id=>`<a href="#${wsId(id)}" data-jump="${id}">${esc(instName(id))}</a>`).join(" · ");
+  let moonTag="";
+  if(a.moon){const on=faceOn(a.moon);moonTag=`<span class="tag ${on?"on":"off"}">${on?(S.face==="All"&&!a.moon.includes(realFace())?"Near the Moon only":"Active now"):"Not this face"}</span>`}
+  const turnLbl={your:"My turn",enemy:"Enemy turn",any:"Either turn"}[a.turn]||"Either turn";
+  return `<article class="ab${a.moon&&!faceOn(a.moon)?" dim":""}" style="--tc:var(${p.c})">
+   <div class="tb">${ICON[p.ic]}<span>${esc(a.timing)}</span>${a.cost?`<span class="cost">${esc(a.cost)}</span>`:""}</div>
+   <div class="bd"><h3>${esc(a.n)}</h3>
+   <div class="src">${src}<span class="tag">${turnLbl}</span>${moonTag}${units?`<span>${units}</span>`:""}</div>
+   <div class="fx">${a.x}</div>${a.tip?`<div class="tip">${a.tip}</div>`:""}${a.kw?`<div class="kw">KEYWORDS: ${esc(a.kw)}</div>`:""}</div></article>`;
+}
+function matchQ(a,q){return (a.n+" "+a.x+" "+(a.tip||"")+" "+(a.u||[]).map(instName).join(" ")+" "+a.timing).toLowerCase().includes(q)}
+function intro(k){
+  const r=R(),regs=r.regiments.length,comp=r.order.map(i=>ENG.computeUnit(i,ctx()));
+  const wiz=comp.filter(c=>c.powerLevel.val>0&&c.unit.kind==="unit");
+  const terr=r.terrain.map(i=>instName(i));
+  switch(k){
+    case"deploy":return`<ol>${terr.length?`<li>Faction terrain: deploy the <b>${esc(terr.join(", "))}</b> first.</li>`:""}<li>Alternate DEPLOY abilities. You have <b>${r.drops||regs} drop${(r.drops||regs)>1?"s":""}</b> (${r.regiments.map(g=>esc(g.name)).join(", ")}).</li><li>Other deployment abilities (Raising the Heat, then battle tactic picks).</li></ol>`;
+    case"start":return`<ol><li>Priority roll (from round 2). Winner picks who goes first.</li><li>Underdog = fewer victory points.</li><li>Gain <b>4 CP</b> (+1 if underdog). Unspent CP do not carry over.</li><li>Start of round: <b>Faces of the Bad Moon</b> (must), <b>Simmering Rage</b> (must).</li><li>Start of each turn: healing and other start-of-turn abilities below.</li></ol>`;
+    case"hero":return`Casting: 2D6 ≥ casting value. Double 1 = miscast (D3 mortal on caster, no more spells this phase). Each spell once per phase per army unless UNLIMITED. Power level = spells per phase${wiz.length?": <b>"+wiz.map(c=>esc(c.name.replace(/,.*$/,"").replace(/ with .*$/,""))+" "+c.powerLevel.val).join(", ")+"</b>":" (no wizards in this list)"}.`;
+    case"move":return`Each unit gets 1 CORE ability per phase: Normal Move, Run (+D6) or Retreat (D3 mortal).${has("boingrot-bounderz")||has("mangler-squigs")?" Squig units FLY; on Scowlin' or Sulkin' you may use 4 instead of rolling the dice in a squig Move (Lunar Squigs).":""}`;
+    case"shoot":{const rg=[];comp.forEach(c=>c.weapons.filter(w=>w.type==="ranged").forEach(w=>rg.push(`${esc(c.name.replace(/,.*$/,""))}: ${esc(w.name)} ${esc(w.range)}${w.abilities.includes("Shoot in Combat")?" (Shoot in Combat)":""}`)));
+      return`Units that ran or retreated cannot shoot.${rg.length?" Your ranged weapons: "+rg.join("; ")+".":" No ranged weapons in this list."}`}
+    case"charge":return`Charge: 2D6, end within ½" of a visible enemy. Units that ran or retreated cannot charge. Mark charges on each unit's warscroll so charge buffs apply.`;
+    case"combat":return`<ol><li>Non-FIGHT combat abilities first (rampages).</li><li>Alternate FIGHT activations starting with the active player. Pile-in 3".</li></ol>Hit/wound modifiers are capped at +1/−1. Defending: ward rolls come first in the damage sequence and only the best ward applies. Defensive passives also cover shooting.`;
+    case"def":return`Reactions and passives that protect your units in any phase. Ward rolls happen first in the damage sequence; only the best ward applies.`;
+    case"eot":return`<ol><li>End-of-turn abilities.</li><li>Check objective control and score the battleplan.</li><li>Complete up to 1 battle tactic on each card (not if you seized the initiative).</li></ol>`;
+  }
+  return"";
+}
+let CARDS=[];
+function renderPhaseNav(){
+  if(S.phase==="def")S.phase="combat";
+  document.getElementById("phasenav").innerHTML=PH.filter(p=>p.k!=="def").map(p=>{const n=CARDS.filter(a=>a.ph===p.k||(p.k==="combat"&&a.ph==="def")).length;
+    return `<button class="ph" style="background:var(${p.c});--ph:var(${p.c})" data-ph="${p.k}" aria-pressed="${p.k===S.phase&&!S.q}">${p.l}${p.k===S.cur&&S.g.started&&!S.pending&&!S.g.over?" ●":""}<span class="n">${n}</span></button>`}).join("");
+}
+function renderPhases(){
+  renderPhaseNav();
+  const out=document.getElementById("phaseout"),q=S.q.trim().toLowerCase();
+  const tf=a=>S.turn==="all"||a.turn==="any"||a.turn===S.turn;
+  if(q){const hits=CARDS.filter(a=>matchQ(a,q)&&tf(a));
+    out.innerHTML=`<div class="group-h">${hits.length} results for "${esc(S.q)}"</div>`+(hits.length?`<div class="grid">${hits.map(card).join("")}</div>`:`<p class="empty">Nothing matches. Try a unit name or a word like "heal".</p>`);return}
+  const p=phaseOf(S.phase),cmb=S.phase==="combat",list=CARDS.filter(a=>(a.ph===S.phase||(cmb&&a.ph==="def"))&&tf(a));
+  const groups=[["Commands (cost CP)",a=>a.src==="cmd"],["Spells & manifestations",a=>a.src==="lore"||a.src==="mlore"||/^Cast/.test(a.cost||"")],["Your army's abilities",a=>["unit","fac","form","enh"].includes(a.src)&&!/^Cast/.test(a.cost||"")],["Season, tactics & core",a=>["season","tac","core"].includes(a.src)]];
+  const seen=new Set();let html=`<div class="phase-intro" style="--ph:var(${p.c})"><h2>${p.l} phase</h2>${intro(S.phase)}</div>`;
+  if(S.phase==="eot"&&curKey())html+=`<div class="box scorebox inphase">${scorePanel(curKey())}</div>`;
+  const grouped=L=>{let h="";for(const [t,f] of groups){const g=L.filter(a=>!seen.has(a)&&f(a));g.forEach(a=>seen.add(a));if(g.length)h+=`<div class="group-h">${t}</div><div class="grid">${g.map(card).join("")}</div>`}return h};
+  if(cmb){const atk=list.filter(a=>a.ph==="combat"),dfn=list.filter(a=>a.ph==="def");
+    html+=`<div class="split"><section class="col atk" aria-labelledby="h-atk"><h3 id="h-atk" class="colh">Attacking <span>${atk.length}</span></h3>${grouped(atk)||'<p class="empty">Nothing for this turn filter.</p>'}</section>
+      <section class="col dfn" aria-labelledby="h-dfn"><h3 id="h-dfn" class="colh">Defending <span>${dfn.length}</span></h3>${grouped(dfn)||'<p class="empty">Nothing for this turn filter.</p>'}</section></div>`}
+  else html+=grouped(list);
+  if(!list.length)html+=`<p class="empty">Nothing for this turn filter.</p>`;
+  out.innerHTML=html;
+}
+
+/* ---------- CP & Rage ---------- */
+function renderRes(){
+  const r=R(),cmds=CARDS.filter(a=>a.src==="cmd"||/CP/.test(a.cost||""));
+  const insts=r.order.map(i=>r.inst[i]).filter(I=>I.kind==="unit");
+  const moonRows=(DATA.armyRules||[]).map(AB).filter(ab=>ab&&moonFaces(ab)).map(ab=>{
+    const e=ab.effects[0],us=insts.filter(I=>ENG.matchFilter(I,e.target.filter)).map(I=>esc(ENG.nameOf(I)));
+    return`<tr${faceOn(moonFaces(ab))?' class="hl"':""}><td><b>${esc(ab.name)}</b>: ${esc(strip(ab.text))}</td><td>${moonFaces(ab).map(f=>SHORT[f]).join(", ")}</td><td>${us.length?us.join(", "):'<span class="muted">No units</span>'}</td></tr>`}).join("");
+  const comp=r.order.map(i=>ENG.computeUnit(i,ctx())).filter(c=>c.powerLevel.val>0&&c.unit.kind==="unit");
+  const spells=[r.spellLore,r.manifLore].map(id=>DATA.lores.find(x=>x.id===id)).filter(Boolean).flatMap(L=>L.spells.map(AB));
+  const own=c=>c.unit.abilities.map(AB).filter(a=>a&&/^Cast/.test(a.cost||""));
+  const glitzy=r.order.some(i=>r.inst[i].enh.includes("glitzy-bitz-rolla"));
+  const wand=has("skragrott");
+  document.getElementById("resout").innerHTML=`
+  <div class="box"><h2>Command points</h2>
+   <h4>How you get them</h4><ul><li><b>4 CP</b> at the start of every battle round.</li><li><b>+1 CP</b> if you are the underdog (fewer victory points). No underdog while scores are tied.</li><li>Unspent CP are lost at the end of the round.</li></ul>
+   <h4>How you save them</h4><ul>${wand?`<li><b>Babbling Wand:</b> Redeploy costs 0 CP for Moonclan units wholly within 12" of Skragrott.</li>`:""}<li>Each command is usable once per phase by your army; a unit can be affected by only one command per phase (the warscrolls warn you).</li></ul>
+   <div class="tbl-wrap"><table><thead><tr><th>Command</th><th>CP</th><th>When</th></tr></thead><tbody>${cmds.map(c=>`<tr><td>${esc(c.n)}</td><td>${esc((c.cost||"").replace(" CP",""))}</td><td>${esc(c.timing)}</td></tr>`).join("")}</tbody></table></div></div>
+  <div class="box"><h2>Fury &amp; rage dice</h2>
+   <p>The General's Handbook 2026-27 season rule. Your <b>fury level</b> (0-7) sets how many <b>rage dice</b> you get each round.</p>
+   <h4>Fury level goes up</h4><ul><li><b>Raising the Heat</b> (deployment): set to 1 as attacker, 2 as defender.</li><li>Each unmodified 6 your opponent rolls on <b>Eruption of Fury</b> raises <i>your</i> fury by 1 (and yours raises theirs).</li><li>Your opponent's Glitzy Bitz Rolla-type effects can push it too.</li></ul>
+   <h4>Fury level goes down</h4><ul><li>Each rage dice spent on <b>Fight Through the Pain</b> lowers your fury by 1.</li></ul>
+   <h4>Rage dice</h4><ul><li><b>Simmering Rage:</b> at the start of each battle round gain rage dice = fury level. Lost at the end of the round.</li><li><b>Spend on:</b> Eruption of Fury (1-3 dice, end of any turn), Fight Through the Pain (3+ removes 1 damage each)${glitzy?", Glitzy Bitz Rolla (1 dice, start of any turn)":""}.</li></ul>
+   ${glitzy?`<h4>Your Glitzy Bitz Rolla</h4><p>Spending 1 rage forces your opponent's fury up by 1 if theirs is lower than yours. That gives them more rage dice next round, so use it when the +1 to wound decides a fight.</p>`:""}</div>
+  <div class="box"><h2>Bad Moon faces</h2>
+   <div class="tbl-wrap"><table class="moont"><thead><tr><th>Effect</th><th>Faces</th><th>Your units</th></tr></thead><tbody>${moonRows}</tbody></table></div>
+   <p>Order: Grinnin' → Scowlin' → Sulkin' → Cacklin' → Grinnin'.${r.spellLore==="lore-of-the-clammy-dank"?" Change it with <b>Bad Portents</b>.":""}${wand?" Freeze it with <b>The Loonking's Entreaty</b>.":""}${has("malevolent-moon")?" Units wholly within 12\" of the <b>Malevolent Moon</b> get all four faces: mark them on their warscrolls.":""}</p>
+   <p>Current face: <b>${FACES[realFace()]}</b>${S.face==="All"?" · the Malevolent Moon is out":""}.</p></div>
+  <div class="box"><h2>Casting plan</h2>
+   ${comp.length?`<p class="muted">Each wizard casts or unbinds up to its power level per hero phase. Each spell once per phase across the army unless UNLIMITED.</p><ul>${comp.map(c=>`<li><b>${esc(c.name)} (${c.powerLevel.val})</b>: ${[...own(c),...spells].map(a=>`${esc(a.name)} <span class="muted">${esc((a.cost||"").replace("Cast ",""))}</span>`).join(", ")}</li>`).join("")}</ul>`:`<p>No wizards in this list.</p>`}
+   ${r.manifLore?`<p class="muted">Manifestations from ${esc((DATA.lores.find(l=>l.id===r.manifLore)||{}).name)} are summoned with the spells above.</p>`:""}
+   <p class="muted">Keep one wizard's use free in the enemy turn if you expect a key spell: each unbind spends a power-level use.</p></div>`;
+}
+
+/* ---------- warscrolls ---------- */
+const btn=(attrs,label,on,extra)=>`<button class="tg${extra?" "+extra:""}" ${attrs} aria-pressed="${!!on}">${label}</button>`;
+const sup=n=>n>0?" ⁺¹":n<0?" ⁻¹":"";
+function castOf(abId,caster){return S.casts.find(c=>c.ab===abId&&c.caster===caster)}
+function setCast(abId,caster,patch){
+  const ab=AB(abId),army=/-army$/.test(ab.oncePer||"");
+  let c=castOf(abId,caster);
+  if(!c){c={ab:abId,caster,opt:"",target:"",at:stamp()};}
+  Object.assign(c,patch);
+  S.casts=S.casts.filter(x=>!(x.ab===abId&&(x.caster===caster||army)));
+  const needT=ab.choose==="one"?((ab.options.find(o=>o.key===c.opt)||ab.options[0]).target||{}).kind==="pick":((ab.effects.find(e=>e.duration&&e.duration!=="while")||{}).target||{}).kind==="pick";
+  if(ab.choose==="one"?(c.opt||c.target):(c.target||c.on))S.casts.push(c);
+  return needT;
+}
+const stamp=()=>`${S.r}-${S.side}-${S.cur}`;
+function receiverRows(iid){
+  /* every pick ability in the list that could target this unit (v1's receiver view) */
+  const r=R(),rows=[];
+  r.order.forEach(cid=>ENG.castables(cid,ctx()).forEach(({ab,opts})=>{
+    const picks=opts.filter(o=>o.kind==="pick"&&o.targets.includes(iid));if(!picks.length)return;
+    const c=castOf(ab.id,cid),onMe=c&&c.target===iid;
+    const name=ab.name+(r.order.filter(x=>r.inst[x].uid===r.inst[cid].uid).length>1||cid!==iid?"":"");
+    rows.push(`<div class="srow"><span class="slab">${esc(name)}${cid!==iid&&!ab.name.includes(shortN(cid))?`<small> · ${esc(shortN(cid))}</small>`:""}</span>${ab.choose==="one"?btn(`data-rcv="${ab.id}|${cid}||${iid}"`,"None",!onMe)+picks.map(o=>btn(`data-rcv="${ab.id}|${cid}|${o.key}|${iid}"`,esc(o.label),onMe&&c.opt===o.key)).join(""):btn(`data-rcv="${ab.id}|${cid}|${onMe?"":"on"}|${iid}"`,"On this unit",onMe)}</div>`);
+  }));
+  return rows.join("");
+}
+const shortN=iid=>instName(iid).replace(/,.*$/,"").replace(/ with .*$/,"");
+function casterPanels(iid){
+  const r=R(),out=[];
+  ENG.castables(iid,ctx()).forEach(({ab,opts})=>{
+    const c=castOf(ab.id,iid),once=[ab.oncePer?{"turn-army":"once per turn","round-army":"once per round","battle-army":"once per battle"}[ab.oncePer]:"",ab.roll?ab.roll:"",opts.find(o=>o.range)?"target "+opts.find(o=>o.range).range:"",ab.cost||""].filter(Boolean).join(" · ");
+    const used=ab.oncePer&&/-army$/.test(ab.oncePer)&&S.casts.find(x=>x.ab===ab.id&&x.caster!==iid);
+    const anyPick=opts.some(o=>o.kind==="pick");
+    const tgts=[...new Set(opts.flatMap(o=>o.targets))];
+    const sel=anyPick?`<select data-cast="${ab.id}|${iid}" aria-label="${esc(ab.name)} target"><option value="">No target</option>${tgts.map(t=>`<option value="${t}"${c&&c.target===t?" selected":""}>${esc(instName(t))}${t===iid?" (itself)":""}</option>`).join("")}</select>`:"";
+    let body;
+    if(ab.choose==="one")body=(anyPick?"":btn(`data-copt="${ab.id}|${iid}|"`,"None",!c||!c.opt))+opts.map(o=>btn(`data-copt="${ab.id}|${iid}|${o.key}"`,esc(o.label)+(o.reminder?" ·":""),c&&c.opt===o.key,o.reminder?"rem":"")).join("");
+    else if(opts[0].kind==="self"||opts[0].kind==="aura")body=btn(`data-self="${ab.id}|${iid}"`,esc(ab.name)+" used",!!c)+(opts[0].kind==="aura"?`<span class="once">mark the units it reaches with their “${esc(shortN(iid))}” toggle</span>`:"");
+    else body="";
+    out.push(`<div class="srow cast"><span class="slab">${anyPick?"Cast: ":""}${esc(ab.name)}</span>${once?`<span class="once">${esc(once)}${used?` · already used by ${esc(shortN(used.caster))}`:""}</span>`:""}${sel}${body}</div>`);
+  });
+  return out.join("");
+}
+function statusPanel(iid,c){
+  const r=R(),I=r.inst[iid],parts=[];
+  const mks=ENG.markersFor(iid,ctx());
+  if(mks.length)parts.push(`<div class="srow"><span class="slab">Status</span>${mks.map(m=>btn(`data-mk="${esc(m.key)}" data-u="${iid}"`,esc(m.label),(S.markers[iid]||{})[m.key])).join("")}</div>`);
+  parts.push(receiverRows(iid));
+  if(I.kind==="unit"){const cm=ENG.commandsOn(iid,S);
+    const here=cm.filter(x=>x.at===stamp());
+    parts.push(`<div class="srow"><span class="slab">Commands</span>${["cmd-all-out-attack","cmd-all-out-defence"].map(id=>btn(`data-cmd="${id}" data-u="${iid}"`,esc(AB(id).name),cm.some(x=>x.ab===id))).join("")}${here.length>1?`<span class="r1">Rules of One: only one command can affect a unit in each phase. ${here.length} are marked in this phase.</span>`:""}</div>`)}
+  /* army-level abilities you mark per unit (battle formation picks such as Extra Snappy) */
+  if(I.kind==="unit"){const army=ENG.armyAbilities(r).filter(ab=>ab.source!=="core"&&(ab.effects||[]).some(e=>e.duration&&e.duration!=="while"&&e.target&&e.target.kind==="pick"&&ENG.matchFilter(I,e.target.filter)));
+    if(army.length)parts.push(`<div class="srow"><span class="slab">Army abilities</span>${army.map(ab=>btn(`data-cmd="${ab.id}" data-u="${iid}"`,esc(ab.name),S.casts.some(c=>c.caster==="army"&&c.ab===ab.id&&c.target===iid))).join("")}</div>`)}
+  parts.push(casterPanels(iid));
+  const act=c.active.filter(a=>(a.cast||a.cond)&&!a.moon);
+  const notes=c.notes.map(n=>[n.from,n.text]);
+  const rolls=Object.entries(c.rolls).filter(([k,v])=>v&&k!=="hit"&&k!=="wound").map(([k,v])=>[`${v>0?"+":""}${v} to ${k} rolls`,c.rollReasons[k].join(", ")]);
+  const defs=[];if(c.defence.hitAgainst.val)defs.push([`${c.defence.hitAgainst.val} to hit against it`,c.defence.hitAgainst.reasons.join(", ")]);
+  c.defence.hitAgainst.notes.forEach(n=>defs.push([n,""]));
+  const items=[...act.map(a=>[a.name,a.from&&a.srcIid!==iid?"from "+a.from:""]),...rolls,...defs,...notes];
+  parts.push(`<div class="active">${items.length?items.map(([n,x])=>`<span class="buff"><b>${esc(n)}</b> ${esc(x)}</span>`).join(""):`<span class="none">No buffs marked on this unit.</span>`}</div>`);
+  return `<div class="status">${parts.join("")}</div>`;
+}
+function stat(c){
+  const u=c.unit,st=c.stats,man=u.kind==="manifestation";
+  const lunar=!!c.moveAlt,zeal=c.controlScore.val>0,hide=c.defence.rendAgainst.moon,sv=c.rolls.save;
+  const mv=st.move.val,cl=man?"BANISH":"CONTROL",cv=man?(u.banish||"-"):(st.control.val==null?"-":st.control.val);
+  const v=(x,y,val,mod)=>`<text class="sv${String(val).length>3?" long":""}${mod?" mod":""}" x="${x}" y="${y}">${esc(val)}</text>`;
+  const l=(x,y,t,mod)=>`<text class="sl${mod?" mod":""}" x="${x}" y="${y}">${t}</text>`;
+  const d=40.3,i=14.8;
+  return `<div class="stat" role="img" aria-label="Move ${esc(mv)}${lunar?" or "+c.moveAlt.val:""}, Health ${esc(st.health.val)}, Save ${esc(st.save.val)}, ${cl} ${esc(cv)}${zeal?" plus "+c.controlScore.val+" control score":""}">
+  <svg viewBox="0 0 136 136" aria-hidden="true">
+   <circle class="rim" cx="68" cy="68" r="65"/><circle class="ring" cx="68" cy="68" r="59"/>
+   <line class="spoke" x1="${68-i}" y1="${68-i}" x2="${68-d}" y2="${68-d}"/><line class="spoke" x1="${68+i}" y1="${68-i}" x2="${68+d}" y2="${68-d}"/>
+   <line class="spoke" x1="${68-i}" y1="${68+i}" x2="${68-d}" y2="${68+d}"/><line class="spoke" x1="${68+i}" y1="${68+i}" x2="${68+d}" y2="${68+d}"/>
+   <circle class="hub" cx="68" cy="68" r="19"/>
+   <path class="crest" d="M73 56a12 12 0 1 0 0 24a9.5 9.5 0 0 1 0-24z"/>
+   ${v(68,30,mv,st.move.changed)}${l(68,43,lunar?`OR ${esc(c.moveAlt.val)} ☾`:"MOVE",lunar)}
+   ${v(29,66,st.health.val,st.health.changed)}${l(29,79,"HEALTH")}
+   ${v(107,66,st.save.val,hide||sv)}${l(107,79,(hide?"SAVE ☾":"SAVE")+(sv?sup(sv):""),hide||sv)}
+   ${v(68,98,cv)}${l(68,111,zeal?`CTRL +${c.controlScore.val} ☾`:cl,zeal)}
+  </svg></div>`;
+}
+function moonPanel(iid,c){
+  const r=R(),I=r.inst[iid];if(I.kind!=="unit")return"";
+  const fx=(DATA.armyRules||[]).map(AB).filter(ab=>ab&&moonFaces(ab)&&(ab.effects||[]).some(e=>e.target&&ENG.matchFilter(I,e.target.filter)));
+  if(!fx.length)return"";
+  return `<div class="moonfx">${fx.map(ab=>{const on=c.moonActive.includes(ab.id),faces=moonFaces(ab);
+    let gain=esc(strip(ab.text));
+    if(ab.id==="lunar-squigs"){const a=c.moveAlt?c.moveAlt.val:ENG.fixDice(c.stats.move.val,4);gain=a?`Your choice each time it moves: roll ${esc(c.stats.move.val)} as normal, or use 4 for the dice for a fixed <b style="display:inline">${esc(a)}</b>.`:"This unit's Move has no dice, so nothing changes."}
+    if(ab.id==="moonlit-hide")gain="Enemy combat attacks against this unit lose 1 Rend (Rend 2 → 1, Rend 1 → none).";
+    const via=on&&!faces.includes(realFace())?" · Malevolent Moon":"";
+    return `<div class="mfx ${on?"on":"off"}"><span class="st">☾ ${on?"Active":"Inactive"} · ${faces.map(f=>SHORT[f]).join(" / ")}${via}</span><b>${esc(ab.name)}</b>${gain}</div>`}).join("")}</div>`;
+}
+function wtable(c,ranged){
+  const W=c.weapons.filter(w=>(w.type==="ranged")===ranged);if(!W.length)return"";
+  const head=ranged?`<th>Ranged weapons</th><th class="num">Rng</th><th class="num">Atk</th><th class="num">Hit</th><th class="num">Wnd</th><th class="num">Rnd</th><th class="num">Dmg</th>`:`<th>Melee weapons</th><th class="num">Atk</th><th class="num">Hit</th><th class="num">Wnd</th><th class="num">Rnd</th><th class="num">Dmg</th>`;
+  const cell=(fld,roll)=>`<td class="num${fld.changed||roll?" up":""}">${esc(fld.val)}${roll?sup(roll):""}</td>`;
+  return `<div class="wt"><table><thead><tr>${head}</tr></thead><tbody>${W.map(w=>`<tr><td class="n">${esc(w.name)}${w.abilities.length?`<span class="wa${w.added.length?" up":""}">${esc(w.abilities.join(", "))}</span>`:""}${w.reasons.length?`<span class="why">▲ ${esc(w.reasons.join(", "))}</span>`:""}</td>${ranged?`<td class="num">${esc(w.range)}</td>`:""}${cell(w.f.attacks)}${cell(w.f.hit,w.roll.hit)}${cell(w.f.wound,w.roll.wound)}${cell(w.f.rend)}${cell(w.f.damage)}</tr>`).join("")}</tbody></table></div>`;
+}
+function wardBadge(c){
+  const w=c.ward;if(!w.val&&!w.conditional.length)return"";
+  const on=!!w.val;
+  let sub="",note="";
+  if(on&&w.why&&w.why!=="Warscroll"){const m=w.why.match(/\(([^)]+)\)$/);sub=m?m[1]:w.why}
+  const others=w.conditional.filter(x=>x.val!==w.val||!on);
+  if(c.uid==="gobbapalooza")note="4+ / 5+ / 6+ by round";
+  else if(!on)note="Only with "+w.conditional.map(x=>x.ability+" ("+x.label+")").join(" or ");
+  else if(others.length&&w.why==="Warscroll")note=others.map(x=>x.val+" with "+x.label).join(", ");
+  return `<div class="wardwrap"><div class="wardb${on?"":" off"}" role="img" aria-label="${on?"Ward "+esc(w.val)+(sub?", "+esc(sub):""):"No ward now. "+esc(note)}">
+   <svg viewBox="0 0 80 92" aria-hidden="true"><path d="M40 3 75 15v28c0 22-15 38-35 46C20 81 5 65 5 43V15z"/></svg>
+   <span class="wv">${on?esc(w.val):"–"}</span><span class="wl">WARD</span>${sub?`<span class="ws2">${esc(sub)}</span>`:""}</div>${note?`<span class="wnote">${esc(note)}</span>`:""}</div>`;
+}
+function kwLine(c){
+  const u=c.unit,k=u.keywords.map(x=>x==="WIZARD"?`WIZARD (${c.powerLevel.val||u.powerLevel})`:x);
+  if(c.powerLevel.val&&!u.keywords.includes("WIZARD"))k.push(`WIZARD (${c.powerLevel.val})*`);
+  if(c.ward.base)k.push(`WARD (${c.ward.base})`);
+  return k.join(", ")+" · "+u.factionKeywords.join(", ");
+}
+function wsOrder(){const r=R(),rank={unit:0,terrain:1,manifestation:2};return r.order.slice().sort((a,b)=>rank[r.inst[a].kind]-rank[r.inst[b].kind]||r.order.indexOf(a)-r.order.indexOf(b))}
+function buffed(c){return c.active.some(a=>a.cast||(a.cond&&!a.moon))}
+function renderWS(){
+  const r=R(),ids=wsOrder(),comp={};ids.forEach(i=>comp[i]=ENG.computeUnit(i,ctx()));
+  document.getElementById("toc").innerHTML=`<button class="tg clr" data-clear="turnEnd" title="Clears charges and effects that last for the turn">End of my turn</button><button class="tg clr" data-clear="yourTurnStart" title="Also clears effects that last until the start of your next turn">Start of my turn</button>`+ids.map(i=>`<a href="#${wsId(i)}" data-jump="${i}">${buffed(comp[i])?"● ":""}${esc(comp[i].name.replace(/,.*$/,"").replace(/ with .*$/,""))}${r.inst[i].label?esc(r.inst[i].label.replace(/^.*?(\s\([^)]*\))$/,"$1")):""}</a>`).join("");
+  const note=S.face==="All"?`<div class="allnote"><b>Malevolent Moon is out.</b> All four faces apply only to units marked “Wholly within 12" of the Malevolent Moon”. Every other unit uses the real face of the Bad Moon (${SHORT[S.mf]}).</div>`:"";
+  document.getElementById("wsout").innerHTML=note+ids.map(iid=>{
+    const I=r.inst[iid],c=comp[iid],u=c.unit;
+    const abs=[...ENG.abilitiesOfInst(I).filter(a=>a.source!=="manifestation"||u.kind==="manifestation")];
+    if(r.formation)(DATA.formations.find(f=>f.id===r.formation)||{abilities:[]}).abilities.map(AB).forEach(ab=>{if((ab.effects||[]).some(e=>e.target&&e.target.kind==="aura"&&ENG.matchFilter(I,e.target.filter)))abs.push(ab)});
+    const reg=I.regiment!=null?r.regiments[I.regiment]:null;
+    const kick=I.kind==="unit"?[reg?reg.name+(I.leader?" leader":""):"",I.general?"General":"",`${I.reinforced?"Reinforced, ":""}${I.models} model${I.models>1?"s":""}`,I.pts?I.pts+" pts":""].filter(Boolean).join(" · "):I.kind==="terrain"?"Faction terrain":`Manifestation · ${esc((abs.find(a=>/^Cast/.test(a.cost||""))||{}).cost||"")} · Banish ${esc(u.banish||"-")}`;
+    const enh=I.enh.map(e=>{const en=DATA.enhancements.find(x=>x.id===e);return`<b>${esc(en.name)}</b> (+${en.points}): ${esc(strip(AB(en.ability).text))}`}).join(" ");
+    const parts=u.name.split(/, | with /),nm=parts[0],subt=parts[1]?(u.name.includes(" with ")?"with ":"")+parts[1]:"";
+    return `<article class="ws" id="${wsId(iid)}"><div class="ws-head"><div class="statgrp">${stat(c)}${wardBadge(c)}</div><div style="min-width:0">
+      <div class="ws-kicker">Gloomspite Gitz ${I.kind==="unit"?"warscroll":I.kind}</div><h2>${esc(nm)}</h2>${subt?`<div style="font:600 16px var(--display)">${esc(subt)}</div>`:""}
+      <div class="meta">${kick}</div></div></div>
+      <div class="ws-body">${statusPanel(iid,c)}${moonPanel(iid,c)}${enh?`<div class="enh">${enh}</div>`:""}${wtable(c,true)}${wtable(c,false)}
+      ${u.notes?`<p style="margin:0;font-size:14.5px">${esc(u.notes)}</p>`:""}
+      <div class="grid">${abs.map(a=>card(cardOf(a,[]))).join("")}</div>
+      <div class="kwbar"><b>KEYWORDS</b> ${esc(kwLine(c))}</div></div></article>`}).join("");
+}
+
+/* ---------- army tab ---------- */
+function unitRow(iid){
+  const r=R(),I=r.inst[iid],u=UNIT(I.uid),c=ENG.computeUnit(iid,ctx()),s=c.stats;
+  const tags=(I.leader?'<span class="tag">Leader</span>':"")+(I.general?'<span class="tag pri">General</span>':"")+(I.reinforced?'<span class="tag">Reinforced</span>':"");
+  const ward=c.ward.val?`<span class="uw" title="${esc(c.ward.why)}">Ward ${esc(c.ward.val)}${c.ward.why&&c.ward.why!=="Warscroll"?" · "+esc(c.ward.why.replace(/^.*\((.*)\)$/,"$1")):""}</span>`:c.ward.conditional.length?`<span class="uwc" title="Only with ${esc(c.ward.conditional.map(x=>x.label).join(", "))}">Ward ${esc(c.ward.conditional[0].val)} with ${esc(c.ward.conditional[0].ability)} ${esc(c.ward.conditional[0].label.replace(/ · /," "))}</span>`:"";
+  const pw=c.powerLevel.val?`<span>Wizard (${c.powerLevel.val})</span>`:"";
+  const enh=I.enh.map(e=>{const en=DATA.enhancements.find(x=>x.id===e),ab=AB(en.ability);
+    return`<li><b>${esc(en.name)}</b> <span class="tag">${esc(en.kind==="other"?en.table:en.kind)}</span> <span class="muted">+${en.points} pts · ${esc(strip(ab&&ab.text))}</span></li>`}).join("");
+  const diff=I.ptsDiffer?`<div class="pdiff" title="Data checked on ${esc(DATA.checkedOn)}">data: ${I.dataPts}</div>`:"";
+  return`<div class="urow"><div class="un"><a href="#${wsId(iid)}" data-jump="${iid}">${esc(u.name)}</a>${tags}
+    <div class="ust"><span>${I.models} model${I.models>1?"s":""}</span><span>M ${esc(s.move.val)}</span><span>H ${esc(s.health.val)}</span><span>Sv ${esc(s.save.val)}</span><span>C ${esc(s.control.val)}</span>${pw}${ward}</div>
+    ${enh?`<ul class="upg">${enh}</ul>`:""}</div><div class="upts">${I.pts}${diff}</div></div>`;
+}
+const fmtDate=s=>{try{return new Date(s+(s.length===10?"T12:00:00":"")).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"})}catch(e){return s}};
+function warnBox(r){
+  if(!r)return"";
+  let h="";
+  if(r.errors.length)h+=`<div class="warn bad" role="alert"><h3>This list can't be used</h3><ul>${r.errors.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>`;
+  if(r.warnings.length)h+=`<div class="warn"><h3>${r.warnings.length} line${r.warnings.length>1?"s":""} not recognised</h3><p class="muted">Everything else in the list is shown below. Fix the line in the AoS app and re-import, or ignore it.</p><ul>${r.warnings.map(w=>`<li>${w.lineNo?`<span class="ln">line ${w.lineNo}</span>`:""}${w.line?`<code>${esc(w.line)}</code> `:""}${esc(w.msg)}</li>`).join("")}</ul></div>`;
+  const diffs=r.order.filter(i=>r.inst[i].ptsDiffer),totalOff=r.used!=null&&r.used!==r.sumPts;
+  if(diffs.length||totalOff)h+=`<div class="note-soft">Points differ from the data (checked on ${esc(fmtDate(DATA.checkedOn))}): ${diffs.map(i=>`${esc(UNIT(r.inst[i].uid).name)} ${r.inst[i].pts} in the export, ${r.inst[i].dataPts} in the data`).join("; ")}${totalOff?`${diffs.length?"; ":""}header says ${r.used}, units add up to ${r.sumPts}`:""}. The export's points are used.</div>`;
+  return h;
+}
+function armySummary(){
+  const r=R(),L=activeList();
+  if(!r)return`<div class="box empty-state">${S.ui.msg&&!S.ui.msg.bad&&/reset|removed/.test(S.ui.msg.t)?`<p class="resetok" role="status">✓ ${esc(S.ui.msg.t.split(".")[0])}.</p>`:""}<h2>No army list loaded</h2><p>Paste an army list exported from the Warhammer Age of Sigmar app in the box below to get started. Your lists and games are saved only in this browser, nobody else can see them. <button class="linkbtn plain" data-view="about">What does this page do?</button></p></div>`;
+  if(!r.ok&&!r.order.length)return warnBox(r);
+  const units=r.order.filter(i=>r.inst[i].kind==="unit"),comp=units.map(i=>ENG.computeUnit(i,ctx()));
+  const models=units.reduce((t,i)=>t+r.inst[i].models,0),health=comp.reduce((t,c)=>t+c.models*(+c.stats.health.val||0),0);
+  const wiz=comp.filter(c=>c.powerLevel.val>0),heroes=comp.filter(c=>c.keywords.includes("HERO"));
+  const lim=r.limit||2000,pct=Math.min(100,r.sumPts/lim*100),over=r.sumPts>lim;
+  const lore=id=>{if(!id)return"";const l=DATA.lores.find(x=>x.id===id);return`${esc(l.name)}: ${l.spells.map(s=>esc(AB(s).name.replace(/^Summon /,""))).join(", ")}`};
+  const tac=r.tactics.map(id=>esc(TAC[id].n)).join(" · ")||"none in the export";
+  const terr=r.terrain.map(i=>`<a href="#${wsId(i)}" data-jump="${i}">${esc(instName(i))}</a>`).join(", ")||"none";
+  const regs=r.regiments.map(g=>{const tot=g.units.reduce((t,i)=>t+r.inst[i].pts,0);
+    return`<section class="reg"><div class="regh"><h3>${esc(g.name)}</h3><span class="regpts">${tot} pts</span></div>${g.units.map(unitRow).join("")}</section>`}).join("");
+  const U=S.ui;
+  const bar=`<div class="box armybar" aria-label="Army list actions"><span class="lab">Army list</span>
+    <button class="btn" data-ui="newlist">Import a new list</button>
+    <button class="btn ghost" data-ui="del" data-id="${L.id}" data-where="top">Delete this list…</button>
+    <button class="btn ghost warnt" data-ui="wipe" data-where="top">Reset everything…</button>
+    ${U.del===L.id&&U.where==="top"?`<div class="confirm" role="alert"><span>Delete <b>${esc(L.name)}</b>?${S.g.started?" The running game's buff markers are cleared too.":""} This can't be undone.</span><span class="lbtns"><button class="btn sm danger" data-ui="del-yes" data-id="${L.id}">Delete list</button><button class="btn ghost sm" data-ui="del-no">Keep it</button></span></div>`:""}
+    ${U.wipe&&U.where==="top"?`<div class="confirm" role="alert"><span><b>Reset everything?</b> Removes every saved list and the current game. You'll start with an empty page. This can't be undone.</span><span class="lbtns"><button class="btn sm danger" data-ui="wipe-yes">Reset everything</button><button class="btn ghost sm" data-ui="wipe-no">Cancel</button></span></div>`:""}</div>`;
+  return bar+warnBox(r)+`<div class="box armyh"><div class="armyt"><div><div class="ws-kicker">${esc(L.name)}</div><h2>${esc(r.formationName||"No battle formation")}</h2>
+      <div class="muted">${esc(["Grand Alliance "+(r.alliance||"?"),r.faction,r.battlepack].filter(Boolean).join(" · "))}</div></div>
+      <div class="ptsbig${over?" over":""}"><b>${r.sumPts}</b><span>/ ${lim} pts</span></div></div>
+    <div class="ptsbar${over?" over":""}" role="img" aria-label="${r.sumPts} of ${lim} points used"><i style="width:${pct}%"></i></div>
+    ${over?`<p class="overmsg">${r.sumPts-lim} points over the ${lim}-point limit.</p>`:`<p class="muted" style="margin:-4px 0 10px">${lim-r.sumPts} points left.</p>`}
+    <dl class="facts"><div><dt>Drops</dt><dd>${r.drops??"–"}</dd></div><div><dt>Units</dt><dd>${units.length}</dd></div><div><dt>Models</dt><dd>${models}</dd></div><div><dt>Total health</dt><dd>${health}</dd></div><div><dt>Wizards</dt><dd>${wiz.length} · power ${wiz.reduce((t,c)=>t+c.powerLevel.val,0)}</dd></div><div><dt>Heroes</dt><dd>${heroes.length}</dd></div></dl>
+    <dl class="facts wide2"><div><dt>Spell lore</dt><dd>${lore(r.spellLore)||"none"}</dd></div><div><dt>Manifestation lore</dt><dd>${lore(r.manifLore)||"none"}</dd></div><div><dt>Battle tactic cards</dt><dd>${tac}</dd></div><div><dt>Faction terrain</dt><dd>${terr}</dd></div></dl>
+    <p class="muted dat">Exported with the AoS app ${esc(r.app||"?")} (data ${esc(r.dataVer||"?")}) · rules data checked ${esc(fmtDate(DATA.checkedOn))}</p>
+  </div><div class="regs">${regs}</div>
+  <details class="box exp"><summary>Original export text</summary><pre id="exptext">${esc(L.rawText)}</pre><button class="btn sm" data-ui="copylist">Copy list</button><span class="muted" id="copied" aria-live="polite"></span></details>`;
+}
+function listsBox(){
+  const U=S.ui;
+  const rows=S.lists.map(l=>{const p=l.parsed,on=l.id===S.active;
+    if(U.rename===l.id)return`<li class="lrow on-edit"><form data-form="rename" data-id="${l.id}" class="rnf"><label class="sr" for="rn-${l.id}">List name</label><input id="rn-${l.id}" value="${esc(l.name)}" maxlength="60"><button class="btn sm">Save</button><button type="button" class="btn ghost sm" data-ui="rename-cancel">Cancel</button></form></li>`;
+    if(U.del===l.id&&U.where!=="top")return`<li class="lrow confirm"><span>Delete <b>${esc(l.name)}</b>? This can't be undone.</span><span class="lbtns"><button class="btn sm danger" data-ui="del-yes" data-id="${l.id}">Delete</button><button class="btn ghost sm" data-ui="del-no">Keep it</button></span></li>`;
+    if(U.switchTo===l.id)return`<li class="lrow confirm"><span>A game is running. Its buff markers belong to the current list's units and will be cleared. Switch to <b>${esc(l.name)}</b>?</span><span class="lbtns"><button class="btn sm" data-ui="switch-yes" data-id="${l.id}">Switch list</button><button class="btn ghost sm" data-ui="switch-no">Stay</button></span></li>`;
+    const meta=[p?`${p.sumPts} pts`:"",p&&p.formationName,p&&p.warnings.length?`${p.warnings.length} to check`:"",`imported ${fmtDate(l.importedAt.slice(0,10))}`].filter(Boolean).join(" · ");
+    return`<li class="lrow${on?" active":""}"><div class="lmain"><b>${esc(l.name)}</b>${on?' <span class="tag pri">Active</span>':""}<div class="muted">${esc(meta)}</div></div>
+      <span class="lbtns">${on?"":`<button class="btn sm" data-ui="activate" data-id="${l.id}">Set active</button>`}<button class="btn ghost sm" data-ui="rename" data-id="${l.id}">Rename</button><button class="btn ghost sm" data-ui="del" data-id="${l.id}">Delete</button></span></li>`}).join("");
+  return`<div class="box lists"><h2>Your lists</h2>
+    ${S.lists.length?`<ul class="lrows">${rows}</ul>`:`<p class="muted">No saved lists yet.</p>`}
+    <form data-form="import" class="paste"><label for="paste">Add a list</label>
+      <p class="muted">In the AoS app, open the list, choose <b>Export list</b> and copy the text, then paste it here.</p>
+      <textarea id="paste" rows="7" placeholder="Paste the exported list text here">${esc(U.paste)}</textarea>
+      <div class="btnrow"><button class="btn" type="submit">Import list</button>${U.msg?`<span class="imsg${U.msg.bad?" bad":""}" role="status">${esc(U.msg.t)}</span>`:""}</div></form>
+    <div class="wipe">${U.wipe&&U.where!=="top"?`<div class="lrow confirm"><span><b>Remove every saved list and the current game?</b> This can't be undone. You'll start with an empty page and can paste a new list.</span><span class="lbtns"><button class="btn sm danger" data-ui="wipe-yes">Remove everything</button><button class="btn ghost sm" data-ui="wipe-no">Cancel</button></span></div>`:`<p class="muted">Lists are saved in this browser only. <button class="linkbtn" data-ui="wipe">Remove all lists and start fresh…</button></p>`}</div></div>`;
+}
+function renderArmy(){document.getElementById("armyout").innerHTML=`<div class="army">${armySummary()}${listsBox()}</div>`}
+
+/* ---------- bar, header, render ---------- */
+function renderAbout(){
+  const n=DATA?DATA.units.filter(u=>u.kind==="unit").length:0,checked=DATA?fmtDate(DATA.checkedOn):"–";
+  document.getElementById("aboutout").innerHTML=`<div class="about">
+  <div class="box lead"><div class="ws-kicker">About · version 1.0</div><h2>Gitz Companion</h2>
+    <p>A free, unofficial battle companion for <b>Warhammer Age of Sigmar 4th edition Gloomspite Gitz</b> players, for matched play games of any size under the General's Handbook 2026-27. The points limit comes from your list. Paste the list you exported from the official AoS app, and it builds your warscrolls, abilities by phase and a game tracker. When you mark a buff (a charge, a spell, a command), every changed number is recalculated and highlighted.</p>
+    <div class="btnrow"><button class="btn" data-view="army">Go to Army</button><button class="btn ghost" data-view="game">Go to Game</button></div></div>
+  <div class="box"><h2>How to use it</h2><ol>
+    <li><b>Army:</b> in the AoS app, open your list, choose Export list, copy the text and paste it here. You can keep several lists and pick the active one.</li>
+    <li><b>Game:</b> pick your role, battleplan and battle tactic cards (prefilled from your list), then Start battle and choose who goes first.</li>
+    <li><b>During a turn:</b> follow the phase track in the pinned bar, mark charges, spells and commands on the <b>Warscrolls</b> tab, and score at <b>End of turn</b>. Buffs expire by themselves when their phase or turn ends.</li>
+    <li><b>Phases</b> lists every ability you can use in each phase; <b>CP &amp; Rage</b> explains command points, fury, rage dice, the Bad Moon and your casting plan.</li>
+    <li><b>New game</b> (Game tab) restarts the game and keeps your army, or resets everything for a new list.</li></ol></div>
+  <div class="box yes"><h2>What it covers</h2><ul>
+    <li>All ${n} current Gloomspite Gitz warscrolls, plus the 4 Dank Manifestations and the Bad Moon Loonshrine</li>
+    <li>All 6 battle formations, 9 enhancements, 4 spell and manifestation lores, and the Bad Moon faces, including the Malevolent Moon</li>
+    <li>Buffs applied with the core rules: hit and wound modifiers capped at +1/−1, Companion weapons, best ward only, Rules of One warnings</li>
+    <li>The 12 General's Handbook 2026-27 battleplans and 6 battle tactic cards, scoring, underdog, CP, fury and rage dice, and undo</li></ul></div>
+  <div class="box no"><h2>Not supported</h2><ul>
+    <li>Other factions, and allied units from other factions</li>
+    <li>Legends warscrolls, Regiments of Renown and Armies of Renown (Da King's Gitz, Droggz's Gitmob, Trugg's Troggherd). They show a clear message, and the rest of the list still works.</li>
+    <li>Lists from New Recruit or other builders: AoS app exports only</li>
+    <li>Building or editing lists here: change the list in the AoS app and paste it again</li>
+    <li>Your opponent's army, and effects you put on enemy units (shown as reminders only)</li>
+    <li>Damage tracking and dice rolling: you mark states such as "10+ damage" yourself</li>
+    <li>Syncing between devices or sharing a game with your opponent</li></ul></div>
+  <div class="box"><h2>Your data</h2><p>Your lists and games are saved <b>only in this browser</b>, on this device. Nothing is sent anywhere, and nobody else who opens this page can see them. Clearing site data, or using a private window, starts from empty.</p></div>
+  <div class="box"><h2>Rules data</h2><dl><dt>Checked</dt><dd>${esc(checked)}</dd><dt>Season</dt><dd>General's Handbook 2026-27 and the battlescroll current on that date</dd><dt>Numbers</dt><dd>From the community BSData project, cross-checked against Wahapedia</dd><dt>Text</dt><dd>Paraphrased in our own words, so wording differs from the official warscrolls</dd></dl>
+    <p>Points or rules can change after a new battlescroll. If your imported list's points differ from the data, the Army tab tells you and uses your list's points. <b>When in doubt, the official warscroll wins.</b></p></div>
+  <div class="box"><h2>Unofficial</h2><p>A non-commercial fan project. It is not affiliated with, endorsed by or connected to Games Workshop. Warhammer, Age of Sigmar, Gloomspite Gitz and related names are trademarks of Games Workshop Ltd. No Games Workshop artwork, logos or rules text are reproduced.</p></div>
+  </div>`;
+}
+function renderHeader(){
+  const r=R(),L=activeList();
+  const lore=id=>id?DATA.lores.find(x=>x.id===id).name:"";
+  document.getElementById("hdr-sub").textContent=r?["Gloomspite Gitz",r.formationName||"No formation",r.battlepack,lore(r.spellLore),lore(r.manifLore)].filter(Boolean).join(" · "):"No list loaded";
+  document.getElementById("hdr-list").innerHTML=r?`<b>${esc(L.name)}</b> · ${r.sumPts}${r.limit?" / "+r.limit:""} pts${r.drops?" · "+r.drops+" drops":""}<br><span>${esc(BP[S.g.bp].n)} · ${S.g.cards.map(c=>esc(TAC[c].n)).join(" · ")}</span>`:"";
+}
+function renderBar(){
+  document.querySelectorAll(".face").forEach(b=>b.setAttribute("aria-pressed",b.dataset.face===S.face));
+  const allBtn=document.querySelector(".face.all");if(allBtn)allBtn.hidden=!(DATA&&has("malevolent-moon"));
+  document.querySelectorAll(".views button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.view===S.view));
+  document.querySelectorAll(".seg button[data-turn]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.turn===S.turn));
+  ["cp","fury","rage"].forEach(k=>document.getElementById("o-"+k).textContent=S[k]);
+  ["game","army","phases","res","ws","about"].forEach(v=>document.getElementById("view-"+v).hidden=S.view!==v);
+  const ab=document.querySelector(".aboutbtn");if(ab)ab.setAttribute("aria-pressed",S.view==="about");
+  document.getElementById("foot-date").textContent=DATA?fmtDate(DATA.checkedOn):"–";
+  const back=S.hist.length?`<button class="ts-btn ghost sm" data-act="undo" aria-label="Back: rewind to before the last turn change" title="Rewind the game to before the last turn change. Restores CP, rage, buffs and the Bad Moon.">◂<span class="lg-only"> Back</span></button>`:"";
+  const pill=S.edit&&S.edit!==liveKey()?`<button class="ts-btn warn sm" data-act="now" title="You are fixing the score of a finished turn">Editing ${shortK(S.edit)} · return to now</button>`:S.rv&&S.rv!==S.r?`<button class="ts-btn warn sm" data-act="now">Viewing round ${S.rv} · return to now</button>`:"";
+  let h;
+  if(!S.g.started)h=`<div class="ts-top">${back}<span class="ts-lab"><b>Pre-battle</b><span class="ts-hint">Pick battleplan and tactics, then start.</span></span><button class="ts-btn ts-end" data-act="setup">Set up game ▸</button></div>`;
+  else if(S.g.over)h=`<div class="ts-top">${back}<span class="ts-lab"><b>Battle over</b><span class="ts-vp">VP ${total("me")}–${total("opp")}</span></span>${pill}<button class="ts-btn ts-end" data-act="reset-ask">New game…</button></div>`;
+  else if(S.pending)h=`<div class="ts-pick" role="group" aria-labelledby="pick-h"><div class="pick-q">${back}<span><b id="pick-h">Round ${S.r+1} · Who takes the first turn?</b><span class="pick-hint">${S.r?"Roll off for priority; the winner chooses.":"Finish deploying, then decide who goes first."}</span></span></div><div class="pick-btns"><button class="ts-btn pick" data-act="first" data-who="me">I go first</button><button class="ts-btn pick" data-act="first" data-who="opp">Opponent goes first</button></div>${pill}</div>`;
+  else{const i=STEPS.indexOf(S.cur),atEnd=i===STEPS.length-1;
+    const short={start:"Start",hero:"Hero",move:"Move",shoot:"Shoot",charge:"Charge",combat:"Combat",eot:"End"};
+    h=`<div class="ts-top">${back}<span class="ts-lab" aria-live="polite"><b>Round ${S.r}</b><span class="who">${S.side==="me"?"My turn":"Enemy turn"}</span><span class="ts-vp">VP ${total("me")}–${total("opp")}</span></span>${pill}<button class="ts-btn ts-end${atEnd?"":" ghost"}" data-act="next">${S.side==="me"?`End <span class="lg-only">my </span>turn`:`End <span class="lg-only">enemy </span>turn`} ▸</button></div>
+    ${ctrRow()}<div class="track" role="group" aria-label="Phase of this turn">${STEPS.map((k,j)=>`<button class="trk${j<i?" done":j===i+1?" next":""}" style="--pc:var(${phaseOf(k).c})" data-act="goto" data-who="${k}"${j===i?' aria-current="step"':""} title="${esc(pName(k))}">${short[k]}</button>`).join("")}<button class="trk-next" data-act="step" data-who="1"${atEnd?" disabled":""} aria-label="Next phase${atEnd?"":": "+esc(pName(STEPS[i+1]))}">▸</button></div>`}
+  document.getElementById("turnbox").innerHTML=h;
+  const pickOnGame=S.g.started&&S.pending&&!S.g.over&&S.view==="game";
+  document.getElementById("turnrow").hidden=!S.g.started||pickOnGame;
+  document.getElementById("turnrow").classList.toggle("asking",!!(S.g.started&&S.pending&&!S.g.over));
+  syncBarH();
+  const N=S.note;
+  document.getElementById("note").innerHTML=N?`<div class="nt"><div><h3>${esc(N.h)}</h3><ul>${N.l.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${N.moon&&!S.g.entreaty&&DATA&&has("skragrott")?`<button class="btn ghost sm" data-act="entreaty">Use The Loonking's Entreaty: keep ${SHORT[N.moon.from]}</button>`:""}</div><button class="x" data-act="dismiss" aria-label="Dismiss">×</button></div>`:"";
+}
+function render(){
+  renderBar();
+  if(LOADERR){document.getElementById("armyout").innerHTML=`<div class="warn bad" role="alert"><h3>The rules data didn't load</h3><p>${esc(LOADERR)} Reload the page to try again.</p></div>`;S.view="army";["game","phases","res","ws"].forEach(v=>document.getElementById("view-"+v).hidden=true);document.getElementById("view-army").hidden=false;return}
+  if(!DATA)return;
+  renderHeader();
+  const r=R(),usable=r&&r.ok!==false&&r.order.length;
+  if(!usable&&S.view==="about"){renderAbout();save();return}
+  if(!usable&&S.view!=="army"){["game","phases","res","ws"].forEach(v=>document.getElementById("view-"+v).hidden=true);document.getElementById("view-army").hidden=false;renderArmy();save();return}
+  if(usable)CARDS=buildCards();
+  if(S.view==="army")renderArmy();
+  if(S.view==="game")renderGame();
+  if(S.view==="phases")renderPhases();
+  if(S.view==="res")renderRes();
+  if(S.view==="ws")renderWS();
+  if(S.view==="about")renderAbout();
+  save();
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button,a");if(!t)return;
+  const d=t.dataset;
+  if(d.act){act(d.act,d.who);return}
+  if(d.ui){uiAct(d.ui,d.id,d.where);return}
+  if(d.sc){const [k,i]=d.sc.split("|");const c=S.g.sc[k]=S.g.sc[k]||{};c[i]=!c[i];render();return}
+  if(d.tac){const [k,id]=d.tac.split("|");const l=S.g.tac[id]=S.g.tac[id]||[];const j=l.indexOf(k);if(j>=0)l.splice(j,1);else if(l.length<3)l.push(k);render();return}
+  if(d.otac){const [k,n]=d.otac.split("|");S.g.otac[k]=+n;render();return}
+  if(d.edit!==undefined){S.edit=d.edit||null;render();const sb=document.querySelector("#gameout .scorebox");if(sb&&S.edit)sb.scrollIntoView({behavior:"smooth",block:"start"});return}
+  if(d.rv!==undefined){const v=d.rv?+d.rv:null;S.rv=v&&v!==S.r?v:null;S.edit=null;if(S.view!=="game")S.view="game";render();if(d.top){const el=document.querySelector(".rv");if(el)el.scrollIntoView({behavior:"smooth",block:"start"})}return}
+  if(d.view){S.view=d.view;render();window.scrollTo(0,0)}
+  else if(d.face){S.face=d.face;if(S.face!=="All")S.mf=S.face;render()}
+  else if(d.ph){S.phase=d.ph;S.q="";document.getElementById("q").value="";render()}
+  else if(d.turn){S.turn=d.turn;render()}
+  else if(d.k){const k=d.k,lim={cp:[0,9],fury:[0,7],rage:[0,7]}[k];S[k]=Math.min(lim[1],Math.max(lim[0],S[k]+ +d.d));render()}
+  else if(d.jump){e.preventDefault();if(S.view!=="ws"){S.view="ws";render()}const el=document.getElementById(wsId(d.jump));if(el)el.scrollIntoView({block:"start"})}
+  else if(d.mk){const m=S.markers[d.u]=S.markers[d.u]||{};m[d.mk]=!m[d.mk];if(!m[d.mk])delete m[d.mk];render()}
+  else if(d.cmd){const i=S.casts.findIndex(c=>c.caster==="army"&&c.ab===d.cmd&&c.target===d.u);if(i>=0)S.casts.splice(i,1);else S.casts.push({ab:d.cmd,caster:"army",target:d.u,at:stamp()});render()}
+  else if(d.rcv){const [ab,cid,opt,tg]=d.rcv.split("|");const c=castOf(ab,cid),A=AB(ab);
+    if(A.choose==="one"){if(!opt){if(c&&c.target===tg)S.casts=S.casts.filter(x=>x!==c)}else setCast(ab,cid,{opt,target:tg})}
+    else{if(!opt){S.casts=S.casts.filter(x=>x!==c)}else setCast(ab,cid,{target:tg,on:true})}render()}
+  else if(d.copt!==undefined){const [ab,cid,opt]=d.copt.split("|");const c=castOf(ab,cid);
+    if(!opt||(c&&c.opt===opt)){if(c){c.opt="";if(!c.target)S.casts=S.casts.filter(x=>x!==c)}}else setCast(ab,cid,{opt});render()}
+  else if(d.self){const [ab,cid]=d.self.split("|");const c=castOf(ab,cid);if(c)S.casts=S.casts.filter(x=>x!==c);else S.casts.push({ab,caster:cid,target:cid,on:true,at:stamp()});render()}
+  else if(d.clear){const gone=expireNote(d.clear);S.note={h:d.clear==="turnEnd"?"Cleared end-of-turn effects":"Cleared effects up to the start of your turn",l:[gone.length?"Expired: "+gone.join(", ")+".":"Nothing was marked."]};render()}
+});
+/* full reset: every saved list, the game and all markers; lands on the Army tab's paste box */
+function wipeAll(msg){
+  Object.keys(S).forEach(k=>delete S[k]);
+  Object.assign(S,{view:"army",seeded:true,lists:[],active:null,phase:"hero",turn:"all",q:"",face:"Sc",mf:"Sc",cp:4,fury:1,rage:0,markers:{},casts:[],cur:"start",r:0,side:"me",pending:false,edit:null,note:null,hist:[],rv:null,
+    g:{started:false,over:false,role:"att",bp:0,cards:["blazing","burning"],first:{},sc:{},tac:{},otac:{},seize:{},entreaty:0,log:{},cardsFrom:null},
+    ui:{paste:"",rename:null,del:null,switchTo:null,msg:{bad:false,t:msg},resetAsk:false,wipe:false}});
+}
+function uiAct(a,id,where){
+  const U=S.ui;if(a==="del"||a==="wipe")U.where=where||"list";
+  if(a==="activate"){if(S.g.started)U.switchTo=id;else setActive(id)}
+  else if(a==="switch-yes")setActive(id);
+  else if(a==="switch-no")U.switchTo=null;
+  else if(a==="rename"){U.rename=id;U.del=null;render();const f=document.getElementById("rn-"+id);if(f){f.focus();f.select()}return}
+  else if(a==="rename-cancel")U.rename=null;
+  else if(a==="del"){U.del=id;U.rename=null;U.wipe=false}
+  else if(a==="newlist"){U.del=null;U.wipe=false;render();const t=document.getElementById("paste");if(t){t.scrollIntoView({block:"center"});t.focus({preventScroll:true})}return}
+  else if(a==="del-no")U.del=null;
+  else if(a==="wipe"){U.wipe=true;U.del=null}
+  else if(a==="wipe-no"){U.wipe=false}
+  else if(a==="wipe-yes"){wipeAll("Everything was removed. Paste a list to start again.")}
+  else if(a==="del-yes"){S.lists=S.lists.filter(l=>l.id!==id);if(S.active===id)setActive(S.lists[0]?S.lists[0].id:null);U.del=null}
+  else if(a==="copylist"){const L=activeList(),m=document.getElementById("copied");const ok=()=>{if(m)m.textContent=" Copied."},bad=()=>{if(m)m.textContent=" Couldn't copy here. Select the text above instead.";const p=document.getElementById("exptext");if(p){const rg=document.createRange();rg.selectNodeContents(p);const s=getSelection();s.removeAllRanges();s.addRange(rg)}};
+    try{navigator.clipboard.writeText(L.rawText).then(ok,bad)}catch(err){bad()}return}
+  render();
+}
+document.addEventListener("change",e=>{
+  const ds=e.target.dataset||{};
+  if(ds.g){const v=e.target.value,gk=ds.g;if(gk==="bp")S.g.bp=+v;else if(gk==="role")S.g.role=v;else{const j=+gk.slice(4),o=1-j;if(S.g.cards[o]===v)S.g.cards[o]=S.g.cards[j];S.g.cards[j]=v}render();return}
+  if(ds.cast){const [ab,cid]=ds.cast.split("|"),v=e.target.value,A=AB(ab);
+    if(A.choose==="one")setCast(ab,cid,{target:v});else{if(v)setCast(ab,cid,{target:v,on:true});else S.casts=S.casts.filter(x=>!(x.ab===ab&&x.caster===cid))}
+    const c=castOf(ab,cid);if(c&&!c.opt&&!c.target&&!c.on)S.casts=S.casts.filter(x=>x!==c);render()}
+});
+document.addEventListener("submit",e=>{
+  const f=e.target;if(!f.dataset.form)return;e.preventDefault();
+  if(f.dataset.form==="import"){const v=document.getElementById("paste").value;if(!v.trim()){S.ui.msg={bad:true,t:"Paste the exported list text first."};render();return}importList(v)}
+  if(f.dataset.form==="rename"){const L=S.lists.find(l=>l.id===f.dataset.id),v=f.querySelector("input").value.trim();if(L&&v)L.name=v;S.ui.rename=null}
+  render();
+});
+document.addEventListener("input",e=>{if(e.target.id==="paste")S.ui.paste=e.target.value;if(e.target.id==="q"){S.q=e.target.value;if(DATA&&R())renderPhases()}});
+
+/* ---------- boot: load the faction data file, then re-parse every saved list from its raw text ---------- */
+render();
+fetch("data/gloomspite.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(d=>{
+  DATA=d;ENG.load(d,CORE_AB);
+  S.lists.forEach(l=>{try{l.parsed=parse(l.rawText)}catch(e){l.parsed=null}});
+  /* no sample list: new visitors start on an empty paste box */
+  if(!activeList()&&S.lists[0])S.active=S.lists[0].id;
+  /* drop buffs that point at units no longer in the list */
+  const r=R();if(r){S.casts=S.casts.filter(c=>(c.caster==="army"||r.inst[c.caster])&&(!c.target||r.inst[c.target]));Object.keys(S.markers).forEach(k=>{if(!r.inst[k])delete S.markers[k]})}
+  prefillTac();render();
+}).catch(err=>{LOADERR="Couldn't read data/gloomspite.json ("+err.message+").";render()});
+
+</script>
+
+</body></html>

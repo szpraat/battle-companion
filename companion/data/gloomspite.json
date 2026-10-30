@@ -1,0 +1,5658 @@
+{
+ "faction": "Gloomspite Gitz",
+ "checkedOn": "2026-10-30",
+ "source": "General's Handbook 2026-27 + current battlescroll: numbers from BSData (updated 23 Oct 2026), cross-checked with Wahapedia; rules text paraphrased",
+ "version": 1,
+ "units": [
+  {
+   "id": "skragrott",
+   "name": "Skragrott, the Loonking",
+   "kind": "unit",
+   "points": 200,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "5\"",
+    "health": 6,
+    "save": "6+",
+    "control": 2
+   },
+   "ward": "4+",
+   "powerLevel": 2,
+   "keywords": [
+    "WARMASTER",
+    "UNIQUE",
+    "HERO",
+    "WIZARD",
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "moon-stikk",
+     "name": "Da Moon Onna Stikk",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "3+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "loonking-entreaty",
+    "fangz-of-da-bad-moon",
+    "babbling-wand"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "gobbapalooza",
+   "name": "Gobbapalooza",
+   "kind": "unit",
+   "points": 150,
+   "models": 5,
+   "canReinforce": false,
+   "stats": {
+    "move": "5\"",
+    "health": 3,
+    "save": "6+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 1,
+   "keywords": [
+    "WIZARD",
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "staffs",
+     "name": "Staff, Stikka or Jaggedy Blade",
+     "type": "melee",
+     "attacks": "1",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "fungus-brews",
+    "know-wotz"
+   ],
+   "notes": "Wizard (1). Five different gitz, each a separate model."
+  },
+  {
+   "id": "trugg",
+   "name": "Trugg, the Troggoth King",
+   "kind": "unit",
+   "points": 340,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "6\"",
+    "health": 16,
+    "save": "4+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "WARMASTER",
+    "UNIQUE",
+    "HERO",
+    "MONSTER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "TROGGOTH"
+   ],
+   "weapons": [
+    {
+     "id": "ironshell-club",
+     "name": "Ironshell Club",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "3+",
+     "wound": "2+",
+     "rend": "3",
+     "damage": "4",
+     "abilities": []
+    },
+    {
+     "id": "mighty-antlers",
+     "name": "Mighty Antlers",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "2",
+     "damage": "D3+3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "malfunctioning-leystone",
+    "greater-regeneration",
+    "crushing-grip",
+    "battle-damaged-trugg"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "dankhold-troggoth",
+   "name": "Dankhold Troggoth",
+   "kind": "unit",
+   "points": 140,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "6\"",
+    "health": 10,
+    "save": "4+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "MONSTER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "TROGGOTH"
+   ],
+   "weapons": [
+    {
+     "id": "boulder-club",
+     "name": "Colossal Boulder Club",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "2",
+     "damage": "D3+3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "regeneration",
+    "magical-resistance",
+    "wade-and-smash"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "fellwater-troggoths",
+   "name": "Fellwater Troggoths",
+   "kind": "unit",
+   "points": 160,
+   "models": 3,
+   "canReinforce": true,
+   "stats": {
+    "move": "6\"",
+    "health": 5,
+    "save": "5+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "TROGGOTH"
+   ],
+   "weapons": [
+    {
+     "id": "noxious-vomit",
+     "name": "Noxious Vomit",
+     "type": "ranged",
+     "range": "6\"",
+     "attacks": "D3",
+     "hit": "2+",
+     "wound": "3+",
+     "rend": "2",
+     "damage": "1",
+     "abilities": [
+      "Shoot in Combat"
+     ]
+    },
+    {
+     "id": "spiked-club",
+     "name": "Spiked Club",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "regeneration",
+    "noxious-vomit-drench"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "rockgut-troggoths",
+   "name": "Rockgut Troggoths",
+   "kind": "unit",
+   "points": 170,
+   "models": 3,
+   "canReinforce": true,
+   "stats": {
+    "move": "6\"",
+    "health": 5,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": "5+",
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "TROGGOTH"
+   ],
+   "weapons": [
+    {
+     "id": "throwin-boulders",
+     "name": "Throwin' Boulders",
+     "type": "ranged",
+     "range": "10\"",
+     "attacks": "1",
+     "hit": "5+",
+     "wound": "2+",
+     "rend": "2",
+     "damage": "D3",
+     "abilities": []
+    },
+    {
+     "id": "stone-maul",
+     "name": "Stone Maul or Craggy Hands",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "2",
+     "damage": "3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "regeneration"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "squigboss",
+   "name": "Squigboss with Gnasha-Squig",
+   "kind": "unit",
+   "points": 120,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "5\"",
+    "health": 4,
+    "save": "6+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SQUIG",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "squig-krook",
+     "name": "Squig-krook",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": []
+    },
+    {
+     "id": "fang-gob",
+     "name": "Fang-filled Gob",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "feedin-time"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "boingrot-bounderz",
+   "name": "Boingrot Bounderz",
+   "kind": "unit",
+   "points": 120,
+   "models": 5,
+   "canReinforce": true,
+   "stats": {
+    "move": "D6+6\"",
+    "health": 2,
+    "save": "5+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CAVALRY",
+    "CHAMPION",
+    "FLY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SQUIG",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "pokin-lance",
+     "name": "Pokin' Lance",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Charge (+1 Damage)"
+     ]
+    },
+    {
+     "id": "fang-gob",
+     "name": "Fang-filled Gob",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "boing-smash"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "mangler-squigs",
+   "name": "Mangler Squigs",
+   "kind": "unit",
+   "points": 130,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "D6+8\"",
+    "health": 14,
+    "save": "5+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "MONSTER",
+    "FLY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SQUIG",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "bashin-stikks",
+     "name": "Bashin' Stikks",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "huge-gobs",
+     "name": "Huge Fang-filled Gobs",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "D6",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "balls-chains",
+     "name": "Balls and Chains",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "D3",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "squig-rage",
+    "watch-out",
+    "giant-boing"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "malevolent-moon",
+   "name": "Malevolent Moon",
+   "kind": "manifestation",
+   "points": 0,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "12\"",
+    "health": 6,
+    "save": "6+",
+    "control": null
+   },
+   "banish": "7+",
+   "ward": "6+",
+   "powerLevel": 0,
+   "keywords": [
+    "MANIFESTATION",
+    "ENDLESS SPELL",
+    "FLY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ"
+   ],
+   "weapons": [
+    {
+     "id": "lunarock-slam",
+     "name": "Lunarock Slam",
+     "type": "melee",
+     "attacks": "1",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "summon-malevolent-moon",
+    "lurid-light",
+    "moon-move"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "morks-mighty-mushroom",
+   "name": "Mork's Mighty Mushroom",
+   "kind": "manifestation",
+   "points": 0,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "-",
+    "health": 6,
+    "save": "6+",
+    "control": null
+   },
+   "banish": "7+",
+   "ward": "6+",
+   "powerLevel": 0,
+   "keywords": [
+    "MANIFESTATION",
+    "ENDLESS SPELL"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ"
+   ],
+   "weapons": [],
+   "abilities": [
+    "summon-morks-mighty-mushroom",
+    "mutating-spores"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "arachnacauldron",
+   "name": "Scrapskuttle's Arachnacauldron",
+   "kind": "manifestation",
+   "points": 0,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "6\"",
+    "health": 6,
+    "save": "5+",
+    "control": null
+   },
+   "banish": "7+",
+   "ward": "6+",
+   "powerLevel": 0,
+   "keywords": [
+    "MANIFESTATION",
+    "ENDLESS SPELL"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ"
+   ],
+   "weapons": [
+    {
+     "id": "spider-legs",
+     "name": "Spider Legs",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "summon-arachnacauldron",
+    "blessings-of-the-cauldron"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "scuttletide",
+   "name": "Scuttletide",
+   "kind": "manifestation",
+   "points": 0,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "8\"",
+    "health": 6,
+    "save": "6+",
+    "control": null
+   },
+   "banish": "7+",
+   "ward": "6+",
+   "powerLevel": 0,
+   "keywords": [
+    "MANIFESTATION",
+    "ENDLESS SPELL"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ"
+   ],
+   "weapons": [
+    {
+     "id": "spider-bites",
+     "name": "Spider Bites",
+     "type": "melee",
+     "attacks": "8",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": [
+      "Crit (Mortal)"
+     ]
+    }
+   ],
+   "abilities": [
+    "summon-scuttletide",
+    "wall-crawler",
+    "endless-terrors"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "rabble-rowza",
+   "name": "Rabble-Rowza",
+   "kind": "unit",
+   "points": 100,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "5\"",
+    "health": 5,
+    "save": "5+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "bat-squigs",
+     "name": "Bat Squigs",
+     "type": "ranged",
+     "range": "12\"",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "D3",
+     "abilities": [
+      "Crit (Auto-wound)"
+     ]
+    },
+    {
+     "id": "moon-sickle-and-basha",
+     "name": "Moon-sickle and Basha",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "secret-tunnels",
+    "cant-catch-me",
+    "emerge-from-the-depths"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "fungoid-cave-shaman",
+   "name": "Fungoid Cave-Shaman",
+   "kind": "unit",
+   "points": 100,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "5\"",
+    "health": 5,
+    "save": "6+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 1,
+   "keywords": [
+    "HERO",
+    "INFANTRY",
+    "WIZARD"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "spore-squigs-vicious-teeth",
+     "name": "Spore Squig's Vicious Teeth",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "moon-sickle",
+     "name": "Moon-sickle",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "deffcap-mushroom"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "webspinner-shaman-on-arachnarok-spider",
+   "name": "Webspinner Shaman on Arachnarok Spider",
+   "kind": "unit",
+   "points": 230,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "10\"",
+    "health": 16,
+    "save": "4+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 1,
+   "keywords": [
+    "MONSTER",
+    "HERO",
+    "WIZARD",
+    "ARACHNAROK"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SPIDERFANG"
+   ],
+   "weapons": [
+    {
+     "id": "spider-bows",
+     "name": "Spider-bows",
+     "type": "ranged",
+     "range": "18\"",
+     "attacks": "10",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "crooked-spears",
+     "name": "Crooked Spears",
+     "type": "melee",
+     "attacks": "10",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "monstrous-spider-fangs",
+     "name": "Monstrous Spider Fangs",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "3+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "3",
+     "abilities": [
+      "Crit (Mortal)",
+      "Companion"
+     ]
+    },
+    {
+     "id": "chitinous-legs",
+     "name": "Chitinous Legs",
+     "type": "melee",
+     "attacks": "8",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "spider-god-staff",
+     "name": "Spider God Staff",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "D3",
+     "abilities": [
+      "Crit (Mortal)"
+     ]
+    }
+   ],
+   "abilities": [
+    "battle-damaged-arachnarok",
+    "catchweb-spidershrine",
+    "ensnaring-webbing"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "loonboss-on-giant-cave-squig",
+   "name": "Loonboss on Giant Cave Squig",
+   "kind": "unit",
+   "points": 80,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "D6+6\"",
+    "health": 6,
+    "save": "5+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "CAVALRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN",
+    "SQUIG"
+   ],
+   "weapons": [
+    {
+     "id": "massive-fang-filled-gob",
+     "name": "Massive Fang-filled Gob",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "2",
+     "damage": "D3",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "moon-cutta-or-loonboss-stabba",
+     "name": "Moon-cutta or Loonboss Stabba",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": [
+      "Charge (+1 Damage)"
+     ]
+    }
+   ],
+   "abilities": [
+    "lets-get-bouncin"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "squig-herd",
+   "name": "Squig Herd",
+   "kind": "unit",
+   "points": 100,
+   "models": 12,
+   "canReinforce": true,
+   "stats": {
+    "move": "D6+3\"",
+    "health": 1,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "BEAST"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN",
+    "SQUIG"
+   ],
+   "weapons": [
+    {
+     "id": "fang-filled-gob",
+     "name": "Fang-filled Gob",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "squig-prodder",
+     "name": "Squig Prodder",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "5+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "squigs-gone-wild",
+    "herding-squigs"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "moonclan-stabbas",
+   "name": "Moonclan Stabbas",
+   "kind": "unit",
+   "points": 110,
+   "models": 20,
+   "canReinforce": true,
+   "stats": {
+    "move": "5\"",
+    "health": 1,
+    "save": "5+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CHAMPION",
+    "INFANTRY",
+    "MUSICIAN",
+    "STANDARD BEARER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "stabba",
+     "name": "Stabba",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "netters"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "loonsmasha-fanatics",
+   "name": "Loonsmasha Fanatics",
+   "kind": "unit",
+   "points": 110,
+   "models": 5,
+   "canReinforce": true,
+   "stats": {
+    "move": "2D6\"",
+    "health": 1,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "ball-and-chain",
+     "name": "Ball and Chain",
+     "type": "melee",
+     "attacks": "D6",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "2",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "whirling-death",
+    "hidden-loons",
+    "release-the-fanatics"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "moonclan-shootas",
+   "name": "Moonclan Shootas",
+   "kind": "unit",
+   "points": 110,
+   "models": 20,
+   "canReinforce": true,
+   "stats": {
+    "move": "5\"",
+    "health": 1,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CHAMPION",
+    "INFANTRY",
+    "MUSICIAN",
+    "STANDARD BEARER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "moonclan-bow",
+     "name": "Moonclan Bow",
+     "type": "ranged",
+     "range": "18\"",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "netters"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "sporesplatta-fanatics",
+   "name": "Sporesplatta Fanatics",
+   "kind": "unit",
+   "points": 90,
+   "models": 5,
+   "canReinforce": true,
+   "stats": {
+    "move": "2D6\"",
+    "health": 1,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "spore-ball-and-chain",
+     "name": "Spore-ball and Chain",
+     "type": "melee",
+     "attacks": "D3",
+     "hit": "3+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "puffshroom-frenzy",
+    "prod-in-the-right-direction"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "loonboss-on-mangler-squigs",
+   "name": "Loonboss on Mangler Squigs",
+   "kind": "unit",
+   "points": 140,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "D6+8\"",
+    "health": 14,
+    "save": "5+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "MONSTER",
+    "FLY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN",
+    "SQUIG"
+   ],
+   "weapons": [
+    {
+     "id": "balls-and-chains",
+     "name": "Balls and Chains",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "D3",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "huge-fang-filled-gobs",
+     "name": "Huge Fang-filled Gobs",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "D6",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "moon-cutta",
+     "name": "Moon-cutta",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "squig-rage",
+    "bite-da-moon",
+    "watch-out",
+    "ker-splat"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "spider-riders",
+   "name": "Spider Riders",
+   "kind": "unit",
+   "points": 110,
+   "models": 5,
+   "canReinforce": true,
+   "stats": {
+    "move": "10\"",
+    "health": 2,
+    "save": "5+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CAVALRY",
+    "CHAMPION",
+    "MUSICIAN",
+    "STANDARD BEARER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SPIDERFANG"
+   ],
+   "weapons": [
+    {
+     "id": "spider-bow",
+     "name": "Spider-bow",
+     "type": "ranged",
+     "range": "18\"",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "spider-fangs",
+     "name": "Spider Fangs",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": [
+      "Crit (Mortal)",
+      "Companion"
+     ]
+    },
+    {
+     "id": "crooked-spear",
+     "name": "Crooked Spear",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "squig-hoppers",
+   "name": "Squig Hoppers",
+   "kind": "unit",
+   "points": 150,
+   "models": 10,
+   "canReinforce": true,
+   "stats": {
+    "move": "D6+8\"",
+    "health": 2,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CAVALRY",
+    "CHAMPION",
+    "FLY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SQUIG",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "fang-filled-gob",
+     "name": "Fang-filled Gob",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "slitta",
+     "name": "Slitta",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "boing-boing-boing"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "kragnos-the-end-of-empires",
+   "name": "Kragnos, the End of Empires",
+   "kind": "unit",
+   "points": 580,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "10\"",
+    "health": 18,
+    "save": "4+",
+    "control": 15
+   },
+   "ward": "5+",
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "UNIQUE",
+    "MONSTER",
+    "WARMASTER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ"
+   ],
+   "weapons": [
+    {
+     "id": "the-dread-mace",
+     "name": "The Dread Mace",
+     "type": "melee",
+     "attacks": "6",
+     "hit": "3+",
+     "wound": "2+",
+     "rend": "3",
+     "damage": "4",
+     "abilities": []
+    },
+    {
+     "id": "tuskbreaker",
+     "name": "Tuskbreaker",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "2",
+     "damage": "D3",
+     "abilities": [
+      "Crit (2 Hits)"
+     ]
+    },
+    {
+     "id": "hooves-of-wrack-and-ruin",
+     "name": "Hooves of Wrack and Ruin",
+     "type": "melee",
+     "attacks": "6",
+     "hit": "3+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "kragnos-battle-damaged",
+    "avatar-of-destruction",
+    "rampaging-destruction",
+    "end-of-empires",
+    "shield-inviolate"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "dankhold-troggboss",
+   "name": "Dankhold Troggboss",
+   "kind": "unit",
+   "points": 200,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "6\"",
+    "health": 12,
+    "save": "4+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "MONSTER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "TROGGOTH"
+   ],
+   "weapons": [
+    {
+     "id": "boulder-club",
+     "name": "Boulder Club",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "2",
+     "damage": "D6",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "shepherd-of-destruction",
+    "magical-resistance",
+    "greater-regeneration"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "sneaky-snufflers",
+   "name": "Sneaky Snufflers",
+   "kind": "unit",
+   "points": 80,
+   "models": 6,
+   "canReinforce": true,
+   "stats": {
+    "move": "5\"",
+    "health": 2,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": "5+",
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "loonfungus-sickle",
+     "name": "Loonfungus Sickle",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "snufflesquigs-gnashers",
+     "name": "Snufflesquig's Gnashers",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "looncap-mushrooms"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "fellwater-troggoths-scourge-of-aqshy",
+   "name": "Fellwater Troggoths (Scourge of Aqshy)",
+   "kind": "unit",
+   "points": 160,
+   "models": 3,
+   "canReinforce": true,
+   "stats": {
+    "move": "6\"",
+    "health": 5,
+    "save": "5+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "TROGGOTH"
+   ],
+   "weapons": [
+    {
+     "id": "noxious-vomit",
+     "name": "Noxious Vomit",
+     "type": "ranged",
+     "range": "6\"",
+     "attacks": "D3",
+     "hit": "2+",
+     "wound": "3+",
+     "rend": "2",
+     "damage": "1",
+     "abilities": [
+      "Shoot in Combat"
+     ]
+    },
+    {
+     "id": "spiked-club",
+     "name": "Spiked Club",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "gut-wrenching-stench",
+    "regeneration"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "snarlfang-riders",
+   "name": "Snarlfang Riders",
+   "kind": "unit",
+   "points": 110,
+   "models": 5,
+   "canReinforce": true,
+   "stats": {
+    "move": "12\"",
+    "health": 2,
+    "save": "5+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CAVALRY",
+    "CHAMPION",
+    "MUSICIAN",
+    "STANDARD BEARER"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "grot-bow",
+     "name": "Grot Bow",
+     "type": "ranged",
+     "range": "15\"",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "snarlfangs-slavering-jaws",
+     "name": "Snarlfang's Slavering Jaws",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "stabbin-stikka",
+     "name": "Stabbin' Stikka",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "cant-catch-us"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "loonboss",
+   "name": "Loonboss",
+   "kind": "unit",
+   "points": 70,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "5\"",
+    "health": 5,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": "6+",
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "moon-slicer",
+     "name": "Moon-slicer",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "im-da-boss",
+    "lets-get-stabbin"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "webspinner-shaman",
+   "name": "Webspinner Shaman",
+   "kind": "unit",
+   "points": 100,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "6\"",
+    "health": 4,
+    "save": "6+",
+    "control": 2
+   },
+   "ward": "6+",
+   "powerLevel": 1,
+   "keywords": [
+    "HERO",
+    "INFANTRY",
+    "WIZARD"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SPIDERFANG"
+   ],
+   "weapons": [
+    {
+     "id": "spider-god-staff",
+     "name": "Spider God Staff",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "D3",
+     "abilities": [
+      "Crit (Mortal)"
+     ]
+    }
+   ],
+   "abilities": [
+    "web-slingshot",
+    "speed-of-the-spider-god"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "arachnarok-spider-with-flinger",
+   "name": "Arachnarok Spider with Flinger",
+   "kind": "unit",
+   "points": 210,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "10\"",
+    "health": 14,
+    "save": "4+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "MONSTER",
+    "ARACHNAROK"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SPIDERFANG"
+   ],
+   "weapons": [
+    {
+     "id": "monstrous-spider-fangs",
+     "name": "Monstrous Spider Fangs",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "3+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "3",
+     "abilities": [
+      "Crit (Mortal)",
+      "Companion"
+     ]
+    },
+    {
+     "id": "chitinous-legs",
+     "name": "Chitinous Legs",
+     "type": "melee",
+     "attacks": "8",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "crooked-spears",
+     "name": "Crooked Spears",
+     "type": "melee",
+     "attacks": "10",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "spider-bows",
+     "name": "Spider-bows",
+     "type": "ranged",
+     "range": "18\"",
+     "attacks": "10",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "flinger",
+     "name": "Flinger",
+     "type": "ranged",
+     "range": "24\"",
+     "attacks": "D3",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": [
+      "Crit (2 Hits)"
+     ]
+    }
+   ],
+   "abilities": [
+    "flinger",
+    "beast-binding-webbing"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "arachnarok-spider-with-spiderfang-warparty",
+   "name": "Arachnarok Spider with Spiderfang Warparty",
+   "kind": "unit",
+   "points": 200,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "10\"",
+    "health": 16,
+    "save": "4+",
+    "control": 10
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "MONSTER",
+    "ARACHNAROK"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SPIDERFANG"
+   ],
+   "weapons": [
+    {
+     "id": "spider-bows",
+     "name": "Spider-bows",
+     "type": "ranged",
+     "range": "18\"",
+     "attacks": "10",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "crooked-spears",
+     "name": "Crooked Spears",
+     "type": "melee",
+     "attacks": "10",
+     "hit": "5+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "monstrous-spider-fangs",
+     "name": "Monstrous Spider Fangs",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "3+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "3",
+     "abilities": [
+      "Crit (Mortal)",
+      "Companion"
+     ]
+    },
+    {
+     "id": "chitinous-legs",
+     "name": "Chitinous Legs",
+     "type": "melee",
+     "attacks": "8",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "battle-damaged-arachnarok",
+    "voracious-predator"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "skitterstrand-arachnarok",
+   "name": "Skitterstrand Arachnarok",
+   "kind": "unit",
+   "points": 180,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "10\"",
+    "health": 13,
+    "save": "4+",
+    "control": 5
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "MONSTER",
+    "ARACHNAROK"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "SPIDERFANG"
+   ],
+   "weapons": [
+    {
+     "id": "monstrous-spider-fangs",
+     "name": "Monstrous Spider Fangs",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "3+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "3",
+     "abilities": [
+      "Crit (Mortal)",
+      "Companion"
+     ]
+    },
+    {
+     "id": "chitinous-legs",
+     "name": "Chitinous Legs",
+     "type": "melee",
+     "attacks": "8",
+     "hit": "4+",
+     "wound": "2+",
+     "rend": "1",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "battle-damaged-arachnarok",
+    "realmweb-lurker",
+    "scuttling-terror",
+    "ambush-from-beyond"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "droggz-da-sunchompa",
+   "name": "Droggz da Sunchompa",
+   "kind": "unit",
+   "points": 150,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "12\"",
+    "health": 7,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "UNIQUE",
+    "HERO",
+    "CAVALRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "jaggedsnarls-jaws",
+     "name": "Jaggedsnarl's Jaws",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "3+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "da-metal-toof",
+     "name": "Da Metal Toof",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "3+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": [
+      "Crit (Mortal)"
+     ]
+    }
+   ],
+   "abilities": [
+    "da-frazzlefangz",
+    "rip-em-ta-bits",
+    "time-ta-scarper"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "snarlboss",
+   "name": "Snarlboss",
+   "kind": "unit",
+   "points": 100,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "12\"",
+    "health": 5,
+    "save": "5+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "CAVALRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "snarlfangs-slavering-jaws",
+     "name": "Snarlfang's Slavering Jaws",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "boss-loppa",
+     "name": "Boss Loppa",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "vicious-snarls",
+    "boss-snarlfang"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "frazzlegit-shaman-on-war-wheela",
+   "name": "Frazzlegit Shaman on War-Wheela",
+   "kind": "unit",
+   "points": 120,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "12\"",
+    "health": 9,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 1,
+   "keywords": [
+    "HERO",
+    "WIZARD",
+    "WAR MACHINE"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "snarlfangs-frothing-jaws",
+     "name": "Snarlfangs' Frothing Jaws",
+     "type": "melee",
+     "attacks": "6",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "wheela-slicers",
+     "name": "Wheela Slicers",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "gimme-all-da-light",
+    "frazzlemist"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "doom-diver-catapult",
+   "name": "Doom Diver Catapult",
+   "kind": "unit",
+   "points": 150,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "5\"",
+    "health": 12,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "WAR MACHINE"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "slicers-and-krag-smashas-paws",
+     "name": "Slicers and Krag-smasha's Paws",
+     "type": "melee",
+     "attacks": "6",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "doom-diver",
+     "name": "Doom Diver",
+     "type": "ranged",
+     "range": "24\"",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "3",
+     "damage": "3",
+     "abilities": []
+    },
+    {
+     "id": "catapult-crew-tools",
+     "name": "Catapult Crew Tools",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "5+",
+     "wound": "6+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "shoddy-wing-like-gizmos"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "wolfgit-retinue",
+   "name": "Wolfgit Retinue",
+   "kind": "unit",
+   "points": 70,
+   "models": 2,
+   "canReinforce": true,
+   "stats": {
+    "move": "12\"",
+    "health": 2,
+    "save": "5+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CAVALRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "grot-bow",
+     "name": "Grot Bow",
+     "type": "ranged",
+     "range": "15\"",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "snarlfangs-slavering-jaws",
+     "name": "Snarlfang's Slavering Jaws",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "stabbin-stikka",
+     "name": "Stabbin' Stikka",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "i-got-dis-boss"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "sunsteala-wheelas",
+   "name": "Sunsteala Wheelas",
+   "kind": "unit",
+   "points": 120,
+   "models": 2,
+   "canReinforce": true,
+   "stats": {
+    "move": "12\"",
+    "health": 6,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "WAR MACHINE",
+    "CHAMPION"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "grot-bow",
+     "name": "Grot Bow",
+     "type": "ranged",
+     "range": "15\"",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "wheela-slicers-and-stabbin-stikka",
+     "name": "Wheela Slicers and Stabbin' Stikka",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "snarlfangs-frothing-jaws",
+     "name": "Snarlfangs' Frothing Jaws",
+     "type": "melee",
+     "attacks": "6",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "careening-destruction"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "sunsteala-wheelas-scourge-of-aqshy",
+   "name": "Sunsteala Wheelas (Scourge of Aqshy)",
+   "kind": "unit",
+   "points": 150,
+   "models": 2,
+   "canReinforce": true,
+   "stats": {
+    "move": "12\"",
+    "health": 6,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "WAR MACHINE",
+    "CHAMPION"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "grot-bow",
+     "name": "Grot Bow",
+     "type": "ranged",
+     "range": "15\"",
+     "attacks": "2",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "wheela-slicers-and-stabbin-stikka",
+     "name": "Wheela Slicers and Stabbin' Stikka",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    },
+    {
+     "id": "snarlfangs-frothing-jaws",
+     "name": "Snarlfangs' Frothing Jaws",
+     "type": "melee",
+     "attacks": "6",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    }
+   ],
+   "abilities": [
+    "slice-and-soar"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "snarlboss-on-war-wheela",
+   "name": "Snarlboss on War-Wheela",
+   "kind": "unit",
+   "points": 120,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "12\"",
+    "health": 9,
+    "save": "4+",
+    "control": 2
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "HERO",
+    "WAR MACHINE"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "snarlfangs-frothing-jaws",
+     "name": "Snarlfangs' Frothing Jaws",
+     "type": "melee",
+     "attacks": "6",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "chain-basha",
+     "name": "Chain Basha",
+     "type": "melee",
+     "attacks": "5",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "1",
+     "damage": "2",
+     "abilities": [
+      "Crit (Auto-wound)"
+     ]
+    },
+    {
+     "id": "wheela-slicers",
+     "name": "Wheela Slicers",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "4+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "frazzlegits-flame-stream",
+    "keepin-up-wiv-da-boss",
+    "da-glare-of-frazzlegit"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "snarlpack-cavalry",
+   "name": "Snarlpack Cavalry",
+   "kind": "unit",
+   "points": 100,
+   "models": 3,
+   "canReinforce": true,
+   "stats": {
+    "move": "12\"",
+    "health": 3,
+    "save": "4+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "CAVALRY",
+    "CHAMPION"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "GITMOB"
+   ],
+   "weapons": [
+    {
+     "id": "giant-snarlfangs-jaws",
+     "name": "Giant Snarlfang's Jaws",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "-",
+     "damage": "2",
+     "abilities": [
+      "Companion"
+     ]
+    },
+    {
+     "id": "pointy-skewas",
+     "name": "Pointy Skewas",
+     "type": "melee",
+     "attacks": "4",
+     "hit": "4+",
+     "wound": "5+",
+     "rend": "-",
+     "damage": "1",
+     "abilities": [
+      "Charge (+1 Damage)"
+     ]
+    }
+   ],
+   "abilities": [
+    "markin-territory",
+    "frazzleburned-scrap"
+   ],
+   "notes": "Champion: +1 Attack on the champion's weapons."
+  },
+  {
+   "id": "loonsmasha-fanatics-scourge-of-ghyran",
+   "name": "Loonsmasha Fanatics (Scourge of Ghyran)",
+   "kind": "unit",
+   "points": 110,
+   "models": 5,
+   "canReinforce": true,
+   "stats": {
+    "move": "2D6\"",
+    "health": 1,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "ball-and-chain",
+     "name": "Ball and Chain",
+     "type": "melee",
+     "attacks": "3",
+     "hit": "4+",
+     "wound": "3+",
+     "rend": "2",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "lost-in-the-horde",
+    "whirling-destruction"
+   ],
+   "notes": ""
+  },
+  {
+   "id": "sporesplatta-fanatics-scourge-of-ghyran",
+   "name": "Sporesplatta Fanatics (Scourge of Ghyran)",
+   "kind": "unit",
+   "points": 80,
+   "models": 5,
+   "canReinforce": true,
+   "stats": {
+    "move": "2D6\"",
+    "health": 1,
+    "save": "6+",
+    "control": 1
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "INFANTRY"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ",
+    "MOONCLAN"
+   ],
+   "weapons": [
+    {
+     "id": "spore-ball-and-chain",
+     "name": "Spore-ball and Chain",
+     "type": "melee",
+     "attacks": "2",
+     "hit": "3+",
+     "wound": "4+",
+     "rend": "1",
+     "damage": "D3",
+     "abilities": []
+    }
+   ],
+   "abilities": [
+    "choking-spore-clouds",
+    "spinning-loons"
+   ],
+   "notes": ""
+  }
+ ],
+ "terrain": [
+  {
+   "id": "bad-moon-loonshrine",
+   "name": "Bad Moon Loonshrine",
+   "kind": "terrain",
+   "points": 0,
+   "models": 1,
+   "canReinforce": false,
+   "stats": {
+    "move": "-",
+    "health": 14,
+    "save": "4+",
+    "control": null
+   },
+   "ward": null,
+   "powerLevel": 0,
+   "keywords": [
+    "FACTION TERRAIN"
+   ],
+   "factionKeywords": [
+    "DESTRUCTION",
+    "GLOOMSPITE GITZ"
+   ],
+   "weapons": [],
+   "abilities": [
+    "moonclan-lairs"
+   ],
+   "notes": "Terrain abilities: Cover, Impassable."
+  }
+ ],
+ "abilities": [
+  {
+   "id": "loonking-entreaty",
+   "name": "The Loonking's Entreaty",
+   "source": "warscroll",
+   "oncePer": "battle-army",
+   "timing": {
+    "phase": "start",
+    "turn": "any",
+    "label": "Once Per Battle (Army), Reaction: you declared The Faces of the Bad Moon"
+   },
+   "reminder": true,
+   "text": "The face of the Bad Moon stays where it is this battle round instead of moving on."
+  },
+  {
+   "id": "fangz-of-da-bad-moon",
+   "name": "Fangz of da Bad Moon",
+   "source": "warscroll",
+   "cost": "Cast 7",
+   "keywords": [
+    "SPELL"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "Pick a visible enemy unit within 18\". Roll dice equal to the unmodified casting roll; each 3+ inflicts 1 mortal damage."
+  },
+  {
+   "id": "babbling-wand",
+   "name": "Babbling Wand",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "enemy",
+    "label": "Passive"
+   },
+   "reminder": true,
+   "text": "Each time a friendly MOONCLAN unit wholly within 12\" of Skragrott uses Redeploy, no CP are spent."
+  },
+  {
+   "id": "fungus-brews",
+   "name": "Hallucinogenic Fungus Brews",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Ward 4+ in round 1, 5+ in round 2, 6+ from round 3.",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "round",
+       "min": 1,
+       "max": 1
+      }
+     ],
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "4+"
+      }
+     ],
+     "duration": "while",
+     "label": "Round 1"
+    },
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "round",
+       "min": 2,
+       "max": 2
+      }
+     ],
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "5+"
+      }
+     ],
+     "duration": "while",
+     "label": "Round 2"
+    },
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "round",
+       "min": 3
+      }
+     ],
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "6+"
+      }
+     ],
+     "duration": "while",
+     "label": "Round 3+"
+    }
+   ]
+  },
+  {
+   "id": "know-wotz",
+   "name": "Gobbapalooza Know-wotz",
+   "source": "warscroll",
+   "oncePer": "turn-army",
+   "roll": "3+",
+   "choose": "one",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Once Per Turn (Army), Your Hero Phase"
+   },
+   "text": "Roll a dice. On a 3+ pick one (lasts until the start of your next turn):<ul><li><b>Glareface Dance:</b> a friendly Gitz unit in its combat range adds 1 to run and charge rolls.</li><li><b>Nasty Poisons:</b> a friendly Gitz unit in its combat range adds 1 to the Rend of its weapons.</li><li><b>Mesmerise:</b> a visible enemy unit within 12\" cannot use commands.</li></ul>",
+   "options": [
+    {
+     "key": "glareface",
+     "label": "Glareface Dance",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "GLOOMSPITE GITZ"
+       ]
+      },
+      "range": "in its combat range"
+     },
+     "mods": [
+      {
+       "path": "roll.run",
+       "op": "add",
+       "value": 1
+      },
+      {
+       "path": "roll.charge",
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    },
+    {
+     "key": "poisons",
+     "label": "Nasty Poisons",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "GLOOMSPITE GITZ"
+       ]
+      },
+      "range": "in its combat range"
+     },
+     "mods": [
+      {
+       "path": "weapon.rend",
+       "weapons": {
+        "exclude": [
+         "Companion"
+        ]
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    },
+    {
+     "key": "mesmerise",
+     "label": "Mesmerise",
+     "target": {
+      "kind": "enemy"
+     },
+     "reminder": true,
+     "duration": "untilYourNextTurn"
+    }
+   ]
+  },
+  {
+   "id": "malfunctioning-leystone",
+   "name": "Malfunctioning Leystone",
+   "source": "warscroll",
+   "roll": "3 dice, pick one (1 dice with 10+ damage)",
+   "choose": "one",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Roll 3 dice (1 dice if Trugg has 10+ damage) and pick one result. Results 2-6 last until the start of your next turn and affect friendly TROGGOTH units wholly within 12\" of Trugg:<ul><li><b>1 · Shyish:</b> D3 mortal damage on Trugg.</li><li><b>2 · Ghur:</b> +1 Attack on melee weapons.</li><li><b>3 · Aqshy:</b> +1 Rend on melee weapons.</li><li><b>4 · Hysh:</b> Trugg can unbind as if he had WIZARD (1).</li><li><b>5 · Ulgu:</b> −1 to hit for shooting attacks that target them.</li><li><b>6 · Chamon:</b> Trugg has Ward 5+.</li></ul>",
+   "options": [
+    {
+     "key": "shyish",
+     "label": "1 · Shyish",
+     "target": {
+      "kind": "self"
+     },
+     "reminder": true,
+     "duration": "phase"
+    },
+    {
+     "key": "ghur",
+     "label": "2 · Ghur",
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "TROGGOTH"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "type": "melee"
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    },
+    {
+     "key": "aqshy",
+     "label": "3 · Aqshy",
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "TROGGOTH"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "weapon.rend",
+       "weapons": {
+        "type": "melee"
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    },
+    {
+     "key": "hysh",
+     "label": "4 · Hysh",
+     "target": {
+      "kind": "self"
+     },
+     "mods": [
+      {
+       "path": "powerLevel",
+       "op": "note",
+       "value": "Can unbind as if WIZARD (1)"
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    },
+    {
+     "key": "ulgu",
+     "label": "5 · Ulgu",
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "TROGGOTH"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "defence.hitAgainst",
+       "op": "add",
+       "value": -1,
+       "attack": "shooting"
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    },
+    {
+     "key": "chamon",
+     "label": "6 · Chamon",
+     "target": {
+      "kind": "self"
+     },
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "5+"
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    }
+   ]
+  },
+  {
+   "id": "greater-regeneration",
+   "name": "Greater Regeneration",
+   "source": "warscroll",
+   "timing": {
+    "phase": "start",
+    "turn": "any",
+    "label": "Start of Any Turn"
+   },
+   "reminder": true,
+   "text": "<b>Heal (D6)</b> this unit."
+  },
+  {
+   "id": "crushing-grip",
+   "name": "Crushing Grip",
+   "source": "warscroll",
+   "oncePer": "turn-army",
+   "keywords": [
+    "RAMPAGE"
+   ],
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "reminder": true,
+   "text": "Pick an enemy unit within 1\". Roll a dice: if it equals or beats the target's Health, 1 model is slain."
+  },
+  {
+   "id": "battle-damaged-trugg",
+   "name": "Battle Damaged",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Passive"
+   },
+   "text": "While Trugg has 10+ damage points, roll 1 dice instead of 3 for Malfunctioning Leystone.",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "marker",
+       "marker": "damaged10",
+       "label": "10+ damage"
+      }
+     ],
+     "mods": [
+      {
+       "path": "note",
+       "op": "note",
+       "value": "Leystone rolls 1 dice instead of 3"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "regeneration",
+   "name": "Regeneration",
+   "source": "warscroll",
+   "timing": {
+    "phase": "start",
+    "turn": "any",
+    "label": "Start of Any Turn"
+   },
+   "reminder": true,
+   "text": "<b>Heal (D3)</b> this unit."
+  },
+  {
+   "id": "magical-resistance",
+   "name": "Magical Resistance",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Reaction: opponent declared a SPELL ability"
+   },
+   "reminder": true,
+   "text": "If this unit was picked as a target of that spell, on a 4+ ignore its effect on this unit."
+  },
+  {
+   "id": "wade-and-smash",
+   "name": "Wade and Smash",
+   "source": "warscroll",
+   "oncePer": "turn-army",
+   "keywords": [
+    "RAMPAGE"
+   ],
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "reminder": true,
+   "text": "Move 6\" but end in combat. Then roll a D3 per enemy unit within 1\"; on 2+ inflict that much mortal damage."
+  },
+  {
+   "id": "noxious-vomit-drench",
+   "name": "Noxious Vomit",
+   "source": "warscroll",
+   "timing": {
+    "phase": "shoot",
+    "turn": "your",
+    "label": "Passive"
+   },
+   "reminder": true,
+   "text": "An enemy unit allocated damage by Noxious Vomit is <b>drenched in vomit</b> until your next turn: −1 to its save rolls and it ignores positive save modifiers.",
+   "effects": [
+    {
+     "target": {
+      "kind": "enemy"
+     },
+     "mods": [
+      {
+       "path": "roll.save",
+       "op": "add",
+       "value": -1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    }
+   ]
+  },
+  {
+   "id": "feedin-time",
+   "name": "Feedin' Time",
+   "source": "warscroll",
+   "oncePer": "turn-army",
+   "roll": "2+",
+   "choose": "one",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Once Per Turn (Army), Your Hero Phase"
+   },
+   "text": "Pick a friendly SQUIG unit within this unit's combat range and roll a dice. On a 2+ pick one for the rest of the turn:<ul><li><b>Crimson Deffcap:</b> add 3\" to the target's Move.</li><li><b>Yellow Lurka:</b> the target's Fang-filled Gobs, Huge Fang-filled Gobs and Massive Fang-filled Gobs gain Crit (Mortal).</li></ul>",
+   "options": [
+    {
+     "key": "deffcap",
+     "label": "Crimson Deffcap",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "SQUIG"
+       ]
+      },
+      "range": "in his combat range"
+     },
+     "mods": [
+      {
+       "path": "move",
+       "op": "add",
+       "value": 3
+      }
+     ],
+     "duration": "turn"
+    },
+    {
+     "key": "lurka",
+     "label": "Yellow Lurka",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "SQUIG"
+       ]
+      },
+      "range": "in his combat range"
+     },
+     "mods": [
+      {
+       "path": "weapon.addAbility",
+       "weapons": {
+        "name": "Fang-filled Gob",
+        "includeCompanion": true
+       },
+       "op": "add",
+       "value": "Crit (Mortal)"
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "boing-smash",
+   "name": "Boing! Smash!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Any Charge Phase"
+   },
+   "reminder": true,
+   "text": "If this unit charged this phase, pick an enemy unit within 1\". Roll a dice per model; each 4+ inflicts 1 mortal damage."
+  },
+  {
+   "id": "squig-rage",
+   "name": "Squig Rage",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "While this unit has 10+ damage points, its Huge Fang-filled Gobs have an Attacks characteristic of 6.",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "marker",
+       "marker": "damaged10",
+       "label": "10+ damage"
+      }
+     ],
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "name": "Huge Fang-filled Gobs",
+        "includeCompanion": true
+       },
+       "op": "set",
+       "value": "6"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "watch-out",
+   "name": "Watch Out!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive (on death)"
+   },
+   "reminder": true,
+   "text": "If this unit is destroyed, roll a dice for each enemy unit in its combat range; on a 4+ inflict D3 mortal damage."
+  },
+  {
+   "id": "giant-boing",
+   "name": "Giant Boing!",
+   "source": "warscroll",
+   "oncePer": "turn-army",
+   "keywords": [
+    "RAMPAGE"
+   ],
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Charge Phase"
+   },
+   "reminder": true,
+   "text": "If this unit charged this turn, on a 3+ it can move 3D6\" but must end in combat."
+  },
+  {
+   "id": "summon-malevolent-moon",
+   "name": "Summon Malevolent Moon",
+   "source": "manifestation",
+   "cost": "Cast 7",
+   "keywords": [
+    "SPELL",
+    "SUMMON"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "If you have no Malevolent Moon on the battlefield, set one up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units."
+  },
+  {
+   "id": "lurid-light",
+   "name": "Lurid Light",
+   "source": "warscroll",
+   "timing": {
+    "phase": "start",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "reminder": true,
+   "text": "Friendly Gloomspite Gitz units wholly within 12\" of this manifestation are affected by all four faces of the Bad Moon. Mark them with the \"Wholly within 12\" of the Malevolent Moon\" toggle."
+  },
+  {
+   "id": "moon-move",
+   "name": "Malevolent Moon: move",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "your",
+    "label": "Your Movement Phase"
+   },
+   "reminder": true,
+   "text": "The Moon can Normal Move or Run with its 12\" Move and FLY. Keep your key units wholly within 12\" of it."
+  },
+  {
+   "id": "summon-morks-mighty-mushroom",
+   "name": "Summon Mork's Mighty Mushroom",
+   "source": "manifestation",
+   "cost": "Cast 6",
+   "keywords": [
+    "SPELL",
+    "SUMMON"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "If you have no Mushroom on the battlefield, set one up wholly within 12\" of the caster and visible to them. No 9\" restriction."
+  },
+  {
+   "id": "mutating-spores",
+   "name": "Mutating Spores",
+   "source": "warscroll",
+   "timing": {
+    "phase": "shoot",
+    "turn": "any",
+    "label": "Any Shooting Phase"
+   },
+   "reminder": true,
+   "text": "Pick up to 3 enemy units within 6\" of the Mushroom. For each, roll a dice per model within 6\"; each 5+ inflicts 1 mortal damage."
+  },
+  {
+   "id": "summon-arachnacauldron",
+   "name": "Summon Scrapskuttle's Arachnacauldron",
+   "source": "manifestation",
+   "cost": "Cast 7",
+   "keywords": [
+    "SPELL",
+    "SUMMON"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "Set up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units."
+  },
+  {
+   "id": "blessings-of-the-cauldron",
+   "name": "Blessings of the Cauldron",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick a friendly Gitz WIZARD within 1\" of the Cauldron: +1 power level until the start of your next turn.",
+   "effects": [
+    {
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "GLOOMSPITE GITZ",
+        "WIZARD"
+       ]
+      },
+      "range": "within 1\""
+     },
+     "mods": [
+      {
+       "path": "powerLevel",
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    }
+   ]
+  },
+  {
+   "id": "summon-scuttletide",
+   "name": "Summon Scuttletide",
+   "source": "manifestation",
+   "cost": "Cast 6",
+   "keywords": [
+    "SPELL",
+    "SUMMON"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "Set up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units."
+  },
+  {
+   "id": "wall-crawler",
+   "name": "Wall Crawler",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "reminder": true,
+   "text": "This manifestation crosses terrain as if it had FLY."
+  },
+  {
+   "id": "endless-terrors",
+   "name": "Endless Terrors",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "While this manifestation is near a friendly Arachnarok Spider, it has Ward 4+.",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "near",
+       "keywords": [
+        "ARACHNAROK"
+       ],
+       "range": "within 12\"",
+       "label": "Near a friendly Arachnarok"
+      }
+     ],
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "4+"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "moonclan-lairs",
+   "name": "Moonclan Lairs",
+   "source": "warscroll",
+   "oncePer": "turn-army",
+   "cost": "1 CP",
+   "timing": {
+    "phase": "eot",
+    "turn": "your",
+    "label": "Once Per Turn (Army), End of Your Turn"
+   },
+   "reminder": true,
+   "text": "Pick a destroyed friendly non-HERO non-MONSTER non-WAR MACHINE Gitz unit. Set up a replacement with half its models (round up) wholly within 12\" of the Loonshrine and more than 3\" from enemies."
+  },
+  {
+   "id": "bouncing-fury",
+   "name": "Bouncing Fury",
+   "source": "formation",
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Each time a friendly SQUIG unit charges, add 1 to the Attacks of its Fang-filled Gobs, Huge Fang-filled Gobs or Massive Fang-filled Gobs for the rest of the turn.",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "SQUIG"
+       ]
+      }
+     },
+     "when": [
+      {
+       "cond": "marker",
+       "marker": "charged",
+       "label": "Charged this turn"
+      }
+     ],
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "name": "Fang-filled Gob",
+        "includeCompanion": true
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "loontouched",
+   "name": "Loontouched",
+   "source": "enhancement",
+   "timing": {
+    "phase": "hero",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "This HERO gains WIZARD (1).",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "mods": [
+      {
+       "path": "powerLevel",
+       "op": "set",
+       "value": 1
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "clammy-cowl",
+   "name": "The Clammy Cowl",
+   "source": "enhancement",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Subtract 1 from hit rolls for attacks that target the bearer.",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "mods": [
+      {
+       "path": "defence.hitAgainst",
+       "op": "add",
+       "value": -1
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "glitzy-bitz-rolla",
+   "name": "Glitzy Bitz Rolla",
+   "source": "enhancement",
+   "cost": "1 rage",
+   "timing": {
+    "phase": "start",
+    "turn": "any",
+    "label": "Start of Any Turn"
+   },
+   "text": "Spend 1 rage dice:<ul><li>This unit adds 1 to wound rolls for its attacks for the rest of the turn.</li><li>If your opponent's fury level is lower than yours, they must raise it by 1 (max 7).</li></ul>",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "mods": [
+      {
+       "path": "roll.wound",
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "bad-portents",
+   "name": "Bad Portents",
+   "source": "lore",
+   "cost": "Cast 6",
+   "keywords": [
+    "SPELL",
+    "UNLIMITED"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "Roll a dice:<ul><li><b>1-2:</b> nothing happens.</li><li><b>3-5:</b> the Bad Moon moves to the next face.</li><li><b>6:</b> pick any face for this battle round.</li></ul>"
+  },
+  {
+   "id": "spore-maws",
+   "name": "Spore Maws",
+   "source": "lore",
+   "cost": "Cast 7",
+   "keywords": [
+    "SPELL"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "Pick up to 3 visible enemy units within 12\" of the caster. Roll a D3 for each; on a 2+ inflict that much mortal damage."
+  },
+  {
+   "id": "hand-of-gork",
+   "name": "The Hand of Gork",
+   "source": "lore",
+   "cost": "Cast 7",
+   "keywords": [
+    "SPELL"
+   ],
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "Pick a visible friendly Gitz unit wholly within 12\" of the caster and not in combat (the caster itself is legal: a model is always visible to itself). Remove it and set it up wholly within 24\" of the caster and more than 9\" from all enemy units."
+  },
+  {
+   "id": "faces-of-the-bad-moon",
+   "name": "The Faces of the Bad Moon",
+   "source": "faction",
+   "oncePer": "round-army",
+   "timing": {
+    "phase": "start",
+    "turn": "any",
+    "label": "Once Per Battle Round (Army), Start of Battle Round"
+   },
+   "reminder": true,
+   "text": "Must be used.<ul><li><b>Round 1:</b> pick the starting face (Grinnin', Scowlin', Sulkin' or Cacklin').</li><li><b>Later rounds:</b> the face moves on: Grinnin' → Scowlin' → Sulkin' → Cacklin' → Grinnin'.</li></ul>"
+  },
+  {
+   "id": "creeping-gloom",
+   "name": "Creeping Gloom",
+   "source": "faction",
+   "oncePer": "turn-army",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Once Per Turn (Army), Your Hero Phase"
+   },
+   "reminder": true,
+   "text": "Pick a terrain feature. Until the start of your next turn, friendly non-MONSTER non-WAR MACHINE Gitz units wholly within 3\" of it are not visible to enemy units more than 9\" away."
+  },
+  {
+   "id": "frothing-zealots",
+   "name": "Frothing Zealots",
+   "source": "faction",
+   "timing": {
+    "phase": "eot",
+    "turn": "any",
+    "label": "Passive (Cacklin' or Grinnin')"
+   },
+   "text": "Add 5 to the control scores of friendly non-SQUIG MOONCLAN units.",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "MOONCLAN"
+       ],
+       "notKeywords": [
+        "SQUIG"
+       ]
+      }
+     },
+     "when": [
+      {
+       "cond": "moon",
+       "faces": [
+        "C",
+        "G"
+       ]
+      }
+     ],
+     "mods": [
+      {
+       "path": "controlScore",
+       "op": "add",
+       "value": 5
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "spiderfang-venom",
+   "name": "Spiderfang Venom",
+   "source": "faction",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Passive (Cacklin' or Grinnin')"
+   },
+   "text": "Combat attacks by friendly SPIDERFANG units score critical hits on unmodified hit rolls of 5+ (Companion weapons included).",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "SPIDERFANG"
+       ]
+      }
+     },
+     "when": [
+      {
+       "cond": "moon",
+       "faces": [
+        "C",
+        "G"
+       ]
+      }
+     ],
+     "mods": [
+      {
+       "path": "note",
+       "op": "note",
+       "value": "Melee crits on unmodified 5+"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "moonlit-hide",
+   "name": "Moonlit Hide",
+   "source": "faction",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive (Grinnin' or Scowlin')"
+   },
+   "text": "Subtract 1 from the Rend of combat attacks that target friendly TROGGOTH units.",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "TROGGOTH"
+       ]
+      }
+     },
+     "when": [
+      {
+       "cond": "moon",
+       "faces": [
+        "G",
+        "Sc"
+       ]
+      }
+     ],
+     "mods": [
+      {
+       "path": "defence.rendAgainst",
+       "op": "add",
+       "value": -1,
+       "attack": "combat"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "lunar-squigs",
+   "name": "Lunar Squigs",
+   "source": "faction",
+   "timing": {
+    "phase": "move",
+    "turn": "any",
+    "label": "Passive (Scowlin' or Sulkin')"
+   },
+   "text": "Each time a friendly SQUIG unit moves, you may use a value of 4 instead of rolling the dice in its Move characteristic.",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "SQUIG"
+       ]
+      }
+     },
+     "when": [
+      {
+       "cond": "moon",
+       "faces": [
+        "Sc",
+        "Su"
+       ]
+      }
+     ],
+     "mods": [
+      {
+       "path": "move",
+       "op": "alt",
+       "value": {
+        "dice": 4
+       }
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "sneaky-snarlfangs",
+   "name": "Sneaky Snarlfangs",
+   "source": "faction",
+   "timing": {
+    "phase": "move",
+    "turn": "your",
+    "label": "Passive (Sulkin' or Cacklin')"
+   },
+   "text": "Friendly GITMOB units can use CHARGE and SHOOT abilities even if they used a RETREAT ability in the same turn.",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "GITMOB"
+       ]
+      }
+     },
+     "when": [
+      {
+       "cond": "moon",
+       "faces": [
+        "Su",
+        "C"
+       ]
+      }
+     ],
+     "mods": [
+      {
+       "path": "note",
+       "op": "note",
+       "value": "Can charge and shoot after retreating"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "secret-tunnels",
+   "name": "Secret Tunnels",
+   "source": "warscroll",
+   "timing": {
+    "phase": "deploy",
+    "turn": "any",
+    "label": "Deployment Phase"
+   },
+   "text": "If this unit has not been deployed, set it up in reserve <b>in a secret tunnel</b>. It counts as deployed.",
+   "keywords": [
+    "Deploy"
+   ],
+   "reminder": true
+  },
+  {
+   "id": "cant-catch-me",
+   "name": "'Neh Neh Na-neh Neh! Can't Catch Me!'",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "your",
+    "label": "Once Per Turn (Army), Your Movement Phase"
+   },
+   "text": "Pick a visible friendly MONSTER or BEAST unit. For the rest of the turn it can use CHARGE abilities even after a RUN, but every MOVE it makes must end closer to this unit. The first time it ends a move within this unit's combat range this turn, this unit suffers D6 mortal damage.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "emerge-from-the-depths",
+   "name": "Emerge from the Depths",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "your",
+    "label": "Your Movement Phase"
+   },
+   "text": "If this unit is in a secret tunnel, set it up anywhere on the battlefield more than 9\" from all enemy units.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "deffcap-mushroom",
+   "name": "Deffcap Mushroom",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Once Per Battle, Your Hero Phase"
+   },
+   "text": "Add 1 to this unit's power level for the rest of the turn.",
+   "keywords": [],
+   "oncePer": "battle",
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "mods": [
+      {
+       "path": "powerLevel",
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "battle-damaged-arachnarok",
+   "name": "Battle Damaged",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "While this unit has 10+ damage points, its Chitinous Legs have an Attacks characteristic of 6.",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "marker",
+       "marker": "damaged10",
+       "label": "10+ damage"
+      }
+     ],
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "name": "Chitinous Legs",
+        "includeCompanion": true
+       },
+       "op": "set",
+       "value": "6"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "catchweb-spidershrine",
+   "name": "Catchweb Spidershrine",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Friendly SPIDERFANG WIZARDS add 1 to casting rolls while wholly within 12\" of this unit.",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "SPIDERFANG",
+        "WIZARD"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "roll.cast",
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "ensnaring-webbing",
+   "name": "Ensnaring Webbing",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "Pick an enemy INFANTRY HERO within 1\" and roll a dice. On a 3+, it has STRIKE-LAST for the rest of the turn.",
+   "keywords": [
+    "Rampage"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "lets-get-bouncin",
+   "name": "Let's Get Bouncin'!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Reaction: You declared a Fight ability for this unit"
+   },
+   "text": "Pick a friendly non-HERO MOONCLAN CAVALRY unit in this unit's combat range that has not fought this turn. It can fight immediately after this unit's FIGHT ability is resolved.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "squigs-gone-wild",
+   "name": "Squigs Gone Wild",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Each time a model in this unit is slain by a combat attack from a unit it was in combat with, roll a dice. On a 5+, the attacking unit suffers 1 mortal damage after the FIGHT ability is resolved.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "herding-squigs",
+   "name": "Herding Squigs",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Roll a dice for each Squig Herder in this unit. For each 2+, return up to D3 slain Cave Squigs to the unit. For each 1, 1 Squig Herder is slain.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "netters",
+   "name": "Netters",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Any Combat Phase"
+   },
+   "text": "Pick an enemy INFANTRY unit in combat with this unit and roll a dice. On a 3+, subtract 1 from hit rolls for that unit's attacks for the rest of the turn.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "whirling-death",
+   "name": "Whirling Death",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "This unit has STRIKE-FIRST.",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "mods": [
+      {
+       "path": "note",
+       "op": "note",
+       "value": "Strike-first"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "hidden-loons",
+   "name": "Hidden Loons",
+   "source": "warscroll",
+   "timing": {
+    "phase": "deploy",
+    "turn": "any",
+    "label": "Deployment Phase"
+   },
+   "text": "If this unit has not been deployed, set it up in reserve <b>hidden among the mobs</b>. It counts as deployed.",
+   "keywords": [
+    "Deploy"
+   ],
+   "reminder": true
+  },
+  {
+   "id": "release-the-fanatics",
+   "name": "Release the Fanatics!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "any",
+    "label": "Any Movement Phase"
+   },
+   "text": "If this unit is hidden among the mobs, pick a friendly Moonclan Shootas or Moonclan Stabbas unit with 10+ models. Set this unit up wholly within 6\" of it and more than 9\" from all enemy units.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "puffshroom-frenzy",
+   "name": "Puffshroom Frenzy",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Other friendly MOONCLAN units add 1 to the Attacks of their melee weapons while wholly within 12\" of this unit. Enemy units in combat with this unit subtract 1 from the Attacks of their melee weapons.",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "MOONCLAN"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      },
+      "excludeSelf": true
+     },
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "type": "melee"
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "prod-in-the-right-direction",
+   "name": "A Prod in the Right Direction",
+   "source": "warscroll",
+   "timing": {
+    "phase": "deploy",
+    "turn": "any",
+    "label": "Deployment Phase"
+   },
+   "text": "This unit can use the 'Normal Move' ability as if it were your movement phase.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "bite-da-moon",
+   "name": "Bite da Moon!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Battle (Army), Any Combat Phase"
+   },
+   "text": "This unit and every friendly SQUIG unit wholly within 12\" of it add 1 to hit rolls for their Fang-filled Gobs, Massive Fang-filled Gobs and Huge Fang-filled Gobs for the rest of the turn.",
+   "keywords": [],
+   "oncePer": "battle-army",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "SQUIG"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "roll.hit",
+       "weapons": {
+        "name": "Fang-filled Gob",
+        "includeCompanion": true
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "ker-splat",
+   "name": "Ker-splat!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Charge Phase"
+   },
+   "text": "If this unit charged this phase, pick an enemy unit within 1\". Roll a dice for each model in it (max 10). Each 4+ inflicts 1 mortal damage on it.",
+   "keywords": [
+    "Rampage"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "boing-boing-boing",
+   "name": "Boing! Boing! Boing!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "any",
+    "label": "Any Movement Phase"
+   },
+   "text": "Pick an enemy unit this unit passed across this phase. Roll a dice for each model in this unit that passed across it; each 4+ inflicts 1 mortal damage on that unit.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "kragnos-battle-damaged",
+   "name": "Battle Damaged",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "While this unit has 10+ damage points, The Dread Mace has 4 Attacks and this unit has a Control characteristic of 10.",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "marker",
+       "marker": "damaged10",
+       "label": "10+ damage"
+      }
+     ],
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "name": "The Dread Mace",
+        "includeCompanion": true
+       },
+       "op": "set",
+       "value": "4"
+      },
+      {
+       "path": "control",
+       "op": "set",
+       "value": 10
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "avatar-of-destruction",
+   "name": "Avatar of Destruction",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "If this unit would be automatically destroyed, it is not. Instead allocate 6 damage points to it; no ward rolls for those.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "rampaging-destruction",
+   "name": "Rampaging Destruction",
+   "source": "warscroll",
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Charge Phase"
+   },
+   "text": "If this unit charged this phase, pick one:<ul><li>Roll a dice for each enemy unit within 1\". On a 2+, inflict that much mortal damage on it.</li><li>Pick an enemy MONSTER in combat with this unit and roll 2D6. On a 7, nothing happens; otherwise inflict mortal damage equal to the two dice multiplied together.</li></ul>",
+   "keywords": [
+    "Rampage"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "end-of-empires",
+   "name": "The End of Empires",
+   "source": "warscroll",
+   "timing": {
+    "phase": "charge",
+    "turn": "your",
+    "label": "Your Charge Phase"
+   },
+   "text": "For the rest of the turn, friendly DESTRUCTION units wholly within 12\" of this unit roll 1 extra dice for charge rolls (max 3 dice).",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "shield-inviolate",
+   "name": "The Shield Inviolate",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "enemy",
+    "label": "Reaction: Opponent declared a Spell ability"
+   },
+   "text": "If this unit is the target of that spell, roll a dice. On a 3+, ignore the spell's effect on this unit. Usable more than once per phase, once per SPELL ability.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "shepherd-of-destruction",
+   "name": "Shepherd of Destruction",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "Roll a dice. On a 4+, friendly TROGGOTH units add 1 to the Attacks of their melee weapons for the rest of the turn while wholly within 12\" of this unit.",
+   "keywords": [
+    "Rampage"
+   ],
+   "oncePer": "turn-army",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "TROGGOTH"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "type": "melee"
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "looncap-mushrooms",
+   "name": "Looncap Mushrooms",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Once Per Turn (Army), Your Hero Phase"
+   },
+   "text": "If this unit is not in combat, pick a friendly MOONCLAN unit wholly within 12\" of it and roll a dice, adding 1 if the Bad Moon is Cacklin'. On a 3+, it has WARD (5+) until the start of your next turn. On a 6+, its melee weapons also get +1 Attacks until then.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "choose": "one",
+   "options": [
+    {
+     "key": "ward",
+     "label": "3+ · Ward 5+",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "MOONCLAN"
+       ]
+      },
+      "range": "wholly within 12\""
+     },
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "5+"
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    },
+    {
+     "key": "both",
+     "label": "6+ · Ward 5+ and +1 Attacks",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "MOONCLAN"
+       ]
+      },
+      "range": "wholly within 12\""
+     },
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "5+"
+      },
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "type": "melee"
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    }
+   ],
+   "roll": "3+ (6+ for both); +1 on Cacklin'"
+  },
+  {
+   "id": "gut-wrenching-stench",
+   "name": "Gut-Wrenching Stench",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "Pick an enemy unit in combat with this unit and roll a dice. You may spend up to 3 rage dice: add 1 to the roll for each, and if your opponent's fury level is lower than yours they must raise it by 1 (max 7). On a 5+, the target has STRIKE-LAST for the rest of the turn.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "cost": "0-3 rage",
+   "reminder": true
+  },
+  {
+   "id": "cant-catch-us",
+   "name": "Can't Catch Us!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "enemy",
+    "label": "Once Per Turn (Army), Enemy Movement Phase"
+   },
+   "text": "If this unit is not in combat, it can move D6\". It cannot end that move in combat.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "im-da-boss",
+   "name": "I'm da Boss",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick a visible friendly Moonclan Stabbas unit wholly within 12\" and roll a dice. On a 2+ pick one:<ul><li><b>Get Back 'Ere!:</b> if it is not in combat, return up to D6 slain models to it.</li><li><b>Stab 'Em Good!:</b> it adds 1 to wound rolls for its attacks until the start of your next turn.</li></ul>",
+   "keywords": [],
+   "choose": "one",
+   "options": [
+    {
+     "key": "back",
+     "label": "Get Back 'Ere!",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "ids": [
+        "moonclan-stabbas"
+       ]
+      },
+      "range": "wholly within 12\""
+     },
+     "reminder": true,
+     "duration": "phase"
+    },
+    {
+     "key": "stab",
+     "label": "Stab 'Em Good!",
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "ids": [
+        "moonclan-stabbas"
+       ]
+      },
+      "range": "wholly within 12\""
+     },
+     "mods": [
+      {
+       "path": "roll.wound",
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    }
+   ],
+   "roll": "2+"
+  },
+  {
+   "id": "lets-get-stabbin",
+   "name": "Let's Get Stabbin'!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Reaction: You declared a Fight ability for this unit"
+   },
+   "text": "Pick a friendly non-HERO MOONCLAN INFANTRY unit in this unit's combat range that has not fought this turn. It can fight immediately after this unit's FIGHT ability is resolved.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "web-slingshot",
+   "name": "Web Slingshot",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick a friendly SPIDERFANG unit or a terrain feature within 18\" and roll a dice. On a 2+, remove this unit and set it up wholly within 3\" of it and more than 9\" from all enemy units.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "speed-of-the-spider-god",
+   "name": "Speed of the Spider God",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick a visible friendly SPIDERFANG unit wholly within 12\". This turn it can RUN and still SHOOT and/or CHARGE.",
+   "keywords": [
+    "Spell"
+   ],
+   "cost": "Cast 6",
+   "reminder": true
+  },
+  {
+   "id": "flinger",
+   "name": "Flinger",
+   "source": "warscroll",
+   "timing": {
+    "phase": "shoot",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "If any Flinger attacks hit, roll a dice after the SHOOT ability. On a 2+, the target is <b>entangled</b> until the start of your next turn: halve its Move.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "beast-binding-webbing",
+   "name": "Beast-binding Webbing",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "Pick an enemy unit that charged this turn and is in combat with this unit, and roll a dice. On a 3+, its Companion weapons get −1 Attacks for the rest of the turn.",
+   "keywords": [
+    "Rampage"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "voracious-predator",
+   "name": "Voracious Predator",
+   "source": "warscroll",
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Charge Phase"
+   },
+   "text": "Pick up to 3 enemy units within 1\". Roll a D3 for each; on a 2+ inflict that much mortal damage on it.",
+   "keywords": [
+    "Rampage"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "realmweb-lurker",
+   "name": "Realmweb Lurker",
+   "source": "warscroll",
+   "timing": {
+    "phase": "deploy",
+    "turn": "any",
+    "label": "Deployment Phase"
+   },
+   "text": "If this unit has not been deployed, set it up in reserve <b>skittering through tunnels in reality</b>. It counts as deployed.",
+   "keywords": [
+    "Deploy"
+   ],
+   "reminder": true
+  },
+  {
+   "id": "scuttling-terror",
+   "name": "Scuttling Terror",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "If this unit charged this turn, roll a dice. On a 3+ it can move 2D6\", passing through enemy combat ranges and enemy INFANTRY models, but must end in combat. Then pick an enemy INFANTRY unit it passed across: inflict D3 mortal damage on it.",
+   "keywords": [
+    "Rampage"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "ambush-from-beyond",
+   "name": "Ambush from Beyond",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "any",
+    "label": "Any Movement Phase"
+   },
+   "text": "If this unit is skittering through tunnels in reality, set it up anywhere on the battlefield more than 9\" from all enemy units.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "da-frazzlefangz",
+   "name": "Da Frazzlefangz",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Enemy units within 6\" of this unit subtract 1 from hit rolls for their attacks and cannot use the All-out Attack command.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "rip-em-ta-bits",
+   "name": "Rip 'Em ta Bits",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Reaction: You declared a Fight ability for this unit"
+   },
+   "text": "Pick a friendly GITMOB unit in this unit's combat range that has not fought this turn. It can fight immediately after this unit's FIGHT ability is resolved.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "time-ta-scarper",
+   "name": "Time ta Scarper",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Reaction: You declared a Fight ability for a unit wholly within 9\" of this unit"
+   },
+   "text": "Roll a dice. On a 4+, after that FIGHT ability, the fighting unit can move 2D6\". It can pass through enemy combat ranges but cannot end in combat.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "vicious-snarls",
+   "name": "Vicious Snarls and Great Howls",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "If this unit charged this turn, it and up to 2 friendly GITMOB CAVALRY units in its combat range add 1 to the Attacks of their Companion melee weapons for the rest of the turn.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "GITMOB",
+        "CAVALRY"
+       ]
+      },
+      "near": {
+       "range": "in the combat range"
+      }
+     },
+     "mods": [
+      {
+       "path": "weapon.attacks",
+       "weapons": {
+        "ability": "Companion",
+        "type": "melee",
+        "includeCompanion": true
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "boss-snarlfang",
+   "name": "Boss Snarlfang",
+   "source": "warscroll",
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Friendly GITMOB CAVALRY units add 2 to charge rolls while wholly within 12\" of this unit.",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "GITMOB",
+        "CAVALRY"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "roll.charge",
+       "op": "add",
+       "value": 2
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "gimme-all-da-light",
+   "name": "Gimme All da Light",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Other friendly GITMOB units (not Frazzlegit Shamans on War-Wheelas) cannot be targeted by shooting attacks while wholly within 6\" of this unit.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "frazzlemist",
+   "name": "Frazzlemist",
+   "source": "warscroll",
+   "timing": {
+    "phase": "shoot",
+    "turn": "your",
+    "label": "Once Per Turn (Army), Your Shooting Phase"
+   },
+   "text": "Pick up to 3 visible enemy units within 9\". Roll a D3 for each; on a 2+ inflict that much mortal damage.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "shoddy-wing-like-gizmos",
+   "name": "Shoddy Wing-like Gizmos",
+   "source": "warscroll",
+   "timing": {
+    "phase": "shoot",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Shooting Phase"
+   },
+   "text": "You can re-roll hit rolls for this unit's shooting attacks this turn, but each re-rolled hit roll gives the Doom Diver −1 Rend for the rest of the turn.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "i-got-dis-boss",
+   "name": "I Got Dis, Boss!",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "While a friendly Snarlboss is within this unit's combat range, this unit and that Snarlboss have WARD (5+).",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "near",
+       "unit": "snarlboss",
+       "range": "Snarlboss in combat range",
+       "label": "Snarlboss in combat range"
+      }
+     ],
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "5+"
+      }
+     ],
+     "duration": "while"
+    },
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "ids": [
+        "snarlboss"
+       ]
+      },
+      "near": {
+       "range": "in the combat range"
+      }
+     },
+     "mods": [
+      {
+       "path": "ward",
+       "op": "set",
+       "value": "5+"
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "careening-destruction",
+   "name": "Careening Destruction",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Movement Phase"
+   },
+   "text": "If this unit is in combat, it can move up to its Move, passing through models and enemy combat ranges, but not ending in combat. Then pick up to 1 enemy INFANTRY or CAVALRY unit it passed across: inflict D3 mortal damage plus 1 per model in this unit.",
+   "keywords": [
+    "CORE",
+    "MOVE"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "slice-and-soar",
+   "name": "Slice and Soar",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "Only if this unit charged this turn. Pick an enemy unit in combat with it and roll a dice per model in that unit, adding 1 if this unit has 2 models or 2 if it has 3+. Each 6+ inflicts 1 mortal damage. Then you may spend 1 rage dice: this unit moves up to 2D6\" (through enemy combat ranges, not ending in combat), and if your opponent's fury level is lower than yours they raise it by 1 (max 7).",
+   "keywords": [
+    "CORE",
+    "ATTACK",
+    "FIGHT"
+   ],
+   "oncePer": "turn-army",
+   "cost": "0-1 rage",
+   "reminder": true
+  },
+  {
+   "id": "frazzlegits-flame-stream",
+   "name": "Frazzlegit's Flame Stream",
+   "source": "warscroll",
+   "timing": {
+    "phase": "move",
+    "turn": "your",
+    "label": "Your Movement Phase"
+   },
+   "text": "This unit can move up to its Move, passing through models and enemy combat ranges, but not ending in combat (usable even in combat). Then pick up to 1 enemy INFANTRY unit it passed across: inflict D6 mortal damage.",
+   "keywords": [
+    "CORE",
+    "MOVE"
+   ],
+   "reminder": true
+  },
+  {
+   "id": "keepin-up-wiv-da-boss",
+   "name": "Keepin' Up Wiv da Boss",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Reaction: You declared a  Fight ability for this unit"
+   },
+   "text": "Pick a friendly Sunsteala Wheelas unit in this unit's combat range that has not fought this turn. It can fight immediately after this unit's FIGHT ability is resolved.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "da-glare-of-frazzlegit",
+   "name": "Da Glare of Frazzlegit",
+   "source": "warscroll",
+   "timing": {
+    "phase": "hero",
+    "turn": "any",
+    "label": "Once Per Battle (Army), Any Hero Phase"
+   },
+   "text": "For the rest of the turn:<ul><li>Enemy units in combat with any friendly Sunsteala Wheelas subtract 1 from hit rolls.</li><li>This unit and friendly Sunsteala Wheelas add 6\" to their Move.</li></ul>",
+   "keywords": [],
+   "oncePer": "battle-army",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "ids": [
+        "snarlboss-on-war-wheela",
+        "sunsteala-wheelas",
+        "sunsteala-wheelas-scourge-of-aqshy"
+       ]
+      }
+     },
+     "mods": [
+      {
+       "path": "move",
+       "op": "add",
+       "value": 6
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "markin-territory",
+   "name": "Markin' Territory",
+   "source": "warscroll",
+   "timing": {
+    "phase": "eot",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "If this unit charged this turn, add 5 to its control score for the rest of the turn.",
+   "keywords": [],
+   "effects": [
+    {
+     "target": {
+      "kind": "self"
+     },
+     "when": [
+      {
+       "cond": "marker",
+       "marker": "charged",
+       "label": "Charged this turn"
+      }
+     ],
+     "mods": [
+      {
+       "path": "controlScore",
+       "op": "add",
+       "value": 5
+      }
+     ],
+     "duration": "while"
+    }
+   ]
+  },
+  {
+   "id": "frazzleburned-scrap",
+   "name": "Frazzleburned Scrap",
+   "source": "warscroll",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "If this unit charged this turn, it has STRIKE-FIRST for the rest of the turn.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "lost-in-the-horde",
+   "name": "Lost in the Horde",
+   "source": "warscroll",
+   "timing": {
+    "phase": "deploy",
+    "turn": "any",
+    "label": "Deployment Phase"
+   },
+   "text": "If this unit has not been deployed, set it up in reserve <b>lost in the horde</b>. It counts as deployed.",
+   "keywords": [
+    "Deploy"
+   ],
+   "reminder": true
+  },
+  {
+   "id": "whirling-destruction",
+   "name": "Whirling Destruction",
+   "source": "warscroll",
+   "timing": {
+    "phase": "charge",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Charge Phase"
+   },
+   "text": "If this unit is lost in the horde, set it up wholly within 3\" of a friendly Moonclan Stabbas or Shootas unit, then move it 2D6\" (it can pass through enemy models and combat ranges and end in combat). Roll a dice for each enemy unit it is in combat with or passed across: inflict that much mortal damage. If it ended in combat, it has charged.",
+   "keywords": [
+    "Core",
+    "Move",
+    "Charge"
+   ],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "choking-spore-clouds",
+   "name": "Choking Spore-clouds",
+   "source": "warscroll",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Enemy units in combat with this unit subtract 1 from the Attacks of their weapons.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "spinning-loons",
+   "name": "Spinning Loons",
+   "source": "warscroll",
+   "timing": {
+    "phase": "eot",
+    "turn": "any",
+    "label": "Once Per Turn (Army), End of Any Turn"
+   },
+   "text": "If this unit was not set up this phase, it can move 2D6\". It can pass through enemy combat ranges and end in combat.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "herd-healing",
+   "name": "Herd Healing",
+   "source": "formation",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Each time a friendly TROGGOTH unit uses a FIGHT ability, Heal (D3) it after the ability is resolved.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "git-and-run",
+   "name": "Git and Run",
+   "source": "formation",
+   "timing": {
+    "phase": "move",
+    "turn": "your",
+    "label": "Your Movement Phase"
+   },
+   "text": "Pick a friendly GITMOB unit in combat. You may pick an enemy unit in combat with it (each enemy unit only once per phase) and roll a D3: on a 2+ inflict that much mortal damage on it. Then the GITMOB unit can move up to its Move through enemy combat ranges, but not ending in combat.",
+   "keywords": [
+    "CORE",
+    "MOVE",
+    "RETREAT"
+   ],
+   "reminder": true
+  },
+  {
+   "id": "spreading-loonacy",
+   "name": "Spreading Loonacy",
+   "source": "formation",
+   "timing": {
+    "phase": "eot",
+    "turn": "your",
+    "label": "Once Per Turn (Army), End of Your Turn"
+   },
+   "text": "Pick up to 3 friendly units in combat that are non-SQUIG MOONCLAN or SPIDERFANG. For each: make a pile-in move, then pick an enemy unit in combat with it and roll a D3. On a 2+, inflict that much mortal damage on that enemy unit.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "extra-snappy",
+   "name": "Extra Snappy",
+   "source": "formation",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Once Per Turn (Army), Any Combat Phase"
+   },
+   "text": "Pick up to 3 friendly GITMOB units that charged this turn. Their Companion weapons get +1 Rend for the rest of the turn. Mark it on each unit's warscroll.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "effects": [
+    {
+     "target": {
+      "kind": "pick",
+      "side": "friendly",
+      "filter": {
+       "keywords": [
+        "GITMOB"
+       ]
+      }
+     },
+     "when": [
+      {
+       "cond": "marker",
+       "marker": "charged",
+       "label": "Charged this turn"
+      }
+     ],
+     "mods": [
+      {
+       "path": "weapon.rend",
+       "weapons": {
+        "ability": "Companion",
+        "includeCompanion": true
+       },
+       "op": "add",
+       "value": 1
+      }
+     ],
+     "duration": "turn"
+    }
+   ]
+  },
+  {
+   "id": "grots-upon-grots",
+   "name": "Grots Upon Grots",
+   "source": "formation",
+   "timing": {
+    "phase": "eot",
+    "turn": "any",
+    "label": "Once Per Turn (Army), End of Any Turn"
+   },
+   "text": "Pick a friendly non-SQUIG MOONCLAN unit contesting an objective. For the rest of the turn, add 1 to its control score for each of its models that is not contesting any objective.",
+   "keywords": [],
+   "oncePer": "turn-army",
+   "reminder": true
+  },
+  {
+   "id": "backstabbers-blade",
+   "name": "Backstabber's Blade",
+   "source": "enhancement",
+   "timing": {
+    "phase": "eot",
+    "turn": "any",
+    "label": "Once Per Battle, End of Any Turn"
+   },
+   "text": "Pick an enemy HERO in combat with this unit and roll a dice. On a 2+, inflict that much mortal damage on it.",
+   "keywords": [],
+   "oncePer": "battle",
+   "reminder": true
+  },
+  {
+   "id": "leering-gitshield",
+   "name": "Leering Gitshield",
+   "source": "enhancement",
+   "timing": {
+    "phase": "def",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Each time an unmodified hit roll for an attack targeting this unit is a 1, the attacking unit suffers 1 mortal damage after the ATTACK ability is resolved.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "clammy-hand",
+   "name": "The Clammy Hand",
+   "source": "enhancement",
+   "timing": {
+    "phase": "hero",
+    "turn": "any",
+    "label": "Passive"
+   },
+   "text": "Each time a friendly GLOOMSPITE GITZ unit wholly within 12\" of this unit uses the Rally command, you can make 3 extra rally rolls.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "fight-another-day",
+   "name": "Fight Another Day",
+   "source": "enhancement",
+   "timing": {
+    "phase": "combat",
+    "turn": "any",
+    "label": "Any Combat Phase"
+   },
+   "text": "If this unit is in combat, roll a dice. On a 3+, it can immediately Retreat as if it were your movement phase, suffering no mortal damage.",
+   "keywords": [],
+   "reminder": true
+  },
+  {
+   "id": "fizzcap",
+   "name": "Fizzcap",
+   "source": "enhancement",
+   "timing": {
+    "phase": "hero",
+    "turn": "any",
+    "label": "Once Per Battle, Any Hero Phase"
+   },
+   "text": "This unit can use a SUMMON spell from your manifestation lore as if it had WIZARD (1). Its casting roll is an unmodifiable 12 and the spell cannot be unbound. Then, if this unit is not MOONCLAN, roll a dice: on a 1-4, 1 of its models is slain.",
+   "keywords": [],
+   "oncePer": "battle",
+   "reminder": true
+  },
+  {
+   "id": "spoofshrooms",
+   "name": "Spoofshrooms",
+   "source": "enhancement",
+   "timing": {
+    "phase": "eot",
+    "turn": "any",
+    "label": "End of Any Turn"
+   },
+   "text": "Roll a dice (D3+3 if this unit is GITMOB). This unit can move up to that many inches, through enemy combat ranges, but not ending in combat.",
+   "keywords": [
+    "MOVE"
+   ],
+   "reminder": true
+  },
+  {
+   "id": "itchy-nuisance",
+   "name": "Itchy Nuisance",
+   "source": "lore",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick an objective within 18\" of the caster. Until the start of your next turn, enemy units contesting it subtract 1 from wound rolls.",
+   "keywords": [
+    "SPELL",
+    "UNLIMITED"
+   ],
+   "cost": "Cast 6",
+   "reminder": true
+  },
+  {
+   "id": "loonshrine-glow",
+   "name": "Loonshrine Glow",
+   "source": "lore",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "For the rest of the turn, a replacement unit from Moonclan Lairs can be set up wholly within 6\" of the caster (and more than 3\" from enemies) instead of near the Loonshrine.",
+   "keywords": [
+    "SPELL"
+   ],
+   "cost": "Cast 7",
+   "reminder": true
+  },
+  {
+   "id": "puffballoons",
+   "name": "Puffballoons",
+   "source": "lore",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick a visible friendly GLOOMSPITE GITZ unit wholly within 12\" of the caster. Until the start of your next turn, each time an ability inflicts damage on it, afterwards it can move up to 3\" (through enemy combat ranges; it can only end in combat with units it was already fighting).",
+   "keywords": [
+    "SPELL"
+   ],
+   "cost": "Cast 6",
+   "reminder": true
+  },
+  {
+   "id": "gitspeed",
+   "name": "Gitspeed",
+   "source": "lore",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Until the start of your next turn, friendly non-TROGGOTH GLOOMSPITE GITZ units add 2\" to their Move while wholly within 12\" of the caster. Mark the cast on the caster's warscroll.",
+   "keywords": [
+    "SPELL"
+   ],
+   "cost": "Cast 6",
+   "effects": [
+    {
+     "target": {
+      "kind": "aura",
+      "filter": {
+       "keywords": [
+        "GLOOMSPITE GITZ"
+       ],
+       "notKeywords": [
+        "TROGGOTH"
+       ]
+      },
+      "near": {
+       "range": "wholly within 12\""
+      }
+     },
+     "mods": [
+      {
+       "path": "move",
+       "op": "add",
+       "value": 2
+      }
+     ],
+     "duration": "untilYourNextTurn"
+    }
+   ]
+  },
+  {
+   "id": "bright-fright",
+   "name": "Bright Fright",
+   "source": "lore",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick up to 3 visible friendly GLOOMSPITE GITZ units wholly within 12\" of the caster. Each can immediately Retreat as if it were your movement phase, suffering no mortal damage.",
+   "keywords": [
+    "SPELL",
+    "UNLIMITED"
+   ],
+   "cost": "Cast 6",
+   "reminder": true
+  },
+  {
+   "id": "gaze-of-glareface",
+   "name": "Gaze of Glareface",
+   "source": "lore",
+   "timing": {
+    "phase": "hero",
+    "turn": "your",
+    "label": "Your Hero Phase"
+   },
+   "text": "Pick a visible enemy unit within 18\" of the caster. Until the start of your next turn it cannot RUN and the Range of its ranged weapons is halved.",
+   "keywords": [
+    "SPELL"
+   ],
+   "cost": "Cast 6",
+   "reminder": true
+  }
+ ],
+ "formations": [
+  {
+   "id": "squigalanche",
+   "name": "Squigalanche",
+   "abilities": [
+    "bouncing-fury"
+   ]
+  },
+  {
+   "id": "troggherd",
+   "name": "Troggherd",
+   "abilities": [
+    "herd-healing"
+   ]
+  },
+  {
+   "id": "gitmob-pack",
+   "name": "Gitmob Pack",
+   "abilities": [
+    "git-and-run"
+   ]
+  },
+  {
+   "id": "gloomspite-horde",
+   "name": "Gloomspite Horde",
+   "abilities": [
+    "spreading-loonacy"
+   ]
+  },
+  {
+   "id": "sunbiter-pack",
+   "name": "Sunbiter Pack",
+   "abilities": [
+    "extra-snappy"
+   ]
+  },
+  {
+   "id": "gittish-tide",
+   "name": "Gittish Tide",
+   "abilities": [
+    "grots-upon-grots"
+   ]
+  }
+ ],
+ "enhancements": [
+  {
+   "id": "loontouched",
+   "name": "Loontouched",
+   "kind": "heroic trait",
+   "table": "Blessings of the Bad Moon",
+   "points": 20,
+   "restriction": {
+    "keywords": [
+     "HERO"
+    ]
+   },
+   "ability": "loontouched",
+   "grants": [
+    "WIZARD"
+   ]
+  },
+  {
+   "id": "clammy-cowl",
+   "name": "The Clammy Cowl",
+   "kind": "artefact",
+   "table": "Troglodytic Treasures",
+   "points": 20,
+   "restriction": {
+    "keywords": [
+     "HERO"
+    ]
+   },
+   "ability": "clammy-cowl"
+  },
+  {
+   "id": "glitzy-bitz-rolla",
+   "name": "Glitzy Bitz Rolla",
+   "kind": "other",
+   "table": "Special Knick-Knacks",
+   "points": 10,
+   "restriction": null,
+   "ability": "glitzy-bitz-rolla"
+  },
+  {
+   "id": "backstabbers-blade",
+   "name": "Backstabber's Blade",
+   "kind": "artefact",
+   "table": "Troglodytic Treasures",
+   "points": 0,
+   "restriction": {
+    "keywords": [
+     "HERO"
+    ]
+   },
+   "ability": "backstabbers-blade"
+  },
+  {
+   "id": "leering-gitshield",
+   "name": "Leering Gitshield",
+   "kind": "artefact",
+   "table": "Troglodytic Treasures",
+   "points": 0,
+   "restriction": {
+    "keywords": [
+     "HERO"
+    ]
+   },
+   "ability": "leering-gitshield"
+  },
+  {
+   "id": "the-clammy-hand",
+   "name": "The Clammy Hand",
+   "kind": "heroic trait",
+   "table": "Blessings of the Bad Moon",
+   "points": 0,
+   "restriction": {
+    "keywords": [
+     "HERO"
+    ]
+   },
+   "ability": "clammy-hand"
+  },
+  {
+   "id": "fight-another-day",
+   "name": "Fight Another Day",
+   "kind": "heroic trait",
+   "table": "Blessings of the Bad Moon",
+   "points": 0,
+   "restriction": {
+    "keywords": [
+     "HERO"
+    ]
+   },
+   "ability": "fight-another-day"
+  },
+  {
+   "id": "fizzcap",
+   "name": "Fizzcap",
+   "kind": "other",
+   "table": "Special Knick-Knacks",
+   "points": 10,
+   "restriction": null,
+   "ability": "fizzcap"
+  },
+  {
+   "id": "spoofshrooms",
+   "name": "Spoofshrooms",
+   "kind": "other",
+   "table": "Special Knick-Knacks",
+   "points": 10,
+   "restriction": null,
+   "ability": "spoofshrooms"
+  }
+ ],
+ "lores": [
+  {
+   "id": "lore-of-the-clammy-dank",
+   "name": "Lore of the Clammy Dank",
+   "kind": "spell",
+   "spells": [
+    "bad-portents",
+    "spore-maws",
+    "hand-of-gork"
+   ],
+   "manifestations": []
+  },
+  {
+   "id": "dank-manifestations",
+   "name": "Dank Manifestations",
+   "kind": "manifestation",
+   "spells": [
+    "summon-malevolent-moon",
+    "summon-morks-mighty-mushroom",
+    "summon-arachnacauldron",
+    "summon-scuttletide"
+   ],
+   "manifestations": [
+    "malevolent-moon",
+    "morks-mighty-mushroom",
+    "arachnacauldron",
+    "scuttletide"
+   ]
+  },
+  {
+   "id": "lore-of-the-little-waaagh",
+   "name": "Lore of the Little Waaagh!",
+   "kind": "spell",
+   "spells": [
+    "itchy-nuisance",
+    "loonshrine-glow",
+    "puffballoons"
+   ],
+   "manifestations": []
+  },
+  {
+   "id": "lore-of-frazzlegit",
+   "name": "Lore of Frazzlegit",
+   "kind": "spell",
+   "spells": [
+    "gitspeed",
+    "bright-fright",
+    "gaze-of-glareface"
+   ],
+   "manifestations": []
+  }
+ ],
+ "armyRules": [
+  "faces-of-the-bad-moon",
+  "creeping-gloom",
+  "frothing-zealots",
+  "spiderfang-venom",
+  "moonlit-hide",
+  "lunar-squigs",
+  "sneaky-snarlfangs"
+ ],
+ "moonFaces": {
+  "order": [
+   "G",
+   "Sc",
+   "Su",
+   "C"
+  ],
+  "names": {
+   "G": "Grinnin'",
+   "Sc": "Scowlin'",
+   "Su": "Sulkin'",
+   "C": "Cacklin'"
+  },
+  "moonUnit": "malevolent-moon"
+ },
+ "aliases": {
+  "skragrott the loonking": "skragrott",
+  "skragrott": "skragrott",
+  "trugg the troggoth king": "trugg",
+  "trugg": "trugg",
+  "squigboss": "squigboss",
+  "dankhold troggoths": "dankhold-troggoth",
+  "loonshrine": "bad-moon-loonshrine",
+  "scrapskuttle's arachnacauldron": "arachnacauldron",
+  "clammy cowl": "clammy-cowl",
+  "the clammy dank": "lore-of-the-clammy-dank"
+ },
+ "legends": [
+  "Aleguzzler Gargant",
+  "Borgit's Beastgrabbaz",
+  "Grinkrak's Looncourt",
+  "Loonboss with Giant Cave Squig",
+  "Madcap Shaman",
+  "Mollog",
+  "Rippa's Snarlfangs",
+  "Scuttleboss on Gigantic Spider",
+  "Zarbag's Gitz"
+ ],
+ "armiesOfRenown": [
+  "Da King's Gitz",
+  "Droggz's Gitmob",
+  "Trugg's Troggherd"
+ ]
+}
